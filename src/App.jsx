@@ -7,8 +7,8 @@ const App = () => {
       <header>
         <Auth />
       </header>
-      App
-    </div>
+      auto deploy    
+      </div>
   );
 }
  

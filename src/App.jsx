@@ -1,10 +1,14 @@
 import styles from './App.module.css'
+import Auth from './Auth';
 
 const App = () => {
   return (
     <div className={styles.App}>
-      App
-    </div>
+      <header>
+        <Auth />
+      </header>
+      auto deploy    
+      </div>
   );
 }
  

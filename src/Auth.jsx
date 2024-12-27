@@ -38,7 +38,7 @@ const Auth = () => {
         <div>
             {user ? (
                 <div>
-                    <p>{user.displayName}</p>
+                    <p>Шо ты голова, {user.displayName}</p>
                     <img src={userImage} alt={user.displayName}/>
                     <button onClick={handleSignOut}>Sign Out</button>
                 </div>

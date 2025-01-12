@@ -23,7 +23,7 @@ export const useStore = create(persist(devtools((set, get) => ({
     setCurrentDay: (currentDay) => set({ currentDay }),
     todos: [],
     allTodos: [],
-    error: null,
+    errorMessage: null,
     signIn: async () => {
         try {
             const result = await signInWithPopup(auth, provider);
@@ -46,45 +46,58 @@ export const useStore = create(persist(devtools((set, get) => ({
     setUser: (user) => set({ user }),
     addTodo: async (content, priority) => {
         const user = get().user;
-        const date = get().currentDay.format('YYYY-MM-DD');
+        const date = dayjs(get().currentDay).format('YYYY-MM-DD');
         
-        await addDoc(collection(db, "todos"), {
-          userId: user.uid,
-          content,
-          priority: priority || "low", // Default priority
-          date: date,
-          done: false,
-        })
+        set({ isLoading: true });
 
-        get().fetchTodos();
-        get().fetchAllTodos();
+        try {
+            await addDoc(collection(db, "todos"), {
+                userId: user.uid,
+                content,
+                priority: priority || "low", // Default priority
+                date: date,
+                done: false,
+            })
+
+            get().fetchTodos();
+            get().fetchAllTodos();
+        } catch (error) {
+            set({ errorMessage: error.message, isLoading: false });
+        }
     },
     updateTodo: async (id, data) => {
+        set({ isLoading: true });
+
         try {
             await updateDoc(doc(db, "todos", id), data);
             get().fetchTodos();
             get().fetchAllTodos();
         } catch (error) {
-            set({ error });
+            console.error("Error updating document:", error);
+            set({ errorMessage: error.message, isLoading: false });
         }
     },
     moveToNextDay: async (id) => {
+        set({ isLoading: true });
+
         try {
-            const date = get().currentDay.add(1, 'day').format('YYYY-MM-DD');
+            const date = dayjs(get().currentDay).add(1, 'day').format('YYYY-MM-DD');
             await updateDoc(doc(db, "todos", id), { date });
             get().fetchTodos();
             get().fetchAllTodos();
         } catch (error) {
-            set({ error });
+            set({ errorMessage: error.message, isLoading: false });
         }
     },
     deleteTodo: async (id) => {
+        set({ isLoading: true });
+
         try {
             await deleteDoc(doc(db, "todos", id));
             get().fetchTodos();
             get().fetchAllTodos();
         } catch (error) {
-            set({ error });
+            set({ errorMessage: error.message, isLoading: false });
         }
     },
     fetchTodos: async () => {
@@ -92,7 +105,7 @@ export const useStore = create(persist(devtools((set, get) => ({
 
         try {
             const userId = get().user.uid;
-            const date = get().currentDay.format('YYYY-MM-DD');
+            const date = dayjs(get().currentDay).format('YYYY-MM-DD');
             const q = query(
                 collection(db, "todos"), 
                 where("userId", "==", userId),
@@ -102,7 +115,8 @@ export const useStore = create(persist(devtools((set, get) => ({
 
             set({ todos: newTodos, isLoading: false });
         } catch (error) {
-            set({ error, isLoading: false });
+            console.error("Error fetching todos:", error);    
+            set({ errorMessage: error.message, isLoading: false });
         }
     },
     fetchAllTodos: async () => {
@@ -116,7 +130,7 @@ export const useStore = create(persist(devtools((set, get) => ({
             
             set({ allTodos: newTodos });
         } catch (error) {
-            set({ error });
+            set({ errorMessage: error.message });
         }
     },
     clearStorage: () => set({ todos: [], user: null}),

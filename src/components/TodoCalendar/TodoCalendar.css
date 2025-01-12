@@ -1,4 +1,6 @@
-
+.react-calendar {
+  border-radius: 3px;
+}
 .react-calendar__tile {
     position: relative;
   }

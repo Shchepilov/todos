@@ -1,0 +1,21 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 1rem;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.guest {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+}
+
+.header img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+}

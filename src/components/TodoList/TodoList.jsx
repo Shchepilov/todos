@@ -1,0 +1,33 @@
+import { useEffect } from "react";
+import { useStore } from "../../store/store";
+import TodoItem from "../TodoItem/TodoItem";
+import styles from "./TodoList.module.css";
+
+const TodoList = () => {
+    const user = useStore((state) => state.user);
+    const todos = useStore((state) => state.todos);
+    const fetchTodos = useStore((state) => state.fetchTodos);
+    const currentDay = useStore((state) => state.currentDay);
+
+    const priorityOrder = { high: 1, medium: 2, low: 3 };
+
+    const sortedTodos = todos.sort((a, b) => {
+        return priorityOrder[a.priority] - priorityOrder[b.priority];
+    });
+
+    useEffect(() => {
+        fetchTodos();
+    }, [user, currentDay]);
+
+    return (
+        <div>
+            <ul className={styles.TodoList}>
+                {sortedTodos.map((todo) => (
+                    <TodoItem key={todo.id} todo={todo} />
+                ))}
+            </ul>
+        </div>
+    );
+};
+
+export default TodoList;

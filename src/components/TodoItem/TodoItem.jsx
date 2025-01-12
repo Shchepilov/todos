@@ -13,9 +13,7 @@ const TodoItem = ({todo}) => {
     const handleUpdate = (id, content, priority, date) => {
         updateTodo(id, { content, priority, date });
         setIsEditing(false);
-    }
-
-    console.log("todoitem render");
+    };
 
     return ( 
         <li key={todo.id} className={styles.TodoItem}>

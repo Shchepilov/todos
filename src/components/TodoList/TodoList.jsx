@@ -21,11 +21,12 @@ const TodoList = () => {
 
     return (
         <div>
-            <ul className={styles.TodoList}>
+            {todos.length === 0 && <p>No todos for this day</p>}
+            {todos.length > 0 && <ul className={styles.TodoList}>
                 {sortedTodos.map((todo) => (
                     <TodoItem key={todo.id} todo={todo} />
                 ))}
-            </ul>
+            </ul>}
         </div>
     );
 };

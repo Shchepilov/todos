@@ -8,6 +8,7 @@ const TodoList = () => {
     const todos = useStore((state) => state.todos);
     const fetchTodos = useStore((state) => state.fetchTodos);
     const currentDay = useStore((state) => state.currentDay);
+    const isLoading = useStore((state) => state.isLoading);
 
     const priorityOrder = { high: 1, medium: 2, low: 3 };
 
@@ -20,7 +21,8 @@ const TodoList = () => {
     }, [user, currentDay]);
 
     return (
-        <div>
+        <div className={styles.TodoListContainer}>
+            {isLoading && <div className={styles.loader}></div>}
             {todos.length === 0 && <p>No todos for this day</p>}
             {todos.length > 0 && <ul className={styles.TodoList}>
                 {sortedTodos.map((todo) => (

@@ -1,10 +1,19 @@
 .TodoItem {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: min-content 1fr auto;
+    align-items: start;
     gap: 10px;
     padding: 0.5rem 1rem;
     border: 1px solid #ccc;
     border-radius: 3px;
+}
+
+.TodoItem input {
+    margin-top: 4px;
+}
+
+.Done {
+    text-decoration: line-through;
 }
 
 .Content {

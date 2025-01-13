@@ -25,6 +25,7 @@ const TodoForm = () => {
                 placeholder="Add a new todo"
             />
             <select ref={priorityRef}>
+            <option value="" disabled>Select priority</option>
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
                 <option value="high">High</option>

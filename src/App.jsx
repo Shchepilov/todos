@@ -9,7 +9,6 @@ import styles from "./App.module.css";
 
 const App = () => {
     const user = useStore((state) => state.user);
-    const isLoading = useStore((state) => state.isLoading);
     //const errorMessage = useStore((state) => state.errorMessage);
 
     if (!user) {
@@ -28,7 +27,6 @@ const App = () => {
                 <div className={styles.rightCol}>
                     <DayNavigation />
                     <TodoForm />
-                    {isLoading && <p>Loading...</p>}
                     <TodoList />
                 </div>
             </div>

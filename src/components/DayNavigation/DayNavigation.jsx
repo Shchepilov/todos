@@ -20,7 +20,7 @@ const DayNavigation = () => {
 
     return ( 
         <div className={styles.container}>
-            <h2 className={styles.title}>Today: {dayjs(currentDay).format('YYYY-MM-DD')}</h2>
+            <h2 className={styles.title}>{dayjs(currentDay).format('YYYY-MM-DD')}</h2>
             <div className={styles.buttons}>
                 <button onClick={handlePrevDay}>Previous Day</button>
                 <button onClick={handleToday}>Today</button>

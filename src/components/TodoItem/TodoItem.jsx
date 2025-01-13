@@ -15,18 +15,24 @@ const TodoItem = ({todo}) => {
         setIsEditing(false);
     };
 
+    const handleStatusChange = () => {
+        updateTodo(todo.id, { done: !todo.done });
+    }
+
+    const handleEdit = () => {
+        setIsEditing(true);
+    }
+
     return ( 
         <li key={todo.id} className={styles.TodoItem}>
+            <input type="checkbox" checked={todo.done} onChange={handleStatusChange} />
             <div className={styles.Content}>
-                <p>{todo.content}</p>
+                <p className={todo.done ? styles.Done : null}>{todo.content}</p>
                 <p>priority: {todo.priority}</p>
                 <p>Date: {todo.date}</p>
                 <p>Status: {todo.done ? 'done': 'in progress'}</p>
             </div>
             <div className={styles.Actions}>
-                <button onClick={() => updateTodo(todo.id, { done: !todo.done })}>
-                    {todo.done ? 'done': 'in progress'}
-                </button>
                 <button onClick={() => moveToNextDay(todo.id)}>Move to next day</button>
                 <button onClick={() => deleteTodo(todo.id)}>Delete</button>
                 {isEditing ? (
@@ -39,7 +45,7 @@ const TodoItem = ({todo}) => {
                         handleCancel={handleCancel}
                     />
                 ) : (
-                    <button onClick={() => setIsEditing(true)}>Edit</button>
+                    <button onClick={handleEdit}>Edit</button>
                 )}
             </div>
         </li>

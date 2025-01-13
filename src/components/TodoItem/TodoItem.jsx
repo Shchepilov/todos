@@ -27,7 +27,7 @@ const TodoItem = ({todo}) => {
                 <button onClick={() => updateTodo(todo.id, { done: !todo.done })}>
                     {todo.done ? 'done': 'in progress'}
                 </button>
-                <button onClick={() => moveToNextDay(todo.id)}>move</button>
+                <button onClick={() => moveToNextDay(todo.id)}>Move to next day</button>
                 <button onClick={() => deleteTodo(todo.id)}>Delete</button>
                 {isEditing ? (
                     <EditForm

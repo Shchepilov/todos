@@ -1,39 +1,30 @@
 import { create } from "zustand";
-import { devtools } from 'zustand/middleware'
-import dayjs from 'dayjs';
-
-import {
-    collection,
-    doc,
-    addDoc,
-    updateDoc,
-    deleteDoc,
-    getDocs,
-    query,
-    where,
-  } from "firebase/firestore";
-import { db, auth, provider } from "../firebase";
 import { persist } from "zustand/middleware";
-import { signInWithPopup, signOut } from "firebase/auth"; 
+import { collection, addDoc, getDocs, query, where, updateDoc, deleteDoc, doc } from "firebase/firestore";
+import { db, auth, provider } from "../firebase";
+import { signInWithPopup, signOut } from "firebase/auth";
+import dayjs from "dayjs";
 
-export const useStore = create(persist(devtools((set, get) => ({
+export const useStore = create(persist((set, get) => ({
     isLoading: false,
     user: null,
     currentDay: dayjs(),
-    setCurrentDay: (currentDay) => set({ currentDay }),
     todos: [],
     allTodos: [],
     errorMessage: null,
+
+    setCurrentDay: (currentDay) => set({ currentDay }),
+
     signIn: async () => {
         try {
             const result = await signInWithPopup(auth, provider);
-            set({
-                user: result.user
-            });
+            set({ user: result.user });
         } catch (error) {
             console.error("Error signing in:", error);
+            set({ errorMessage: error.message });
         }
     },
+
     signOut: async () => {
         try {
             await signOut(auth);
@@ -41,30 +32,32 @@ export const useStore = create(persist(devtools((set, get) => ({
             localStorage.clear();
         } catch (error) {
             console.error("Error signing out:", error);
+            set({ errorMessage: error.message });
         }
     },
+
     setUser: (user) => set({ user }),
+
     addTodo: async (content, priority) => {
         const user = get().user;
         const date = dayjs(get().currentDay).format('YYYY-MM-DD');
-        
         set({ isLoading: true });
 
         try {
             await addDoc(collection(db, "todos"), {
                 userId: user.uid,
                 content,
-                priority: priority || "low", // Default priority
+                priority: priority || "low",
                 date: date,
                 done: false,
-            })
-
+            });
             get().fetchTodos();
             get().fetchAllTodos();
         } catch (error) {
             set({ errorMessage: error.message, isLoading: false });
         }
     },
+
     updateTodo: async (id, data) => {
         set({ isLoading: true });
 
@@ -77,6 +70,7 @@ export const useStore = create(persist(devtools((set, get) => ({
             set({ errorMessage: error.message, isLoading: false });
         }
     },
+
     moveToNextDay: async (id) => {
         set({ isLoading: true });
 
@@ -89,6 +83,7 @@ export const useStore = create(persist(devtools((set, get) => ({
             set({ errorMessage: error.message, isLoading: false });
         }
     },
+
     deleteTodo: async (id) => {
         set({ isLoading: true });
 
@@ -100,6 +95,7 @@ export const useStore = create(persist(devtools((set, get) => ({
             set({ errorMessage: error.message, isLoading: false });
         }
     },
+
     fetchTodos: async () => {
         set({ isLoading: true });
 
@@ -109,32 +105,31 @@ export const useStore = create(persist(devtools((set, get) => ({
             const q = query(
                 collection(db, "todos"), 
                 where("userId", "==", userId),
-                where("date", "==", date));
+                where("date", "==", date)
+            );
             const querySnapshot = await getDocs(q);
             const newTodos = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-
             set({ todos: newTodos, isLoading: false });
         } catch (error) {
             console.error("Error fetching todos:", error);    
             set({ errorMessage: error.message, isLoading: false });
         }
     },
+
     fetchAllTodos: async () => {
         try {
             const userId = get().user.uid;
-            const q = query(
-                collection(db, "todos"), 
-                where("userId", "==", userId));
+            const q = query(collection(db, "todos"), where("userId", "==", userId));
             const querySnapshot = await getDocs(q);
-            const newTodos = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-            
-            set({ allTodos: newTodos });
+            const allTodos = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            set({ allTodos });
         } catch (error) {
+            console.error("Error fetching all todos:", error);
             set({ errorMessage: error.message });
         }
     },
-    clearStorage: () => set({ todos: [], user: null}),
-}),
-{
+
+    clearStorage: () => set({ todos: [], user: null }),
+}), {
     name: "storage",
-})));
+}));

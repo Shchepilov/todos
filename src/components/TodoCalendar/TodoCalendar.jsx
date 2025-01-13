@@ -20,7 +20,7 @@ const TodoCalendar = () => {
     const getTileClassName = ({ date, view }) => {
       if (view === 'month') {
         const dateString = dayjs(date).format('YYYY-MM-DD');
-        
+
         if (uniqueDates.includes(dateString)) return `has-todos`;
       }
     };
@@ -36,6 +36,8 @@ const TodoCalendar = () => {
             value={currentDay}
             onChange={handleDayClick}
             tileClassName={getTileClassName}
+            next2Label={null}
+            prev2Label={null}
         />
     );
 };

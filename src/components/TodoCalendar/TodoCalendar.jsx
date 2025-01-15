@@ -3,7 +3,7 @@ import { useStore } from "../../store/store";
 import dayjs from 'dayjs';
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import "./TodoCalendar.css";
+import "./TodoCalendar.scss";
 
 const TodoCalendar = () => {
     const currentDay = useStore((state) => state.currentDay);

@@ -5,7 +5,7 @@ import TodoList from "./components/TodoList/TodoList";
 import DayNavigation from "./components/DayNavigation/DayNavigation";
 import TodoCalendar from "./components/TodoCalendar/TodoCalendar";
 import TodoForm from "./components/TodoForm/TodoForm";
-import styles from "./App.module.css";
+import styles from "./App.module.scss";
 
 const App = () => {
     const user = useStore((state) => state.user);

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useStore } from '../../store/store';
 import EditForm from './EditForm';
-import styles from './TodoItem.module.css';
+import styles from './TodoItem.module.scss';
 
 const TodoItem = ({todo}) => {
     const [isEditing, setIsEditing] = useState(false);

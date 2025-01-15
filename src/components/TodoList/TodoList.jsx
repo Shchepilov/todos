@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useStore } from "../../store/store";
 import TodoItem from "../TodoItem/TodoItem";
-import styles from "./TodoList.module.css";
+import styles from "./TodoList.module.scss";
 
 const TodoList = () => {
     const user = useStore((state) => state.user);

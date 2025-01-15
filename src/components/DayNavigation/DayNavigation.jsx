@@ -1,6 +1,6 @@
 import { useStore } from "../../store/store";
 import dayjs from "dayjs";
-import styles from "./DayNavigation.module.css";
+import styles from "./DayNavigation.module.scss";
 
 const DayNavigation = () => {
     const currentDay = useStore((state) => state.currentDay);

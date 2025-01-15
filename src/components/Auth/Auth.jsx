@@ -1,5 +1,5 @@
 import { useStore } from '../../store/store';
-import styles from './Auth.module.css';
+import styles from './Auth.module.scss';
 
 const Auth = () => {
     const user = useStore((state) => state.user);

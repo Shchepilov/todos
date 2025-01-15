@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useStore } from "../../store/store";
-import styles from "./TodoForm.module.css";
+import styles from "./TodoForm.module.scss";
 
 const TodoForm = () => {
     const addTodo = useStore((state) => state.addTodo);

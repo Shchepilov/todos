@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "./EditForm.module.css";
+import styles from "./EditForm.module.scss";
 
 const EditForm = ({ id, content, priority, date, handleUpdate, handleCancel }) => {
     const [newContent, setNewContent] = useState(content);

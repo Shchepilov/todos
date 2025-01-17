@@ -1,22 +1,30 @@
 import { useState } from 'react';
 import { useStore } from '../../store/store';
 import EditForm from './EditForm';
+import Loader from '../Loader/Loader';
 import styles from './TodoItem.module.scss';
 
 const TodoItem = ({todo}) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const deleteTodo = useStore((state) => state.deleteTodo);
     const updateTodo = useStore((state) => state.updateTodo);
     const moveToNextDay = useStore((state) => state.moveToNextDay);
 
+    const update = async (id, data) => {
+        setIsLoading(true);
+        await updateTodo(id, data);
+        setIsLoading(false);
+    }
+
     const handleCancel = () => setIsEditing(false);
     const handleUpdate = (id, content, priority, date) => {
-        updateTodo(id, { content, priority, date });
+        update(id, { content, priority, date });
         setIsEditing(false);
     };
 
     const handleStatusChange = () => {
-        updateTodo(todo.id, { done: !todo.done });
+        update(todo.id, { done: !todo.done });
     }
 
     const handleEdit = () => {
@@ -25,6 +33,7 @@ const TodoItem = ({todo}) => {
 
     return ( 
         <li key={todo.id} className={styles.TodoItem}>
+            {isLoading && <Loader className={styles.loader} />}
             <input type="checkbox" checked={todo.done} onChange={handleStatusChange} />
             <div className={styles.Content}>
                 <p className={todo.done ? styles.Done : null}>{todo.content}</p>

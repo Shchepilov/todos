@@ -6,7 +6,6 @@ import { signInWithPopup, signOut } from "firebase/auth";
 import dayjs from "dayjs";
 
 export const useStore = create(persist((set, get) => ({
-    isLoading: false,
     user: null,
     currentDay: dayjs(),
     todos: [],
@@ -42,7 +41,6 @@ export const useStore = create(persist((set, get) => ({
     addTodo: async (content, priority) => {
         const user = get().user;
         const date = dayjs(get().currentDay).format('YYYY-MM-DD');
-        set({ isLoading: true });
 
         try {
             await addDoc(collection(db, "todos"), {
@@ -55,50 +53,44 @@ export const useStore = create(persist((set, get) => ({
             get().fetchTodos();
             set({ errorMessage: null });
         } catch (error) {
-            set({ errorMessage: error.message, isLoading: false });
+            set({ errorMessage: error.message });
         }
     },
 
     updateTodo: async (id, data) => {
-        set({ isLoading: true });
-
+        
         try {
             await updateDoc(doc(db, "todos", id), data);
             get().fetchTodos();
             set({ errorMessage: null });
         } catch (error) {
             console.error("Error updating document:", error);
-            set({ errorMessage: error.message, isLoading: false });
+            set({ errorMessage: error.message });
         }
     },
 
     moveToNextDay: async (id) => {
-        set({ isLoading: true });
-
         try {
             const date = dayjs(get().currentDay).add(1, 'day').format('YYYY-MM-DD');
             await updateDoc(doc(db, "todos", id), { date });
             get().fetchTodos();
             set({ errorMessage: null });
         } catch (error) {
-            set({ errorMessage: error.message, isLoading: false });
+            set({ errorMessage: error.message });
         }
     },
 
     deleteTodo: async (id) => {
-        set({ isLoading: true });
-
         try {
             await deleteDoc(doc(db, "todos", id));
             get().fetchTodos();
             set({ errorMessage: null });
         } catch (error) {
-            set({ errorMessage: error.message, isLoading: false });
+            set({ errorMessage: error.message });
         }
     },
 
     fetchTodos: async () => {
-        set({ isLoading: true });
 
         try {
             const userId = get().user.uid;
@@ -114,10 +106,10 @@ export const useStore = create(persist((set, get) => ({
             const allTodosSnapshot = await getDocs(allTodosQuery);
             const allTodos = allTodosSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
-            set({ todos: currentDayTodos, allTodos, isLoading: false, errorMessage: null });
+            set({ todos: currentDayTodos, allTodos, errorMessage: null });
         } catch (error) {
             console.error("Error fetching todos:", error);    
-            set({ errorMessage: error.message, isLoading: false });
+            set({ errorMessage: error.message });
         }
     },
 

@@ -18,7 +18,7 @@ export const useStore = create(persist((set, get) => ({
     signIn: async () => {
         try {
             const result = await signInWithPopup(auth, provider);
-            set({ user: result.user });
+            set({ user: result.user, errorMessage: null });
         } catch (error) {
             console.error("Error signing in:", error);
             set({ errorMessage: error.message });
@@ -30,6 +30,7 @@ export const useStore = create(persist((set, get) => ({
             await signOut(auth);
             get().clearStorage();
             localStorage.clear();
+            set({ errorMessage: null });
         } catch (error) {
             console.error("Error signing out:", error);
             set({ errorMessage: error.message });
@@ -52,7 +53,7 @@ export const useStore = create(persist((set, get) => ({
                 done: false,
             });
             get().fetchTodos();
-            get().fetchAllTodos();
+            set({ errorMessage: null });
         } catch (error) {
             set({ errorMessage: error.message, isLoading: false });
         }
@@ -64,7 +65,7 @@ export const useStore = create(persist((set, get) => ({
         try {
             await updateDoc(doc(db, "todos", id), data);
             get().fetchTodos();
-            get().fetchAllTodos();
+            set({ errorMessage: null });
         } catch (error) {
             console.error("Error updating document:", error);
             set({ errorMessage: error.message, isLoading: false });
@@ -78,7 +79,7 @@ export const useStore = create(persist((set, get) => ({
             const date = dayjs(get().currentDay).add(1, 'day').format('YYYY-MM-DD');
             await updateDoc(doc(db, "todos", id), { date });
             get().fetchTodos();
-            get().fetchAllTodos();
+            set({ errorMessage: null });
         } catch (error) {
             set({ errorMessage: error.message, isLoading: false });
         }
@@ -90,7 +91,7 @@ export const useStore = create(persist((set, get) => ({
         try {
             await deleteDoc(doc(db, "todos", id));
             get().fetchTodos();
-            get().fetchAllTodos();
+            set({ errorMessage: null });
         } catch (error) {
             set({ errorMessage: error.message, isLoading: false });
         }
@@ -102,30 +103,21 @@ export const useStore = create(persist((set, get) => ({
         try {
             const userId = get().user.uid;
             const date = dayjs(get().currentDay).format('YYYY-MM-DD');
-            const q = query(
-                collection(db, "todos"), 
-                where("userId", "==", userId),
-                where("date", "==", date)
-            );
-            const querySnapshot = await getDocs(q);
-            const newTodos = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-            set({ todos: newTodos, isLoading: false });
+
+            // Fetch todos for the current day
+            const todosQuery = query(collection(db, "todos"), where("userId", "==", userId), where("date", "==", date));
+            const todosSnapshot = await getDocs(todosQuery);
+            const currentDayTodos = todosSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+            // Fetch all todos for the user
+            const allTodosQuery = query(collection(db, "todos"), where("userId", "==", userId));
+            const allTodosSnapshot = await getDocs(allTodosQuery);
+            const allTodos = allTodosSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+            set({ todos: currentDayTodos, allTodos, isLoading: false, errorMessage: null });
         } catch (error) {
             console.error("Error fetching todos:", error);    
             set({ errorMessage: error.message, isLoading: false });
-        }
-    },
-
-    fetchAllTodos: async () => {
-        try {
-            const userId = get().user.uid;
-            const q = query(collection(db, "todos"), where("userId", "==", userId));
-            const querySnapshot = await getDocs(q);
-            const allTodos = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-            set({ allTodos });
-        } catch (error) {
-            console.error("Error fetching all todos:", error);
-            set({ errorMessage: error.message });
         }
     },
 

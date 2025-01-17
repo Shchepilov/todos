@@ -9,7 +9,7 @@ import styles from "./App.module.scss";
 
 const App = () => {
     const user = useStore((state) => state.user);
-    //const errorMessage = useStore((state) => state.errorMessage);
+    const errorMessage = useStore((state) => state.errorMessage);
 
     if (!user) {
         return <Auth />;
@@ -18,7 +18,7 @@ const App = () => {
     return (
         <div className={styles.App}>
             <Auth />
-            {/* {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>} */}
+            {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
             <div className={styles.Layout}>
                 <div className={styles.leftCol}>
                     <TodoCalendar />

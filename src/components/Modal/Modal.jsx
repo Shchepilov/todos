@@ -2,8 +2,17 @@ import { createPortal } from "react-dom";
 import styles from "./Modal.module.scss";
 
 const Modal = ({ children, onClose, handleClose, handleConfirm, heading, confirmText = "Confirm" }) => {
+    const handleCloseModal = () => {
+        if (onClose) {
+            const modalContent = event.target.closest(`.${styles.modal}`);
+            if (!modalContent) {
+                onClose();
+            }
+        }
+    }
+
     return createPortal(
-        <div className={styles.backdrop} onClick={onClose}>
+        <div className={styles.backdrop} onClick={handleCloseModal}>
             <div className={styles.modal}>
                 <header className={styles.modalHeader}>
                     <h2>{heading}</h2>

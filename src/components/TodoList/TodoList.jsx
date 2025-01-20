@@ -29,7 +29,7 @@ const TodoList = () => {
     return (
         <div className={styles.TodoListContainer}>
             {isLoading && <Loader className={styles.loader} />}
-            {todos.length === 0 && <p>No todos for this day</p>}
+            {todos.length === 0 && <p className={styles.noTodos}>No todos for this day</p>}
             {todos.length > 0 && <ul className={styles.TodoList}>
                 {sortedTodos.map((todo) => (
                     <TodoItem key={todo.id} todo={todo} />

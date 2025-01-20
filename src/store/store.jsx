@@ -49,6 +49,7 @@ export const useStore = create(persist((set, get) => ({
                 priority: priority || "low",
                 date: date,
                 done: false,
+                createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
             });
             get().fetchTodos();
             set({ errorMessage: null });
@@ -58,7 +59,6 @@ export const useStore = create(persist((set, get) => ({
     },
 
     updateTodo: async (id, data) => {
-        
         try {
             await updateDoc(doc(db, "todos", id), data);
             get().fetchTodos();

@@ -41,6 +41,7 @@ const TodoItem = ({ todo }) => {
                 <p>priority: {todo.priority}</p>
                 <p>Date: {todo.date}</p>
                 <p>Status: {todo.done ? "done" : "in progress"}</p>
+                <p>Created at: {todo.createdAt}</p>
                 {isEditing && (
                     <Modal heading="Edit Todo" onClose={handleCancel}>
                         <EditForm

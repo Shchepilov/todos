@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import Dropdown from '../Dropdown/Dropdown';
 import { useStore } from '../../store/store';
 import styles from './Auth.module.scss';
 
@@ -5,14 +7,33 @@ const Auth = () => {
     const user = useStore((state) => state.user);
     const signIn = useStore((state) => state.signIn);
     const signOut = useStore((state) => state.signOut);
+    const removeUserData = useStore((state) => state.removeUserData);
+
+    const [showSettings, setShowSettings] = useState(false);
 
     return (
         <>
             {user ? (
                 <header className={styles.header}>
                     <p>{user.displayName}</p>
-                    <img src={user.photoURL} alt={user.displayName}/>
-                    <button onClick={signOut}>Sign Out</button>
+                    <button className={`${styles.account} ${showSettings ? styles.accountActive: null}`}  onClick={() => setShowSettings(!showSettings)}>
+                        <img src={user.photoURL} alt={user.displayName}/>
+                    </button>
+
+                    {showSettings && (
+                        <Dropdown>
+                            <ul >
+                                <li>{user.email}</li>
+                                
+                                <li>
+                                    <button onClick={removeUserData}>Clear All Todos</button>
+                                </li>
+                                <li>
+                                    <button onClick={signOut}>Sign Out</button>
+                                </li>
+                            </ul>
+                        </Dropdown>
+                    )}
                 </header>
             ) : (
                 <div className={styles.guest}>

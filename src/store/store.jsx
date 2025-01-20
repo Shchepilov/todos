@@ -91,7 +91,6 @@ export const useStore = create(persist((set, get) => ({
     },
 
     fetchTodos: async () => {
-
         try {
             const userId = get().user.uid;
             const date = dayjs(get().currentDay).format('YYYY-MM-DD');
@@ -109,6 +108,22 @@ export const useStore = create(persist((set, get) => ({
             set({ todos: currentDayTodos, allTodos, errorMessage: null });
         } catch (error) {
             console.error("Error fetching todos:", error);    
+            set({ errorMessage: error.message });
+        }
+    },
+
+    removeUserData: async () => {
+        try {
+            const userId = get().user.uid;
+            const todosQuery = query(collection(db, "todos"), where("userId", "==", userId));
+            const todosSnapshot = await getDocs(todosQuery);
+            todosSnapshot.forEach(async (doc) => {
+                await deleteDoc(doc.ref);
+            });
+            get().fetchTodos();
+            set({ errorMessage: null });
+        } catch (error) {
+            console.error("Error clearing all todos:", error);
             set({ errorMessage: error.message });
         }
     },

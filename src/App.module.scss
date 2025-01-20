@@ -1,25 +1,21 @@
 .App {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
+    max-width: 800px;
+    margin: 0 auto;
 }
 .Layout {
-  display: grid;
-  grid-template-columns: min-content 1fr;
-  gap: 1rem;
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    gap: 1rem;
 }
 
 .errorMessage {
-  padding: 1rem;
-  border: 1px solid red;
-  border-radius: 3px;
-  margin-bottom: 1rem;
-  color: red;
+    margin-bottom: 1rem;
+    color: red;
 }
 
 @media screen and (max-width: 767px) {
-  .Layout {
-    grid-template-columns: 1fr;
-    justify-items: center;
-  }
+    .Layout {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
 }

@@ -7,6 +7,13 @@
     border: 1px solid #ccc;
     border-radius: 3px;
     animation: appear 0.2s ease-out;
+    position: relative;
+}
+
+.loader {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
 }
 
 @keyframes appear {
@@ -29,7 +36,15 @@
 }
 
 .Content {
+    display: flex;
+    flex-direction: column;
     text-align: left;
+
+    p:first-child {
+        font-weight: bold;
+        margin-bottom: 3px;
+        text-transform: capitalize;
+    }
 }
 
 .TodoItem p {
@@ -38,9 +53,18 @@
   
 .Actions {
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 0.5rem;
+    margin-top: 5px;
+
+    button {
+        padding: 0;
+        background: none;
+        border: none;
+        cursor: pointer;
+        &:hover {
+            color: orange;
+        }
+    }
 }
   

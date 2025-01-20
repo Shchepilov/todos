@@ -13,30 +13,24 @@ const EditForm = ({ id, content, priority, date, handleUpdate, handleCancel }) =
     };
 
     return (
-        <div className={styles.EditForm}>
-            <p>Edit Form</p>
-            <form onSubmit={(e) => e.preventDefault()}>
-                <input
-                    type="text"
-                    value={newContent}
-                    onChange={(e) => setNewContent(e.target.value)}
-                    placeholder="Add a new todo"
-                />
-                <input 
-                    type="date"
-                    value={newDate}
-                    onChange={(e) => setNewDate(e.target.value)}
-                />
-                <select value={newPriority}
-                        onChange={(e) => setNewPriority(e.target.value)}>
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                </select>
+        <form className={styles.EditForm} onSubmit={(e) => e.preventDefault()}>
+            <input
+                type="text"
+                value={newContent}
+                onChange={(e) => setNewContent(e.target.value)}
+                placeholder="Add a new todo"
+            />
+            <input type="date" value={newDate} onChange={(e) => setNewDate(e.target.value)} />
+            <select value={newPriority} onChange={(e) => setNewPriority(e.target.value)}>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <div className={styles.actions}>
                 <button onClick={handleUpdateTodo}>Update</button>
                 <button onClick={handleCancel}>Cancel</button>
-            </form>
-        </div>
+            </div>
+        </form>
     );
 };
 

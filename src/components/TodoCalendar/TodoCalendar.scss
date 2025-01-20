@@ -1,14 +1,14 @@
 .react-calendar {
-  border-radius: 3px;
+    border-radius: 3px;
 }
 .react-calendar__tile {
     position: relative;
-  }
-  
-  /* Dot indicator */
- 
-  .has-todos::after {
-    content: '';
+}
+
+/* Dot indicator */
+
+.has-todos::after {
+    content: "";
     width: 8px;
     height: 8px;
     background-color: #333;
@@ -16,4 +16,4 @@
     position: absolute;
     bottom: 5px;
     left: 5px;
-  }
+}

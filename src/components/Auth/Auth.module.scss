@@ -5,6 +5,8 @@
     gap: 1rem;
     margin-bottom: 20px;
     border-bottom: 1px solid #ccc;
+    position: relative;
+    padding: 10px 0;
 }
 
 .guest {
@@ -13,9 +15,22 @@
     height: 100vh;
 }
 
-.header img {
-    width: 30px;
-    height: 30px;
+.account {
+    background: none;
+    border: none;
+    padding: 0;
     border-radius: 50%;
     overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+
+.accountActive {
+    box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.header img {
+    display: block;
+    width: 30px;
+    height: 30px;
 }

@@ -9,12 +9,12 @@ const TodoCalendar = () => {
     const currentDay = useStore((state) => state.currentDay);
     const setCurrentDay = useStore((state) => state.setCurrentDay);
     const allTodos = useStore((state) => state.allTodos);
-    const fetchAllTodos = useStore((state) => state.fetchAllTodos);
+    const fetchTodos = useStore((state) => state.fetchTodos);
 
     const uniqueDates = [...new Set(allTodos.map((item) => item.date))];
 
     useEffect(() => {
-        fetchAllTodos();
+        fetchTodos();
     }, [currentDay]);
 
     const getTileClassName = ({ date, view }) => {

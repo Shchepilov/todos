@@ -11,8 +11,32 @@
 
 .guest {
     display: grid;
-    place-items: center;
+    grid-auto-rows: min-content;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
     height: 100vh;
+}
+
+.headerTitle {
+    margin: 0 auto 0 0;
+    font: 2rem/1 system-ui;
+    span {
+        font-size: 1rem;
+    }
+}
+
+.guestTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font: 3rem system-ui;
+
+    span {
+        font-size: 1.5rem;
+    }
 }
 
 .account {

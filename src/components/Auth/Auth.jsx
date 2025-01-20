@@ -15,6 +15,7 @@ const Auth = () => {
         <>
             {user ? (
                 <header className={styles.header}>
+                    <h1 className={styles.headerTitle}>ACT <span>Achieve. Complete. Thrive</span></h1>
                     <p>{user.displayName}</p>
                     <button className={`${styles.account} ${showSettings ? styles.accountActive: null}`}  onClick={() => setShowSettings(!showSettings)}>
                         <img src={user.photoURL} alt={user.displayName}/>
@@ -37,6 +38,7 @@ const Auth = () => {
                 </header>
             ) : (
                 <div className={styles.guest}>
+                    <h1 className={styles.guestTitle}>ACT <span>Achieve. Complete. Thrive</span></h1>
                     <button onClick={signIn}>Sign In with Google</button>
                 </div>
             )}

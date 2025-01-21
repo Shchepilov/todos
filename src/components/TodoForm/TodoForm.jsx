@@ -3,6 +3,7 @@ import { useStore } from "../../store/store";
 import styles from "./TodoForm.module.scss";
 
 const TodoForm = () => {
+    console.log('TodoForm rendered');
     const addTodo = useStore((state) => state.addTodo);
     const contentRef = useRef();
     const priorityRef = useRef();

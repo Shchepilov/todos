@@ -5,6 +5,7 @@ import TodoItem from "../TodoItem/TodoItem";
 import styles from "./TodoList.module.scss";
 
 const TodoList = () => {
+    console.log('TodoList rendered');
     const user = useStore((state) => state.user);
     const todos = useStore((state) => state.todos);
     const fetchTodos = useStore((state) => state.fetchTodos);

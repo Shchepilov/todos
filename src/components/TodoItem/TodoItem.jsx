@@ -6,6 +6,7 @@ import Loader from "../Loader/Loader";
 import styles from "./TodoItem.module.scss";
 
 const TodoItem = ({ todo }) => {
+    console.log('TodoItem rendered');
     const [isEditing, setIsEditing] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const deleteTodo = useStore((state) => state.deleteTodo);

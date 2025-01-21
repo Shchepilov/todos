@@ -12,7 +12,7 @@ const TodoCalendar = () => {
     const fetchTodos = useStore((state) => state.fetchTodos);
 
     const uniqueDates = [...new Set(allTodos.map((item) => item.date))];
-
+    console.log('TodoCalendar rendered');
     useEffect(() => {
         fetchTodos();
     }, [currentDay]);

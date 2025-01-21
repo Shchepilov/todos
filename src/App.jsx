@@ -10,7 +10,7 @@ import styles from "./App.module.scss";
 const App = () => {
     const user = useStore((state) => state.user);
     const errorMessage = useStore((state) => state.errorMessage);
-
+    console.log('App rendered');
     if (!user) {
         return <Auth />;
     }

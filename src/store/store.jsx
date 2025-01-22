@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { collection, addDoc, getDocs, query, where, updateDoc, deleteDoc, doc } from "firebase/firestore";
-import { db, auth, provider } from "../firebase";
+import { db, auth, googleAuthProvider, githubAuthProvider } from "../firebase";
 import { signInWithPopup, signOut } from "firebase/auth";
 import dayjs from "dayjs";
 
@@ -14,9 +14,19 @@ export const useStore = create(persist((set, get) => ({
 
     setCurrentDay: (currentDay) => set({ currentDay }),
 
-    signIn: async () => {
+    googleSignIn: async () => {
         try {
-            const result = await signInWithPopup(auth, provider);
+            const result = await signInWithPopup(auth, googleAuthProvider);
+            set({ user: result.user, errorMessage: null });
+        } catch (error) {
+            console.error("Error signing in:", error);
+            set({ errorMessage: error.message });
+        }
+    },
+
+    githubSignIn: async () => {
+        try {
+            const result = await signInWithPopup(auth, githubAuthProvider);
             set({ user: result.user, errorMessage: null });
         } catch (error) {
             console.error("Error signing in:", error);

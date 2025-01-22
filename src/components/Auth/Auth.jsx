@@ -5,7 +5,8 @@ import styles from './Auth.module.scss';
 
 const Auth = () => {
     const user = useStore((state) => state.user);
-    const signIn = useStore((state) => state.signIn);
+    const googleSignIn = useStore((state) => state.googleSignIn);
+    const githubSignIn = useStore((state) => state.githubSignIn);
     const signOut = useStore((state) => state.signOut);
     const removeUserData = useStore((state) => state.removeUserData);
 
@@ -39,7 +40,8 @@ const Auth = () => {
             ) : (
                 <div className={styles.guest}>
                     <h1 className={styles.guestTitle}>ACT <span>Achieve. Complete. Thrive</span></h1>
-                    <button onClick={signIn}>Sign In with Google</button>
+                    <button onClick={googleSignIn}>Sign In with Google</button>
+                    <button onClick={githubSignIn}>Sign In with Github</button>
                 </div>
             )}
         </>    

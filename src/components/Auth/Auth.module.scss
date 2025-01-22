@@ -3,10 +3,10 @@
     align-items: center;
     justify-content: end;
     gap: 1rem;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #ccc;
-    position: relative;
     padding: 10px 0;
+    margin: 0 10px 20px;
+    border-bottom: 1px solid #a0a096;
+    position: relative;
 }
 
 .guest {
@@ -22,6 +22,7 @@
 .headerTitle {
     margin: 0 auto 0 0;
     font: 2rem/1 system-ui;
+
     span {
         font-size: 1rem;
     }
@@ -40,7 +41,8 @@
     }
 }
 
-.account {
+.headerAvatar {
+    flex-shrink: 0;
     background: none;
     border: none;
     padding: 0;
@@ -48,14 +50,38 @@
     overflow: hidden;
     cursor: pointer;
     transition: box-shadow 0.2s;
+
+    img {
+        display: block;
+        width: 35px;
+        height: 35px;
+    }
 }
 
 .accountActive {
     box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.header img {
-    display: block;
-    width: 30px;
-    height: 30px;
+@media (max-width: 768px) {
+    .header {
+        margin-inline: 0;
+        padding: 10px;
+    }
+
+    .headerTitle {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .headerName {
+        display: none;
+    }
+
+    .headerAvatar {
+        img {
+            width: 45px;
+            height: 45px;
+        }
+    }
 }

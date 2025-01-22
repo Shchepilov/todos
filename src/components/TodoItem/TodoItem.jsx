@@ -60,7 +60,7 @@ const TodoItem = ({ todo }) => {
                     <span className="material-symbols-outlined">delete</span>
                 </button>
                 <button onClick={() => moveToNextDay(todo.id)} title="Move to next day">
-                    <span className="material-symbols-outlined">tab_new_right</span>
+                    <span className="material-symbols-outlined">event_upcoming</span>
                 </button>
                 <button onClick={handleEdit} title="Edit">
                     <span className="material-symbols-outlined">edit</span>

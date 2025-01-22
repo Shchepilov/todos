@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 import styles from "./DayNavigation.module.scss";
 
 const DayNavigation = () => {
-    console.log('DayNavigation rendered');
     const currentDay = useStore((state) => state.currentDay);
     const setCurrentDay = useStore((state) => state.setCurrentDay);
 

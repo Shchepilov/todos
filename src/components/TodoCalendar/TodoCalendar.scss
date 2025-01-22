@@ -1,5 +1,8 @@
 .react-calendar {
     border-radius: 3px;
+    width: auto;
+    max-width: 350px;
+    margin: 0 auto;
 }
 .react-calendar__tile {
     position: relative;
@@ -16,4 +19,8 @@
     position: absolute;
     bottom: 5px;
     left: 5px;
+}
+
+.has-todos.all-done::after {
+    background-color: #00c700;
 }

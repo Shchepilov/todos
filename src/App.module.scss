@@ -1,11 +1,12 @@
 .App {
-    max-width: 800px;
+    max-width: 768px;
     margin: 0 auto;
 }
 .Layout {
     display: grid;
-    grid-template-columns: min-content 1fr;
+    grid-template-columns: minmax(min-content, 300px) 1fr;
     gap: 1rem;
+    padding: 0 10px 10px;
 }
 
 .errorMessage {
@@ -13,9 +14,8 @@
     color: red;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
     .Layout {
-        grid-template-columns: 1fr;
-        justify-items: center;
+        grid-template-columns: 100%;
     }
 }

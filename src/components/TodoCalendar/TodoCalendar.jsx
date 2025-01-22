@@ -12,7 +12,7 @@ const TodoCalendar = () => {
     const fetchTodos = useStore((state) => state.fetchTodos);
 
     const uniqueDates = [...new Set(allTodos.map((item) => item.date))];
-    console.log('TodoCalendar rendered');
+    
     useEffect(() => {
         fetchTodos();
     }, [currentDay]);
@@ -20,6 +20,11 @@ const TodoCalendar = () => {
     const getTileClassName = ({ date, view }) => {
       if (view === 'month') {
         const dateString = dayjs(date).format('YYYY-MM-DD');
+
+        const todosForDate = allTodos.filter(todo => todo.date === dateString);
+        const allTodosDone = todosForDate.length > 0 && todosForDate.every(todo => todo.done);
+
+        if (allTodosDone) return 'has-todos all-done';
 
         if (uniqueDates.includes(dateString)) return `has-todos`;
       }

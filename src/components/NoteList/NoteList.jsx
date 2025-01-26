@@ -7,13 +7,13 @@ import TodoListStyles from "../TodoList/TodoList.module.scss";
 
 const NoteList = () => {
     const notes = useStore((state) => state.allNotes);
-    const fetchTodos = useStore((state) => state.fetchTodos);
+    const fetchNotes = useStore((state) => state.fetchNotes);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const fetch = async () => {
             setIsLoading(true);
-            await fetchTodos();
+            await fetchNotes();
             setIsLoading(false);
         };
         fetch();

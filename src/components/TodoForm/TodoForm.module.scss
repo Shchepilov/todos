@@ -2,6 +2,17 @@
     display: flex;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0 25px;
     margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .form {
+        display: grid;
+        grid-template-columns: 1fr min-content;
+        gap: 1rem;
+
+        button {
+            grid-column: 1 / -1;
+        }
+    }
 }

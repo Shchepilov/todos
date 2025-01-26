@@ -1,0 +1,11 @@
+.layout {
+    display: grid;
+    grid-template-columns: minmax(min-content, 300px) 1fr;
+    gap: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+    .layout {
+        grid-template-columns: 100%;
+    }
+}

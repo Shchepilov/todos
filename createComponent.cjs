@@ -1,26 +1,26 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 const componentName = process.argv[2];
 
 if (!componentName) {
-  console.log('Please provide a component name.');
-  process.exit(1);
+    console.log("Please provide a component name.");
+    process.exit(1);
 }
 
-const componentDir = path.join(__dirname, 'src', 'components', componentName);
+const componentDir = path.join(__dirname, "src", "components", componentName);
 
 if (!fs.existsSync(componentDir)) {
-  fs.mkdirSync(componentDir, { recursive: true });
+    fs.mkdirSync(componentDir, { recursive: true });
 }
 
 const componentTemplate = `
 import styles from './${componentName}.module.scss';
 
 const ${componentName} = () => {
-  return (
-    <div className={styles.${componentName}}>Hello, ${componentName}!</div>
-  );
+    return (
+        <div className={styles.${componentName}}>Hello, ${componentName}!</div>
+    );
 };
 
 export default ${componentName};

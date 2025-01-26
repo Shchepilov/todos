@@ -1,11 +1,6 @@
-.App {
+.app {
     max-width: 768px;
     margin: 0 auto;
-}
-.Layout {
-    display: grid;
-    grid-template-columns: minmax(min-content, 300px) 1fr;
-    gap: 1rem;
     padding: 0 10px 10px;
 }
 
@@ -14,8 +9,18 @@
     color: red;
 }
 
-@media screen and (max-width: 768px) {
-    .Layout {
-        grid-template-columns: 100%;
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    a {
+        text-decoration: none;
+        color: #000;
+    }
+
+    .navLinkActive {
+        text-decoration: underline;
     }
 }

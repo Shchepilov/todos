@@ -1,0 +1,25 @@
+.item {
+    grid-template-columns: 1fr auto;
+
+    p {
+        white-space: pre-wrap;
+        flex-basis: 100%;
+    }
+}
+
+.editForm {
+    display: grid;
+    gap: 1rem;
+
+    textarea {
+        resize: none;
+        min-height: 100px;
+        padding: 5px;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+    }
+}

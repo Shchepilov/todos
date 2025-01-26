@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -16,6 +16,7 @@
     "react": "19.0.0",
     "react-calendar": "^5.1.0",
     "react-dom": "19.0.0",
+    "react-router-dom": "^7.1.3",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
@@ -29,6 +30,6 @@
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
     "sass": "^1.83.4",
-    "vite": "^6.0.5"
+    "vite": "^6.0.11"
   }
 }

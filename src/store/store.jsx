@@ -10,6 +10,7 @@ export const useStore = create(persist((set, get) => ({
     currentDay: dayjs(),
     todos: [],
     allTodos: [],
+    allNotes: [],
     errorMessage: null,
 
     setCurrentDay: (currentDay) => set({ currentDay }),
@@ -64,6 +65,53 @@ export const useStore = create(persist((set, get) => ({
             get().fetchTodos();
             set({ errorMessage: null });
         } catch (error) {
+            set({ errorMessage: error.message });
+        }
+    },
+
+    addNote: async (content) => {
+        const user = get().user;
+
+        try {
+            await addDoc(collection(db, "notes"), { userId: user.uid, content });
+            get().fetchNotes();
+            set({ errorMessage: null });
+        } catch (error) {
+            set({ errorMessage: error.message });
+        }
+    },
+
+    fetchNotes: async () => {
+        try {   
+            const user = get().user;
+            const notesQuery = query(collection(db, "notes"), where("userId", "==", user.uid));
+            const notesSnapshot = await getDocs(notesQuery);
+            const notes = notesSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            set({ allNotes: notes, errorMessage: null });
+        } catch (error) {
+            console.error("Error fetching notes:", error);
+            set({ errorMessage: error.message });
+        }
+    },
+
+    updateNote: async (id, data) => {
+        try {
+            await updateDoc(doc(db, "notes", id), data);
+            get().fetchNotes();
+            set({ errorMessage: null });
+        } catch (error) {
+            console.error("Error updating note:", error);
+            set({ errorMessage: error.message });
+        }
+    },
+
+    deleteNote: async (id) => {
+        try {
+            await deleteDoc(doc(db, "notes", id));
+            get().fetchNotes();
+            set({ errorMessage: null });
+        } catch (error) {
+            console.error("Error deleting note:", error);
             set({ errorMessage: error.message });
         }
     },

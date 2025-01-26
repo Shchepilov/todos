@@ -40,6 +40,7 @@ export const useStore = create(persist((set, get) => ({
             await signOut(auth);
             get().clearStorage();
             localStorage.clear();
+            window.location.href = "/";
             set({ errorMessage: null });
         } catch (error) {
             console.error("Error signing out:", error);

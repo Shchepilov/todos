@@ -22,8 +22,10 @@ const TodoForm = () => {
         const dueDate = dueDateRef.current.value;
 
         if (!content) return;
+        
+        const updatedDueDate = isDueDate ? dueDate : null;
 
-        addTodo(content, priority, dueDate);
+        addTodo(content, priority, updatedDueDate);
         contentRef.current.value = "";
         setDueDate(currentDate);
         setIsDueDate(false);

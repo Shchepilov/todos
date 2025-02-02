@@ -19,9 +19,3 @@
     text-align: center;
     font-weight: 600;
 }
-
-@media (max-width: 768px) {
-    .loader {
-        bottom: calc(100% + 110px);
-    }
-}

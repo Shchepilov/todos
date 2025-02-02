@@ -4,6 +4,7 @@ import Modal from "../Modal/Modal";
 import EditForm from "./EditForm";
 import Loader from "../Loader/Loader";
 import styles from "./TodoItem.module.scss";
+import dayjs from "dayjs";
 
 const TodoItem = ({ todo }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -11,6 +12,8 @@ const TodoItem = ({ todo }) => {
     const deleteTodo = useStore((state) => state.deleteTodo);
     const updateTodo = useStore((state) => state.updateTodo);
     const moveToNextDay = useStore((state) => state.moveToNextDay);
+    const currentDay = useStore((state) => state.currentDay);
+    const day = dayjs(currentDay).format("YYYY-MM-DD");
 
     const update = async (id, data) => {
         setIsLoading(true);
@@ -19,8 +22,8 @@ const TodoItem = ({ todo }) => {
     };
 
     const handleCancel = () => setIsEditing(false);
-    const handleUpdate = (id, content, priority, date) => {
-        update(id, { content, priority, date });
+    const handleUpdate = (id, content, priority, date, dueDate) => {
+        update(id, { content, priority, date, dueDate: dueDate });
         setIsEditing(false);
     };
 
@@ -40,6 +43,7 @@ const TodoItem = ({ todo }) => {
                 <p className={todo.done ? styles.Done : null}>{todo.content}</p>
                 <p>priority: {todo.priority}</p>
                 <p>Date: {todo.date}</p>
+                {todo.dueDate && <p>Due date: {todo.dueDate}</p>}
                 <p>Status: {todo.done ? "done" : "in progress"}</p>
                 <p>Created at: {todo.createdAt}</p>
                 {isEditing && (
@@ -49,10 +53,19 @@ const TodoItem = ({ todo }) => {
                             priority={todo.priority}
                             id={todo.id}
                             date={todo.date}
+                            dueDate={todo.dueDate}
                             handleUpdate={handleUpdate}
                             handleCancel={handleCancel}
                         />
                     </Modal>
+                )}
+
+                {todo.dueDate && (
+                    dayjs(todo.dueDate).isBefore(dayjs(day)) ? (
+                        <p className={styles.red}>OVERDUE!</p>
+                    ) : todo.dueDate === day ? (
+                        <p className={styles.red}>FINISH HIM!</p>
+                    ) : null
                 )}
             </div>
             <div className={styles.Actions}>

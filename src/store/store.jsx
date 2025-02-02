@@ -50,7 +50,7 @@ export const useStore = create(persist((set, get) => ({
 
     setUser: (user) => set({ user }),
 
-    addTodo: async (content, priority) => {
+    addTodo: async (content, priority, dueDate) => {
         const user = get().user;
         const date = dayjs(get().currentDay).format('YYYY-MM-DD');
 
@@ -60,6 +60,7 @@ export const useStore = create(persist((set, get) => ({
                 content,
                 priority: priority || "low",
                 date: date,
+                dueDate,
                 done: false,
                 createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
             });

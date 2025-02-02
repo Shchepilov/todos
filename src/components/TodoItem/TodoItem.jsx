@@ -64,7 +64,7 @@ const TodoItem = ({ todo }) => {
                     dayjs(todo.dueDate).isBefore(dayjs(day)) ? (
                         <p className={styles.red}>OVERDUE!</p>
                     ) : todo.dueDate === day ? (
-                        <p className={styles.red}>FINISH HIM!</p>
+                        <p className={styles.red}>Today is due date. FINISH HIM!</p>
                     ) : null
                 )}
             </div>

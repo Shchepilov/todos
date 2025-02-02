@@ -1,15 +1,27 @@
 import { useState } from "react";
 import styles from "./EditForm.module.scss";
+import dayjs from "dayjs";
+import { useStore } from "../../store/store";
 
-const EditForm = ({ id, content, priority, date, handleUpdate, handleCancel }) => {
+const EditForm = ({ id, content, priority, date, handleUpdate, handleCancel, dueDate }) => {
+    const currentDay = useStore((state) => state.currentDay);
+    const currentDate = dayjs(currentDay).format("YYYY-MM-DD");
+    const [newDueDate, setNewDueDate] = useState(dueDate || currentDate);
+    const [isDueDate, setIsDueDate] = useState(!!dueDate);
     const [newContent, setNewContent] = useState(content);
     const [newPriority, setNewPriority] = useState(priority);
     const [newDate, setNewDate] = useState(date);
 
-    const handleUpdateTodo = () => {
+    //console.log(isDueDate);
+
+    const handleUpdateTodo = (e) => {
+        e.preventDefault();
+
         if (!newContent) return;
 
-        handleUpdate(id, newContent, newPriority, newDate);
+        const updatedDueDate = isDueDate ? newDueDate : null;
+
+        handleUpdate(id, newContent, newPriority, newDate, updatedDueDate);
     };
 
     return (
@@ -26,6 +38,14 @@ const EditForm = ({ id, content, priority, date, handleUpdate, handleCancel }) =
                 <option value="medium">Medium</option>
                 <option value="high">High</option>
             </select>
+
+            <div className={styles.formRow}>
+                <input type="checkbox" checked={isDueDate} onChange={(e) => setIsDueDate(e.target.checked)} />
+                <label>du date</label>
+
+                {isDueDate && <input type="date" value={newDueDate} onChange={(e) => setNewDueDate(e.target.value)} />}
+            </div>
+
             <div className={styles.actions}>
                 <button onClick={handleUpdateTodo}>Update</button>
                 <button onClick={handleCancel}>Cancel</button>

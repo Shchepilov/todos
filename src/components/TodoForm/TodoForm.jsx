@@ -1,14 +1,17 @@
 import { useState, useRef } from "react";
 import { useStore } from "../../store/store";
 import styles from "./TodoForm.module.scss";
+import dayjs from "dayjs";
 
 const TodoForm = () => {
-    const [dueDate, setDueDate] = useState();
-    const [isDueDate, setIsDueDate] = useState(false);
+    const currentDay = useStore((state) => state.currentDay);
+    const currentDate = dayjs(currentDay).format("YYYY-MM-DD");
     const addTodo = useStore((state) => state.addTodo);
     const contentRef = useRef();
     const priorityRef = useRef();
     const dueDateRef = useRef();
+    const [dueDate, setDueDate] = useState(currentDate);
+    const [isDueDate, setIsDueDate] = useState(false);
 
     const handleAddTodo = () => {
         const content = contentRef.current.value;
@@ -19,6 +22,8 @@ const TodoForm = () => {
 
         addTodo(content, priority, dueDate);
         contentRef.current.value = "";
+        setDueDate(currentDate);
+        setIsDueDate(false);
     };
 
     return (
@@ -40,7 +45,7 @@ const TodoForm = () => {
             <button onClick={handleAddTodo}>Add</button>
 
             <div className={styles.formRow}>
-                <input type="checkbox" onChange={(e) => setIsDueDate(e.target.checked)} />
+                <input type="checkbox" checked={isDueDate} onChange={(e) => setIsDueDate(e.target.checked)} />
                 <label>du date</label>
 
                 {isDueDate && <input type="date" ref={dueDateRef} value={dueDate} onChange={(e) => setDueDate(e.target.value)} />}

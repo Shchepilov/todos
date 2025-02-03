@@ -22,8 +22,8 @@ const TodoItem = ({ todo }) => {
     };
 
     const handleCancel = () => setIsEditing(false);
-    const handleUpdate = (id, content, priority, date, dueDate) => {
-        update(id, { content, priority, date, dueDate: dueDate });
+    const handleUpdate = (id, content, priority, date, dueDate, autoMove) => {
+        update(id, { content, priority, date, dueDate: dueDate, autoMove });
         setIsEditing(false);
     };
 
@@ -46,6 +46,7 @@ const TodoItem = ({ todo }) => {
                 {todo.dueDate && <p>Due date: {todo.dueDate}</p>}
                 <p>Status: {todo.done ? "done" : "in progress"}</p>
                 <p>Created at: {todo.createdAt}</p>
+                {todo.autoMove && <p>autoMove: yes</p>}
                 {isEditing && (
                     <Modal heading="Edit Todo" onClose={handleCancel}>
                         <EditForm
@@ -54,6 +55,7 @@ const TodoItem = ({ todo }) => {
                             id={todo.id}
                             date={todo.date}
                             dueDate={todo.dueDate}
+                            autoMove={todo.autoMove}
                             handleUpdate={handleUpdate}
                             handleCancel={handleCancel}
                         />

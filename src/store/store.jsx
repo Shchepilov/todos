@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { collection, addDoc, getDocs, query, where, updateDoc, deleteDoc, doc } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where, updateDoc, deleteDoc, doc, writeBatch } from "firebase/firestore";
 import { db, auth, googleAuthProvider, githubAuthProvider } from "../firebase";
 import { signInWithPopup, signOut } from "firebase/auth";
 import dayjs from "dayjs";
@@ -62,6 +62,7 @@ export const useStore = create(persist((set, get) => ({
                 date: date,
                 dueDate,
                 done: false,
+                autoMove: false,
                 createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
             });
             get().fetchTodos();
@@ -154,6 +155,17 @@ export const useStore = create(persist((set, get) => ({
         try {
             const userId = get().user.uid;
             const date = dayjs(get().currentDay).format('YYYY-MM-DD');
+            const today = dayjs().format('YYYY-MM-DD');
+
+            // Update the date of todos that are not done and have autoMove set to true
+            const undoneTodosQuery = query(collection(db, "todos"), where("userId", "==", userId), where("done", "==", false), where("autoMove", "==", true));
+            const undoneTodosSnapshot = await getDocs(undoneTodosQuery);
+            const filteredDocs = undoneTodosSnapshot.docs.filter(doc => doc.data().date < today);
+            const batch = writeBatch(db);
+            filteredDocs.forEach((doc) => {
+                batch.update(doc.ref, { date: today });
+            });
+            await batch.commit();
 
             // Fetch todos for the current day
             const todosQuery = query(collection(db, "todos"), where("userId", "==", userId), where("date", "==", date));

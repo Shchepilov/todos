@@ -4,7 +4,7 @@ import forms from "../../Forms.module.scss";
 import dayjs from "dayjs";
 import { useStore } from "../../store/store";
 
-const EditForm = ({ id, content, priority, date, handleUpdate, handleCancel, dueDate }) => {
+const EditForm = ({ id, content, priority, date, handleUpdate, handleCancel, dueDate, autoMove }) => {
     const currentDay = useStore((state) => state.currentDay);
     const currentDate = dayjs(currentDay).format("YYYY-MM-DD");
     const [newDueDate, setNewDueDate] = useState(dueDate || currentDate);
@@ -12,6 +12,7 @@ const EditForm = ({ id, content, priority, date, handleUpdate, handleCancel, due
     const [newContent, setNewContent] = useState(content);
     const [newPriority, setNewPriority] = useState(priority);
     const [newDate, setNewDate] = useState(date);
+    const [newAutoMove, setNewAutoMove] = useState(autoMove);
 
     const handleUpdateTodo = (e) => {
         e.preventDefault();
@@ -20,7 +21,7 @@ const EditForm = ({ id, content, priority, date, handleUpdate, handleCancel, due
 
         const updatedDueDate = isDueDate ? newDueDate : null;
 
-        handleUpdate(id, newContent, newPriority, newDate, updatedDueDate);
+        handleUpdate(id, newContent, newPriority, newDate, updatedDueDate, newAutoMove);
     };
 
     return (
@@ -65,6 +66,14 @@ const EditForm = ({ id, content, priority, date, handleUpdate, handleCancel, due
             <div className={forms.formField}>
                 <input type="date" disabled={!isDueDate} value={newDueDate} onChange={(e) => setNewDueDate(e.target.value)} />
                 <input type="checkbox" checked={isDueDate} onChange={(e) => setIsDueDate(e.target.checked)} />
+            </div>
+
+            <div className={forms.formLabel}>
+                <label>Auto move</label>
+            </div>
+
+            <div className={forms.formField}>
+                <input type="checkbox" checked={newAutoMove} onChange={(e) => setNewAutoMove(e.target.checked)} />
             </div>
 
             <div className={styles.actions}>

@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import Dropdown from '../Dropdown/Dropdown';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { useStore } from '../../store/store';
 import styles from './Auth.module.scss';
+import dropdown from '../../styles/Dropdown.module.scss';
 
 const Auth = () => {
     const user = useStore((state) => state.user);
@@ -10,32 +10,35 @@ const Auth = () => {
     const signOut = useStore((state) => state.signOut);
     const removeUserData = useStore((state) => state.removeUserData);
 
-    const [showSettings, setShowSettings] = useState(false);
-
     return (
         <>
             {user ? (
                 <header className={styles.header}>
                     <h1 className={styles.headerTitle}>ACT <span>Achieve. Complete. Thrive</span></h1>
                     <p className={styles.headerName}>{user.displayName}</p>
-                    <button className={`${styles.headerAvatar} ${showSettings ? styles.accountActive: null}`}  onClick={() => setShowSettings(!showSettings)}>
-                        <img src={user.photoURL} alt={user.displayName}/>
-                    </button>
 
-                    {showSettings && (
-                        <Dropdown>
-                            <ul >
-                                <li>{user.email}</li>
-                                
-                                <li>
-                                    <button onClick={removeUserData}>Clear All Todos</button>
-                                </li>
-                                <li>
-                                    <button onClick={signOut}>Sign Out</button>
-                                </li>
-                            </ul>
-                        </Dropdown>
-                    )}
+                    <DropdownMenu.Root>
+                        <DropdownMenu.Trigger asChild>
+                            <button className={styles.headerAvatar}>
+                                <img src={user.photoURL} alt={user.displayName}/>
+                            </button>
+                        </DropdownMenu.Trigger>
+
+                        <DropdownMenu.Portal>
+                            <DropdownMenu.Content className={dropdown.content} sideOffset={5} align="end">
+                                <DropdownMenu.Item className={dropdown.item} disabled>
+                                    {user.email}
+                                </DropdownMenu.Item>
+                                <DropdownMenu.Separator className={dropdown.separator} />
+                                <DropdownMenu.Item className={dropdown.item} onSelect={removeUserData}>
+                                    Clear All Todos
+                                </DropdownMenu.Item>
+                                <DropdownMenu.Item className={dropdown.item} onSelect={signOut}>
+                                    Sign Out
+                                </DropdownMenu.Item>
+                            </DropdownMenu.Content>
+                        </DropdownMenu.Portal>
+                    </DropdownMenu.Root>
                 </header>
             ) : (
                 <div className={styles.guest}>

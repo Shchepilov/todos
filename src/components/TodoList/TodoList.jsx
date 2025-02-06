@@ -11,12 +11,6 @@ const TodoList = () => {
     const currentDay = useStore((state) => state.currentDay);
     const [isLoading, setIsLoading] = useState(false);
 
-    const priorityOrder = { high: 1, medium: 2, low: 3 };
-
-    const sortedTodos = todos.sort((a, b) => {
-        return priorityOrder[a.priority] - priorityOrder[b.priority];
-    });
-
     useEffect(() => {
         const fetch = async () => {
             setIsLoading(true);
@@ -31,7 +25,7 @@ const TodoList = () => {
             {isLoading && <Loader className={styles.loader} />}
             {todos.length === 0 && <p className={styles.noTodos}>No todos for this day</p>}
             {todos.length > 0 && <ul className={styles.TodoList}>
-                {sortedTodos.map((todo) => (
+                {todos.map((todo) => (
                     <TodoItem key={todo.id} todo={todo} />
                 ))}
             </ul>}

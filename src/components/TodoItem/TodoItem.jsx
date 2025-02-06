@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import { useStore } from "../../store/store";
 import { TrashIcon, CalendarIcon } from "@radix-ui/react-icons";
 import EditForm from "./EditForm";
@@ -69,4 +69,4 @@ const TodoItem = ({ todo }) => {
     );
 };
 
-export default TodoItem;
+export default memo(TodoItem);

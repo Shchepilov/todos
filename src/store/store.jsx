@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { collection, addDoc, getDocs, query, where, updateDoc, deleteDoc, doc, writeBatch } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where, orderBy, updateDoc, deleteDoc, doc, writeBatch } from "firebase/firestore";
 import { db, auth, googleAuthProvider, githubAuthProvider } from "../firebase";
 import { signInWithPopup, signOut } from "firebase/auth";
 import dayjs from "dayjs";
@@ -76,7 +76,11 @@ export const useStore = create(persist((set, get) => ({
         const user = get().user;
 
         try {
-            await addDoc(collection(db, "notes"), { userId: user.uid, content });
+            await addDoc(collection(db, "notes"), { 
+                userId: user.uid, 
+                content,
+                createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss')
+            });
             get().fetchNotes();
             set({ errorMessage: null });
         } catch (error) {
@@ -87,7 +91,11 @@ export const useStore = create(persist((set, get) => ({
     fetchNotes: async () => {
         try {   
             const user = get().user;
-            const notesQuery = query(collection(db, "notes"), where("userId", "==", user.uid));
+            const notesQuery = query(
+                collection(db, "notes"),
+                where("userId", "==", user.uid),
+                orderBy("createdAt", "asc")
+            );
             const notesSnapshot = await getDocs(notesQuery);
             const notes = notesSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
             set({ allNotes: notes, errorMessage: null });
@@ -168,7 +176,13 @@ export const useStore = create(persist((set, get) => ({
             await batch.commit();
 
             // Fetch todos for the current day
-            const todosQuery = query(collection(db, "todos"), where("userId", "==", userId), where("date", "==", date));
+            const todosQuery = query(
+                collection(db, "todos"),
+                where("userId", "==", userId),
+                where("date", "==", date),
+                orderBy("createdAt", "desc"),
+                orderBy("priority", "desc")
+            );
             const todosSnapshot = await getDocs(todosQuery);
             const currentDayTodos = todosSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 

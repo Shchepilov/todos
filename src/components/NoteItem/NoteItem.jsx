@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import { useStore } from "../../store/store"
 import { TrashIcon } from "@radix-ui/react-icons";
 import Loader from "../Loader/Loader";
@@ -43,4 +43,4 @@ const NoteItem = ({ note }) => {
     );
 };
 
-export default NoteItem;
+export default memo(NoteItem);

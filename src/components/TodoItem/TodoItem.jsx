@@ -1,14 +1,17 @@
 import { useState, memo } from "react";
 import { useStore } from "../../store/store";
-import { TrashIcon, CalendarIcon } from "@radix-ui/react-icons";
+import { TrashIcon, CalendarIcon, DotsVerticalIcon, Pencil1Icon } from "@radix-ui/react-icons";
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import EditForm from "./EditForm";
 import Loader from "../Loader/Loader";
 import styles from "./TodoItem.module.scss";
+import dropdown from '../../styles/Dropdown.module.scss';
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 
 const TodoItem = ({ todo }) => {
     const [isLoading, setIsLoading] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const deleteTodo = useStore((state) => state.deleteTodo);
     const updateTodo = useStore((state) => state.updateTodo);
     const moveToNextDay = useStore((state) => state.moveToNextDay);
@@ -29,49 +32,78 @@ const TodoItem = ({ todo }) => {
         update(todo.id, { done: !todo.done });
     };
 
+    
+    const dueDateFormatted = dayjs(todo.dueDate).format("MMM D");
+    const isOverdue = dayjs(todo.dueDate).isBefore(dayjs(day));
+    const isToday = todo.dueDate === day;
+    const badgeClass = isOverdue || isToday ? styles.isToday + " " + styles.badge : styles.badge;
+
     return (
         <motion.li
             key={todo.id}
             layout
             exit={{ opacity: 0, x: 15 }}
             transition={{ duration: 0.2 }}
+            data-priority={todo.priority}
             className={styles.TodoItem}
         >
             {isLoading && <Loader className={styles.loader} />}
+
             <input type="checkbox" checked={todo.done} onChange={handleStatusChange} />
+
             <div className={styles.Content}>
                 <p className={todo.done ? styles.Done : null}>{todo.content}</p>
-                <p>priority: {todo.priority}</p>
-                <p>Date: {todo.date}</p>
-                {todo.dueDate && <p>Due date: {todo.dueDate}</p>}
-                <p>Status: {todo.done ? "done" : "in progress"}</p>
-                <p>Created at: {todo.createdAt}</p>
-                {todo.autoMove && <p>autoMove: yes</p>}
-                {todo.dueDate &&
-                    (dayjs(todo.dueDate).isBefore(dayjs(day)) ? (
-                        <p className={styles.red}>OVERDUE!</p>
-                    ) : todo.dueDate === day ? (
-                        <p className={styles.red}>Today is due date. FINISH HIM!</p>
-                    ) : null)}
-            </div>
-            <div className={styles.Actions}>
-                <button onClick={() => deleteTodo(todo.id)} title="Delete">
-                    <TrashIcon />
-                </button>
-                <button onClick={() => moveToNextDay(todo.id)} title="Move to next day">
-                    <CalendarIcon />
-                </button>
 
-                <EditForm
-                    content={todo.content}
-                    priority={todo.priority}
-                    id={todo.id}
-                    date={todo.date}
-                    dueDate={todo.dueDate}
-                    autoMove={todo.autoMove}
-                    handleUpdate={handleUpdate}
-                />
+                <div className={styles.badges}>
+                    {todo.dueDate && (
+                        <span className={badgeClass}>
+                            Due date: {dueDateFormatted} {isOverdue && '- OVERDUE'}
+                        </span>
+                    )}
+                    {todo.autoMove && !todo.done && <span className={styles.badge} >Auto move to next day</span>}
+                </div>
             </div>
+
+            <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild>
+                    <button className={styles.dropdownButton}>
+                        <DotsVerticalIcon />
+                    </button>
+                </DropdownMenu.Trigger>
+
+                <DropdownMenu.Portal>
+                    <DropdownMenu.Content className={dropdown.content} align="end">
+                        <DropdownMenu.Item className={dropdown.item} disabled>
+                            Created at: {todo.createdAt.split(" ")[0]}
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Separator className={dropdown.separator} />
+
+                        <DropdownMenu.Item className={dropdown.item} onSelect={() => setIsDialogOpen(true)}>
+                            <Pencil1Icon /> Edit
+                        </DropdownMenu.Item>
+
+                        <DropdownMenu.Item className={dropdown.item} onSelect={() => moveToNextDay(todo.id)}>
+                            <CalendarIcon /> Move to next day
+                        </DropdownMenu.Item>
+
+                        <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={() => deleteTodo(todo.id)}>
+                            <TrashIcon /> Delete
+                        </DropdownMenu.Item>
+                    </DropdownMenu.Content>
+                </DropdownMenu.Portal>
+            </DropdownMenu.Root>
+
+            <EditForm
+                content={todo.content}
+                priority={todo.priority}
+                id={todo.id}
+                date={todo.date}
+                dueDate={todo.dueDate}
+                autoMove={todo.autoMove}
+                handleUpdate={handleUpdate}
+                isDialogOpen={isDialogOpen}
+                setIsDialogOpen={setIsDialogOpen}
+            />
         </motion.li>
     );
 };

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { collection, addDoc, getDocs, query, where, orderBy, updateDoc, deleteDoc, doc, writeBatch } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where, orderBy, updateDoc, deleteDoc, doc, writeBatch, serverTimestamp } from "firebase/firestore";
 import { db, auth, googleAuthProvider, githubAuthProvider } from "../firebase";
 import { signInWithPopup, signOut } from "firebase/auth";
 import dayjs from "dayjs";
@@ -64,6 +64,7 @@ export const useStore = create(persist((set, get) => ({
                 done: false,
                 autoMove: false,
                 createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                timestamp: serverTimestamp(),
             });
             get().fetchTodos();
             set({ errorMessage: null });
@@ -180,8 +181,8 @@ export const useStore = create(persist((set, get) => ({
                 collection(db, "todos"),
                 where("userId", "==", userId),
                 where("date", "==", date),
-                orderBy("createdAt", "desc"),
-                orderBy("priority", "desc")
+                orderBy("priority", "desc"),
+                orderBy("timestamp", "desc"),
             );
             const todosSnapshot = await getDocs(todosQuery);
             const currentDayTodos = todosSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));

@@ -1,17 +1,92 @@
 .TodoItem {
     display: grid;
-    grid-template-columns: min-content 1fr auto;
+    grid-template-columns: min-content 1fr;
     align-items: start;
     gap: 10px;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
     border: 1px solid #a0a096;
+    border-left-width: 4px;
     border-radius: 3px;
     animation: appear 0.2s ease-out;
     position: relative;
 }
 
-.red {
-    color: red;
+.badge {
+    display: inline-flex;
+    align-items: center;
+    align-self: start;
+    border: 1px solid #a0a096;
+    border-radius: 11px;
+    line-height: 1;
+    padding: 3px 6px;
+    margin-top: 5px;
+    font-size: 11px;
+}
+
+.badges {
+    display: flex;
+    gap: 5px;
+}
+
+.autoMove {
+    margin-left: auto;
+}
+
+.isToday {
+    color: rgb(255, 75, 75);
+    border-color: rgb(255, 75, 75);
+}
+
+[data-priority="3"] {
+    border-left-color: rgb(240, 151, 151);
+}
+
+[data-priority="2"] {
+    border-left-color: rgb(218, 199, 119);
+}
+
+[data-priority="1"] {
+    border-left-color: rgb(116, 187, 146);
+}
+
+.TodoItem input {
+    margin-top: 4px;
+}
+
+.Done {
+    text-decoration: line-through;
+}
+
+.Content {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.TodoItem p {
+    margin: 0;
+}
+  
+.dropdownButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 39px;
+    height: 39px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    &:hover {
+        color: orange;
+    }
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
 }
 
 .loader {
@@ -28,52 +103,6 @@
     to {
         opacity: 1;
         transform: translateY(0);
-    }
-}
-
-.TodoItem input {
-    margin-top: 4px;
-}
-
-.Done {
-    text-decoration: line-through;
-}
-
-.Content {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-
-    p:first-child {
-        font-weight: bold;
-        margin-bottom: 3px;
-        text-transform: capitalize;
-    }
-}
-
-.TodoItem p {
-    margin: 0;
-}
-  
-.Actions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 5px;
-
-    button {
-        padding: 0;
-        background: none;
-        border: none;
-        cursor: pointer;
-        &:hover {
-            color: orange;
-        }
-
-        svg {
-            width: 24px;
-            height: 24px;
-        }
     }
 }
   

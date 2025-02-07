@@ -5,6 +5,7 @@ import EditForm from "./EditForm";
 import Loader from "../Loader/Loader";
 import styles from "./TodoItem.module.scss";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 
 const TodoItem = ({ todo }) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +30,13 @@ const TodoItem = ({ todo }) => {
     };
 
     return (
-        <li key={todo.id} className={styles.TodoItem}>
+        <motion.li
+            key={todo.id}
+            layout
+            exit={{ opacity: 0, x: 15 }}
+            transition={{ duration: 0.2 }}
+            className={styles.TodoItem}
+        >
             {isLoading && <Loader className={styles.loader} />}
             <input type="checkbox" checked={todo.done} onChange={handleStatusChange} />
             <div className={styles.Content}>
@@ -65,7 +72,7 @@ const TodoItem = ({ todo }) => {
                     handleUpdate={handleUpdate}
                 />
             </div>
-        </li>
+        </motion.li>
     );
 };
 

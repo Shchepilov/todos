@@ -1,13 +1,13 @@
 import { useState, useRef } from "react";
 import { Dialog } from "radix-ui";
-import { Cross2Icon, Pencil1Icon } from "@radix-ui/react-icons";
+import { Cross2Icon } from "@radix-ui/react-icons";
 import dayjs from "dayjs";
 import { useStore } from "../../store/store";
 import styles from "./EditForm.module.scss";
 import dialog from "../../styles/Dialog.module.scss";
 import forms from "../../Forms.module.scss";
 
-const EditForm = ({ id, content, priority, date, handleUpdate, dueDate, autoMove }) => {
+const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate, isDialogOpen, setIsDialogOpen }) => {
     const currentDay = useStore((state) => state.currentDay);
     const currentDate = dayjs(currentDay).format("YYYY-MM-DD");
     const [newDueDate, setNewDueDate] = useState(dueDate || currentDate);
@@ -31,12 +31,7 @@ const EditForm = ({ id, content, priority, date, handleUpdate, dueDate, autoMove
     };
 
     return (
-        <Dialog.Root>
-            <Dialog.Trigger asChild>
-                <button>
-                    <Pencil1Icon />
-                </button>
-            </Dialog.Trigger>
+        <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <Dialog.Portal>
                 <Dialog.Overlay className={dialog.backdrop} />
                 <Dialog.Content className={dialog.modal} aria-describedby={undefined}>
@@ -67,9 +62,9 @@ const EditForm = ({ id, content, priority, date, handleUpdate, dueDate, autoMove
 
                         <div className={forms.formField}>
                             <select value={newPriority} onChange={(e) => setNewPriority(e.target.value)}>
-                                <option value="low">Low</option>
-                                <option value="medium">Medium</option>
-                                <option value="high">High</option>
+                                <option value="1">Low</option>
+                                <option value="2">Medium</option>
+                                <option value="3">High</option>
                             </select>
                         </div>
 

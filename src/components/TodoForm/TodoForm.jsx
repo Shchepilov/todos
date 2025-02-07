@@ -48,9 +48,9 @@ const TodoForm = () => {
             <div className={forms.formField}>
                 <select ref={priorityRef}>
                     <option value="" disabled>Select priority</option>
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
+                    <option value="1">Low</option>
+                    <option value="2">Medium</option>
+                    <option value="3">High</option>
                 </select>
             </div>
 

@@ -80,7 +80,8 @@ export const useStore = create(persist((set, get) => ({
             await addDoc(collection(db, "notes"), { 
                 userId: user.uid, 
                 content,
-                createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss')
+                createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                timestamp: serverTimestamp()
             });
             get().fetchNotes();
             set({ errorMessage: null });
@@ -95,7 +96,7 @@ export const useStore = create(persist((set, get) => ({
             const notesQuery = query(
                 collection(db, "notes"),
                 where("userId", "==", user.uid),
-                orderBy("createdAt", "asc")
+                orderBy("timestamp", "asc")
             );
             const notesSnapshot = await getDocs(notesQuery);
             const notes = notesSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -182,7 +183,7 @@ export const useStore = create(persist((set, get) => ({
                 where("userId", "==", userId),
                 where("date", "==", date),
                 orderBy("priority", "desc"),
-                orderBy("timestamp", "desc"),
+                orderBy("timestamp", "desc")
             );
             const todosSnapshot = await getDocs(todosQuery);
             const currentDayTodos = todosSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));

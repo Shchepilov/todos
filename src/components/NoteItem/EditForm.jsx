@@ -1,10 +1,10 @@
 import { useState, useRef } from "react";
 import { Dialog } from "radix-ui";
-import { Cross2Icon, Pencil1Icon } from "@radix-ui/react-icons";
+import { Cross2Icon } from "@radix-ui/react-icons";
 import styles from "../NoteItem/NoteItem.module.scss";
 import dialog from "../../styles/Dialog.module.scss";
 
-const EditForm = ({ id, content, handleUpdate }) => {
+const EditForm = ({ id, content, handleUpdate, isDialogOpen, setIsDialogOpen }) => {
     const [newContent, setNewContent] = useState(content);
     const closeDialogRef = useRef(null);
 
@@ -17,12 +17,7 @@ const EditForm = ({ id, content, handleUpdate }) => {
     };
 
     return (
-        <Dialog.Root>
-            <Dialog.Trigger asChild>
-                <button>
-                    <Pencil1Icon/>
-                </button>
-            </Dialog.Trigger>
+        <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <Dialog.Portal>
                 <Dialog.Overlay className={dialog.backdrop} />
                 <Dialog.Content className={dialog.modal} aria-describedby={undefined}>
@@ -43,7 +38,6 @@ const EditForm = ({ id, content, handleUpdate }) => {
                             </Dialog.Close>
                         </div>
                     </form>
-                    
                 </Dialog.Content>
             </Dialog.Portal>
         </Dialog.Root>

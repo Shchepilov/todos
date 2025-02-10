@@ -80,7 +80,6 @@ export const useStore = create(persist((set, get) => ({
             await addDoc(collection(db, "notes"), { 
                 userId: user.uid, 
                 content,
-                createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                 timestamp: serverTimestamp()
             });
             get().fetchNotes();

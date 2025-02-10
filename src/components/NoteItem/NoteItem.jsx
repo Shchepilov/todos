@@ -8,6 +8,7 @@ import styles from "./NoteItem.module.scss";
 import todoItemStyles from "../TodoItem/TodoItem.module.scss";
 import dropdown from '../../styles/Dropdown.module.scss';
 import { motion } from "framer-motion";
+import dayjs from "dayjs";
 
 const NoteItem = ({ note }) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -24,8 +25,9 @@ const NoteItem = ({ note }) => {
     
     const handleUpdate = (id, content) => {
         update(id, { content });
-        
     };
+
+    const dateFormatted = dayjs(note.createdAt).format("MMM D, YYYY");
 
     return (
         <motion.li 
@@ -47,7 +49,7 @@ const NoteItem = ({ note }) => {
                 <DropdownMenu.Portal>
                     <DropdownMenu.Content className={dropdown.content} align="end">
                         <DropdownMenu.Item className={dropdown.item} disabled>
-                            Created at: {note.createdAt.split(" ")[0]}
+                            Created at: {dateFormatted}
                         </DropdownMenu.Item>
                         <DropdownMenu.Separator className={dropdown.separator} />
 

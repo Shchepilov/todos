@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, NavLink, Navigate } from "react-router-do
 import Auth from "./components/Auth/Auth";
 import Todos from "./pages/Todos/Todos";
 import Notes from "./pages/Notes/Notes";
+import Tasks from "./pages/Tasks/Tasks";
 import { useStore } from "./store/store";
 import styles from "./App.module.scss";
 
@@ -23,12 +24,14 @@ const App = () => {
                 <nav className={styles.nav}>
                     <NavLink to="/todos" className={({isActive}) => (isActive ? styles.navLinkActive : null)}>Todos</NavLink>
                     <NavLink to="/notes" className={({isActive}) => (isActive ? styles.navLinkActive : null)}>Notes</NavLink>
+                    <NavLink to="/tasks" className={({isActive}) => (isActive ? styles.navLinkActive : null)}>Tasks</NavLink>
                 </nav>
 
                 <Routes>
                     <Route path="/" element={<Navigate to="/todos" />} />
                     <Route path="/todos" element={<Todos />} />
                     <Route path="/notes" element={<Notes />} />
+                    <Route path="/tasks" element={<Tasks />} />
                 </Routes>
             </BrowserRouter>
         </div>

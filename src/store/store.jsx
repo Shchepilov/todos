@@ -206,6 +206,13 @@ export const useStore = create(persist((set, get) => ({
             todosSnapshot.forEach(async (doc) => {
                 await deleteDoc(doc.ref);
             });
+
+            if (type === "todos") {
+                get().fetchTodos();
+            } else if (type === "notes") {
+                get().fetchNotes();
+            }
+
             get().fetchTodos();
             set({ errorMessage: null });
         } catch (error) {

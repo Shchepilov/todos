@@ -198,10 +198,10 @@ export const useStore = create(persist((set, get) => ({
         }
     },
 
-    removeUserData: async () => {
+    removeUserData: async (type) => {
         try {
             const userId = get().user.uid;
-            const todosQuery = query(collection(db, "todos"), where("userId", "==", userId));
+            const todosQuery = query(collection(db, type), where("userId", "==", userId));
             const todosSnapshot = await getDocs(todosQuery);
             todosSnapshot.forEach(async (doc) => {
                 await deleteDoc(doc.ref);
@@ -209,7 +209,7 @@ export const useStore = create(persist((set, get) => ({
             get().fetchTodos();
             set({ errorMessage: null });
         } catch (error) {
-            console.error("Error clearing all todos:", error);
+            console.error("Error clearing:", error);
             set({ errorMessage: error.message });
         }
     },

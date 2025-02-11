@@ -32,11 +32,11 @@ const TodoItem = ({ todo }) => {
         update(todo.id, { done: !todo.done });
     };
 
-    
-    const dueDateFormatted = dayjs(todo.dueDate).format("MMM D");
     const isOverdue = dayjs(todo.dueDate).isBefore(dayjs(day));
     const isToday = todo.dueDate === day;
     const badgeClass = isOverdue || isToday ? styles.isToday + " " + styles.badge : styles.badge;
+    const timestampFormatted = dayjs(new Date(todo.timestamp.seconds * 1000)).format("MMM D, YYYY");
+    const dueDateFormatted = dayjs(todo.dueDate).format("MMM D");
 
     return (
         <motion.li
@@ -74,7 +74,7 @@ const TodoItem = ({ todo }) => {
                 <DropdownMenu.Portal>
                     <DropdownMenu.Content className={dropdown.content} align="end">
                         <DropdownMenu.Item className={dropdown.item} disabled>
-                            Created at: {todo.createdAt.split(" ")[0]}
+                            Created at: {timestampFormatted}
                         </DropdownMenu.Item>
                         <DropdownMenu.Separator className={dropdown.separator} />
 

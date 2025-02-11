@@ -27,7 +27,7 @@ const NoteItem = ({ note }) => {
         update(id, { content });
     };
 
-    const dateFormatted = dayjs(note.createdAt).format("MMM D, YYYY");
+    const timestampFormatted = dayjs(new Date(note.timestamp.seconds * 1000)).format("MMM D, YYYY");
 
     return (
         <motion.li 
@@ -49,7 +49,7 @@ const NoteItem = ({ note }) => {
                 <DropdownMenu.Portal>
                     <DropdownMenu.Content className={dropdown.content} align="end">
                         <DropdownMenu.Item className={dropdown.item} disabled>
-                            Created at: {dateFormatted}
+                            Created at: {timestampFormatted}
                         </DropdownMenu.Item>
                         <DropdownMenu.Separator className={dropdown.separator} />
 

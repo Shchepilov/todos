@@ -63,7 +63,6 @@ export const useStore = create(persist((set, get) => ({
                 dueDate,
                 done: false,
                 autoMove: false,
-                createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                 timestamp: serverTimestamp(),
             });
             get().fetchTodos();

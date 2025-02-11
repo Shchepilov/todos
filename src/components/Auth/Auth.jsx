@@ -29,10 +29,17 @@ const Auth = () => {
                                 <DropdownMenu.Item className={dropdown.item} disabled>
                                     {user.email}
                                 </DropdownMenu.Item>
+
                                 <DropdownMenu.Separator className={dropdown.separator} />
-                                <DropdownMenu.Item className={dropdown.item} onSelect={removeUserData}>
+
+                                <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={() => removeUserData("todos")}>
                                     Clear All Todos
                                 </DropdownMenu.Item>
+
+                                <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={() => removeUserData("notes")}>
+                                    Clear All Notes
+                                </DropdownMenu.Item>
+
                                 <DropdownMenu.Item className={dropdown.item} onSelect={signOut}>
                                     Sign Out
                                 </DropdownMenu.Item>

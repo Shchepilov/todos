@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useStore } from "../../store/store";
+import { useStore } from "../../../../store/store";
 import styles from "../NoteForm/NoteForm.module.scss";
 
 const NoteForm = () => {

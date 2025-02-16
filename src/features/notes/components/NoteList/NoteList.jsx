@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useStore } from "../../store/store";
-import Loader from "../Loader/Loader";
+import { useStore } from "../../../../store/store";
+import Loader from "../../../../components/Loader/Loader";
 import NoteItem from "../NoteItem/NoteItem";
 import styles from "./NoteList.module.scss";
-import TodoListStyles from "../TodoList/TodoList.module.scss";
+import TodoListStyles from "../../../../features/todos/components/TodoList/TodoList.module.scss";
 import { AnimatePresence } from "framer-motion";
 
 const NoteList = () => {

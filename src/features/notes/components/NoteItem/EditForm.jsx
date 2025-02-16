@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Dialog } from "radix-ui";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import styles from "../NoteItem/NoteItem.module.scss";
-import dialog from "../../styles/Dialog.module.scss";
+import dialog from "../../../../styles/Dialog.module.scss";
 
 const EditForm = ({ id, content, handleUpdate, isDialogOpen, setIsDialogOpen }) => {
     const [newContent, setNewContent] = useState(content);

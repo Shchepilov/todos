@@ -1,4 +1,4 @@
-import { useStore } from "../../store/store";
+import { useStore } from "../../../../store/store";
 import dayjs from "dayjs";
 import styles from "./DayNavigation.module.scss";
 

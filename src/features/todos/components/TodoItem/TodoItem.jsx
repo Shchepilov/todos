@@ -5,7 +5,7 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import EditForm from "./EditForm";
 import Loader from "../../../../components/Loader/Loader";
 import styles from "./TodoItem.module.scss";
-import dropdown from '../../../../styles/Dropdown.module.scss';
+import dropdown from '../../../../components/Dropdown/Dropdown.module.scss';
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 

@@ -4,7 +4,7 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import dayjs from "dayjs";
 import { useStore } from "../../../../store/store";
 import styles from "./EditForm.module.scss";
-import dialog from "../../../../styles/Dialog.module.scss";
+import dialog from "../../../../components/Dialog/Dialog.module.scss";
 import forms from "../../../../Forms.module.scss";
 
 const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate, isDialogOpen, setIsDialogOpen }) => {

@@ -6,7 +6,7 @@ import Loader from "../../../../components/Loader/Loader";
 import EditNote from "./EditForm";
 import styles from "./NoteItem.module.scss";
 import todoItemStyles from "../../../../features/todos/components/TodoItem/TodoItem.module.scss";
-import dropdown from '../../../../styles/Dropdown.module.scss';
+import dropdown from '../../../../components/Dropdown/Dropdown.module.scss';
 
 import { motion } from "framer-motion";
 import dayjs from "dayjs";

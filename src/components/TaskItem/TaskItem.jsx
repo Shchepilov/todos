@@ -1,9 +1,11 @@
-
 import styles from './TaskItem.module.scss';
 
-const TaskItem = () => {
+const TaskItem = ({ task }) => {
     return (
-        <div className={styles.TaskItem}>TaskItem</div>
+        <div className={styles.item}>
+            <p><strong>{task.title}</strong></p>
+            <p>{task.status}</p>
+        </div>
     );
 };
 

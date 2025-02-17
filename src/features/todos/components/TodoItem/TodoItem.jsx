@@ -1,11 +1,11 @@
 import { useState, memo } from "react";
-import { useStore } from "../../../../store/store";
+import { useStore } from "@store/store";
 import { TrashIcon, CalendarIcon, DotsVerticalIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import EditForm from "./EditForm";
-import Loader from "../../../../components/Loader/Loader";
+import Loader from "@components/Loader/Loader";
 import styles from "./TodoItem.module.scss";
-import dropdown from '../../../../components/Dropdown/Dropdown.module.scss';
+import dropdown from '@components/Dropdown/Dropdown.module.scss';
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 

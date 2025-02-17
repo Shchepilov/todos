@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
-import { useStore } from "../../../../store/store";
+import { useStore } from "@store/store";
 import styles from "./TodoForm.module.scss";
-import forms from "../../../../Forms.module.scss";
+import forms from "@styles/Forms.module.scss";
 import dayjs from "dayjs";
 
 const TodoForm = () => {

@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { Routes, Route, NavLink, Navigate, useLocation } from "react-router-dom";
-import Auth from "./components/Auth/Auth";
-import Todos from "./features/todos/components/Todos/Todos";
-import Notes from "./features/notes/components/Notes/Notes";
-import Tasks from "./features/tasks/components/Tasks/Tasks";
-import { useStore } from "./store/store";
+import Auth from "@components/Auth/Auth";
+import Todos from "@features/todos/components/Todos/Todos";
+import Notes from "@features/notes/components/Notes/Notes";
+import Tasks from "@features/tasks/components/Tasks/Tasks";
+import { useStore } from "@store/store";
 import styles from "./App.module.scss";
 
 const App = () => {

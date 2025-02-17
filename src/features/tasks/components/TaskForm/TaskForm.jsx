@@ -1,4 +1,4 @@
-import forms from "../../../../Forms.module.scss";
+import forms from "@styles/Forms.module.scss";
 import styles from './TaskForm.module.scss';
 
 const TaskForm = () => {

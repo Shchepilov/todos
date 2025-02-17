@@ -1,12 +1,12 @@
 import { useState, memo } from "react";
-import { useStore } from "../../../../store/store"
+import { useStore } from "@store/store"
 import { TrashIcon, DotsVerticalIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import Loader from "../../../../components/Loader/Loader";
+import Loader from "@components/Loader/Loader";
 import EditNote from "./EditForm";
 import styles from "./NoteItem.module.scss";
-import todoItemStyles from "../../../../features/todos/components/TodoItem/TodoItem.module.scss";
-import dropdown from '../../../../components/Dropdown/Dropdown.module.scss';
+import todoItemStyles from "@features/todos/components/TodoItem/TodoItem.module.scss";
+import dropdown from '@components/Dropdown/Dropdown.module.scss';
 
 import { motion } from "framer-motion";
 import dayjs from "dayjs";

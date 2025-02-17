@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useStore } from "../../../../store/store";
-import Loader from "../../../../components/Loader/Loader";
+import { useStore } from "@store/store";
+import Loader from "@components/Loader/Loader";
 import TodoItem from "../TodoItem/TodoItem";
 import styles from "./TodoList.module.scss";
 import { AnimatePresence } from "framer-motion";

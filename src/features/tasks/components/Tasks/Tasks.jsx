@@ -1,5 +1,5 @@
-import TaskForm from '../../components/TaskForm/TaskForm';
-import TaskBoard from '../../components/TaskBoard/TaskBoard';
+import TaskForm from '../TaskForm/TaskForm';
+import TaskBoard from '../TaskBoard/TaskBoard';
 import styles from './Tasks.module.scss';
 
 const Tasks = () => {

@@ -1,7 +1,7 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { useStore } from '../../store/store';
+import { useStore } from '@store/store';
 import styles from './Auth.module.scss';
-import dropdown from '../Dropdown/Dropdown.module.scss';
+import dropdown from '@components/Dropdown/Dropdown.module.scss';
 
 const Auth = () => {
     const user = useStore((state) => state.user);

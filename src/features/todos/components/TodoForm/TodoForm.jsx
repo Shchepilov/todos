@@ -11,7 +11,6 @@ const TodoForm = () => {
     const contentRef = useRef();
     const priorityRef = useRef();
     const dueDateRef = useRef();
-    const autoMoveRef = useRef();
     const closeDialogRef = useRef(null);
     const [dueDate, setDueDate] = useState(currentDate);
     const [isDueDate, setIsDueDate] = useState(false);

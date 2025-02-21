@@ -105,6 +105,7 @@ ul,ol {
 body {
   font-family: var(--font-family);
   background: #E4E8ED radial-gradient(rgb(190, 190, 190) 1px, transparent 5%) repeat 0 0 / 50px 50px; /* Adjust the size of the dots */
+  color: var(--black-warm);
   scrollbar-width: thin; /* Options: auto, thin, none */
   scrollbar-color: #888 #fff; /* thumb color and track color */
 }

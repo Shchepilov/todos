@@ -4,13 +4,12 @@
     align-items: start;
     gap: 10px;
     padding: 12px 38px 12px 20px;
-    border: 1px solid var(--black-warm-10);
     border-radius: 8px;
     font-weight: 600;
     animation: appear 0.2s ease;
     overflow: hidden;
     position: relative;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.25);
 
     &:before {
         content: '';
@@ -79,6 +78,7 @@
     display: flex;
     flex-direction: column;
     text-align: left;
+    overflow: hidden;
 }
 
 .TodoItem p {

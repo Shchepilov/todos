@@ -1,45 +1,26 @@
-import { createPortal } from "react-dom";
-import styles from "./Modal.module.scss";
+import { Dialog } from "radix-ui";
+import { Cross2Icon } from "@radix-ui/react-icons";
+import modal from "./Modal.module.scss";
 
-const Modal = ({ children, onClose, handleClose, handleConfirm, heading, confirmText = "Confirm" }) => {
-    const handleCloseModal = () => {
-        if (onClose) {
-            const modalContent = event.target.closest(`.${styles.modal}`);
-            if (!modalContent) {
-                onClose();
-            }
-        }
-    }
-
-    return createPortal(
-        <div className={styles.backdrop} onClick={handleCloseModal}>
-            <div className={styles.modal}>
-                <header className={styles.modalHeader}>
-                    <h2>{heading}</h2>
-                    <button className={styles.closeButton} onClick={onClose}>
-                        <span className="material-symbols-outlined">close</span>
-                    </button>
-                </header>
-
-                <main className={styles.modalContent}>{children}</main>
-
-                {(handleClose || handleConfirm) && (
-                        <footer className={styles.modalActions}>
-                            {handleClose && (
-                                <button className={styles.cancelButton} onClick={handleClose} type="button">
-                                    Cancel
-                                </button>
-                            )}
-                            {handleConfirm && (
-                                <button className={styles.confirmButton} onClick={handleConfirm} type="button">
-                                    {confirmText}
-                                </button>
-                            )}
-                        </footer>
-                    )}
-            </div>
-        </div>,
-        document.getElementById("modal-root")
+const Modal = ({ heading, isDialogOpen, setIsDialogOpen, children }) => {
+    
+    return (
+        <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <Dialog.Portal>
+                <Dialog.Overlay className={modal.backdrop} />
+                <Dialog.Content className={modal.content} aria-describedby={undefined}>
+                    <Dialog.Title className="DialogTitle">{heading}</Dialog.Title>
+                    <Dialog.Close asChild>
+                        <button className={modal.close} aria-label="Close">
+                            <Cross2Icon />
+                        </button>
+                    </Dialog.Close>
+                    
+                    {children}
+                    
+                </Dialog.Content>
+            </Dialog.Portal>
+        </Dialog.Root>
     );
 };
 

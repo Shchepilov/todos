@@ -8,55 +8,72 @@
     place-items: center;
     padding: 10px;
     background: rgba(0, 0, 0, 0.5);
+    animation: overlayShow 0.2s ease;
 }
 
-.modal {
+.content {
+    position: fixed;
+    inset: 0;
+    margin: auto;
     display: flex;
     flex-direction: column;
     gap: 10px;
     background: white;
-    border-radius: 5px;
     padding: 20px;
-    width: 100%;
-    max-width: 400px;
-}
+    animation: contentShow 0.2s ease;
 
-.modalHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    h2 {
-        margin: 0;
+    @media screen and (min-width: 768px) {
+        width: clamp(300px, 400px, 800px);
+        height: fit-content;    
     }
 }
 
-.closeButton {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-}
-
-.modalContent {}
-
-.modalActions {
+.close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
-
-.confirmButton {
-    background-color: #007bff;
-    color: white;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
     border: none;
-    padding: 10px 20px;
-    border-radius: 3px;
-    cursor: pointer;
+    background: none;
+    padding: 0;
+    transition: all 0.2s ease;
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    &:hover {
+        background: var(--black-warm-off);
+    }
 }
 
-.confirmButton:hover {
-    background-color: #0056b3;
+@media screen and (min-width: 768px) {
+    .content {
+        border-radius: 5px;    
+    }
 }
 
+@keyframes overlayShow {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
 
+@keyframes contentShow {
+	from {
+		opacity: 0;
+		transform: translateY(-5px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}

@@ -1,0 +1,66 @@
+@use "@styles/functions" as *;
+
+.react-calendar {
+    border-radius: 3px;
+    width: 100%;
+    border: none;
+    font-family: var(--font-family);
+
+    &__month-view__days__day {
+        border-radius: 50%;
+        aspect-ratio: 1;
+
+        &--weekend {
+            color: initial;
+        }
+
+        &.react-calendar__tile--active:enabled:hover, 
+        &.react-calendar__tile--active:enabled:focus {
+            background-color: var(--violet-100);
+        }
+    }
+
+    &__tile--active {
+        background-color: var(--violet-100);
+        color: #fff;
+    }
+
+    &__navigation {
+        &__arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            aspect-ratio: 1;
+        }
+
+        &__label {
+            border-radius: 22px;
+        }
+
+        &__label__labelText {
+            font-family: var(--font-family);
+            font-size: rem(18);
+        }
+    }
+}
+.react-calendar__tile {
+    position: relative;
+}
+
+/* Dot indicator */
+
+.has-todos::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background-color: #333;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 8px;
+    left: calc(50% - 4px);
+}
+
+.has-todos.all-done::after {
+    background-color: #00c700;
+}

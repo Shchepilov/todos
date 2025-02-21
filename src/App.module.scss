@@ -1,7 +1,15 @@
+@use "@styles/mixins" as *;
+
 .app {
-    max-width: 768px;
-    margin: 0 auto;
-    padding: 0 10px 10px;
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    padding: 24px 10px 10px;
+    min-height: 100vh;
+
+    @include mobile-only {
+        padding: 10px;
+        gap: 1rem;
+    }
 }
 
 .errorMessage {
@@ -9,18 +17,5 @@
     color: red;
 }
 
-.nav {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
 
-    a {
-        text-decoration: none;
-        color: #000;
-    }
 
-    .navLinkActive {
-        text-decoration: underline;
-    }
-}

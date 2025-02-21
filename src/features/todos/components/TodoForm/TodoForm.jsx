@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { useStore } from "@store/store";
+import * as Dialog from '@radix-ui/react-dialog';
 import styles from "./TodoForm.module.scss";
-import forms from "@styles/Forms.module.scss";
 import dayjs from "dayjs";
 
 const TodoForm = () => {
@@ -11,8 +11,11 @@ const TodoForm = () => {
     const contentRef = useRef();
     const priorityRef = useRef();
     const dueDateRef = useRef();
+    const autoMoveRef = useRef();
+    const closeDialogRef = useRef(null);
     const [dueDate, setDueDate] = useState(currentDate);
     const [isDueDate, setIsDueDate] = useState(false);
+    const [newAutoMove, setNewAutoMove] = useState(false);
 
     const handleAddTodo = (e) => {
         e.preventDefault();
@@ -25,27 +28,28 @@ const TodoForm = () => {
         
         const updatedDueDate = isDueDate ? dueDate : null;
 
-        addTodo(content, priority, updatedDueDate);
+        addTodo(content, priority, updatedDueDate, newAutoMove);
         contentRef.current.value = "";
         setDueDate(currentDate);
         setIsDueDate(false);
+        closeDialogRef.current?.click();
     };
 
     return (
-        <form onSubmit={(e) => e.preventDefault()} className={styles.form + " " + forms.form}>
-            <div className={forms.formLabel}>
+        <form onSubmit={(e) => e.preventDefault()} className={"form " + styles.form}>
+            <div className="formLabel">
                 <label>Title</label>
             </div>
 
-            <div className={forms.formField}>
+            <div className="formField">
                 <input type="text" ref={contentRef} placeholder="Add a new todo"/>
             </div>
 
-            <div className={forms.formLabel}>
+            <div className="formLabel">
                 <label>Priority</label>
             </div>
 
-            <div className={forms.formField}>
+            <div className="formField">
                 <select ref={priorityRef}>
                     <option value="" disabled>Select priority</option>
                     <option value="1">Low</option>
@@ -54,18 +58,28 @@ const TodoForm = () => {
                 </select>
             </div>
 
-            <div className={forms.formLabel}>
+            <div className="formLabel">
                 <label>Due date</label>
             </div>
             
-            <div className={forms.formField}>
+            <div className="formField">
                 <input type="date" disabled={!isDueDate} ref={dueDateRef} value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
                 <input type="checkbox" checked={isDueDate} onChange={(e) => setIsDueDate(e.target.checked)} />
             </div>
 
-            <div className={forms.emptyLabel}>
-                <button className={forms.button} onClick={handleAddTodo}>Add</button>
+            <div className="formLabel">
+                <label>Auto move</label>
             </div>
+
+            <div className="formField">
+                <input type="checkbox" checked={newAutoMove} onChange={(e) => setNewAutoMove(e.target.checked)} />
+            </div>
+
+            <div className="emptyLabel">
+                <button className="button" onClick={handleAddTodo}>Add</button>
+            </div>
+
+            <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>
         </form>
     );
 };

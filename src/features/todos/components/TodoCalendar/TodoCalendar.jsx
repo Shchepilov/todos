@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useStore } from "@store/store";
+import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import dayjs from 'dayjs';
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -16,7 +17,7 @@ const TodoCalendar = () => {
     useEffect(() => {
         fetchTodos();
     }, [currentDay]);
-
+    
     const getTileClassName = ({ date, view }) => {
       if (view === 'month') {
         const dateString = dayjs(date).format('YYYY-MM-DD');
@@ -43,6 +44,9 @@ const TodoCalendar = () => {
             tileClassName={getTileClassName}
             next2Label={null}
             prev2Label={null}
+            locale="en"
+            prevLabel={<ChevronLeftIcon />}
+            nextLabel={<ChevronRightIcon />}
         />
     );
 };

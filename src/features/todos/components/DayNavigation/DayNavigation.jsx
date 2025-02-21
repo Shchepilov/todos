@@ -1,4 +1,5 @@
 import { useStore } from "@store/store";
+import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import dayjs from "dayjs";
 import styles from "./DayNavigation.module.scss";
 
@@ -14,18 +15,19 @@ const DayNavigation = () => {
         setCurrentDay(dayjs(currentDay).add(1, 'day'));
     }
 
-    const handleToday = () => {
-        setCurrentDay(dayjs());
-    }
+    const isToday = dayjs().format('YYYY-MM-DD') === dayjs(currentDay).format('YYYY-MM-DD');
 
     return ( 
         <div className={styles.container}>
-            <h2 className={styles.title}>{dayjs(currentDay).format('YYYY-MM-DD')}</h2>
-            <div className={styles.buttons}>
-                <button onClick={handlePrevDay}>Previous Day</button>
-                <button onClick={handleToday}>Today</button>
-                <button onClick={handleNextDay}>Next Day</button>
-            </div>
+            <button className={styles.button} onClick={handlePrevDay}>
+                <ChevronLeftIcon />    
+            </button>
+            
+            <div className={styles.title}>{dayjs(currentDay).format('D MMMM')}{isToday && <span>(Today)</span>}</div>
+
+            <button className={styles.button} onClick={handleNextDay}>
+                <ChevronRightIcon />
+            </button>
         </div>        
     );
 }

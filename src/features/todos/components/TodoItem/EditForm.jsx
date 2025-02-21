@@ -4,7 +4,7 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import dayjs from "dayjs";
 import { useStore } from "@store/store";
 import styles from "./EditForm.module.scss";
-import dialog from "@components/Dialog/Dialog.module.scss";
+import modal from "@components/Modal/Modal.module.scss";
 import forms from "@styles/Forms.module.scss";
 
 const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate, isDialogOpen, setIsDialogOpen }) => {
@@ -33,11 +33,11 @@ const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate
     return (
         <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <Dialog.Portal>
-                <Dialog.Overlay className={dialog.backdrop} />
-                <Dialog.Content className={dialog.modal} aria-describedby={undefined}>
+                <Dialog.Overlay className={modal.backdrop} />
+                <Dialog.Content className={modal.content} aria-describedby={undefined}>
                     <Dialog.Title className="DialogTitle">Edit Todo</Dialog.Title>
                     <Dialog.Close asChild>
-                        <button className={dialog.close} aria-label="Close">
+                        <button className={modal.close} aria-label="Close">
                             <Cross2Icon />
                         </button>
                     </Dialog.Close>

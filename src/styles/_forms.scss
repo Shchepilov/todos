@@ -1,0 +1,53 @@
+//@use "variables" as *;
+
+input:not([type="checkbox"]), select {
+    padding: 0.3rem 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    height: 29px;
+}
+
+.form {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    grid-auto-rows: min-content;
+    gap: 5px;
+    justify-items: start;
+    align-items: center;
+}
+
+.formLabel {
+    display: flex;
+    gap: 10px;
+    justify-self: end;
+
+    label {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.formField {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.formFieldFull {
+    grid-column: 1 / -1;
+}
+
+.emptyLabel {
+    grid-column-start: 2;
+}
+
+[type="checkbox"],
+[type="radio"] {
+    accent-color: var(--accent-color);
+    width: 1rem;
+    height: 1rem;
+    margin: 2px 0 0 0;
+    cursor: pointer;
+}

@@ -41,11 +41,9 @@ const TodoItem = ({ todo }) => {
     return (
         <motion.li
             key={todo.id}
-            layout
-            exit={{ opacity: 0, x: 15 }}
-            transition={{ duration: 0.2 }}
+            
             data-priority={todo.priority}
-            className={styles.TodoItem}
+            className={styles.item}
         >
             {isLoading && <Loader className={styles.loader} />}
 

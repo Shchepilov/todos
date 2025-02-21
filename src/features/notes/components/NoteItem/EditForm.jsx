@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Dialog } from "radix-ui";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import styles from "../NoteItem/NoteItem.module.scss";
-import dialog from "@components/Dialog/Dialog.module.scss";
+import modal from "@components/Modal/Modal.module.scss";
 
 const EditForm = ({ id, content, handleUpdate, isDialogOpen, setIsDialogOpen }) => {
     const [newContent, setNewContent] = useState(content);
@@ -19,11 +19,11 @@ const EditForm = ({ id, content, handleUpdate, isDialogOpen, setIsDialogOpen }) 
     return (
         <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <Dialog.Portal>
-                <Dialog.Overlay className={dialog.backdrop} />
-                <Dialog.Content className={dialog.modal} aria-describedby={undefined}>
+                <Dialog.Overlay className={modal.backdrop} />
+                <Dialog.Content className={modal.content} aria-describedby={undefined}>
                     <Dialog.Title className="DialogTitle">Edit Note</Dialog.Title>
                     <Dialog.Close asChild>
-                        <button className={dialog.close} aria-label="Close">
+                        <button className={modal.close} aria-label="Close">
                             <Cross2Icon />
                         </button>
                     </Dialog.Close>

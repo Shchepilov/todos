@@ -1,14 +1,26 @@
-.TodoItem {
+.item {
     display: grid;
     grid-template-columns: min-content 1fr;
     align-items: start;
     gap: 10px;
-    padding: 0.5rem 2.5rem 0.5rem 1rem;
-    border: 1px solid #a0a096;
-    border-left-width: 4px;
-    border-radius: 3px;
-    animation: appear 0.2s ease-out;
+    padding: 12px 38px 12px 20px;
+    border: 1px solid var(--black-warm-10);
+    border-radius: 8px;
+    font-weight: 600;
+    animation: appear 0.2s ease;
+    overflow: hidden;
     position: relative;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 10px;
+        background-color: var(--black-warm-10);
+    }
 }
 
 .badge {
@@ -33,20 +45,26 @@
 }
 
 .isToday {
-    color: rgb(255, 75, 75);
-    border-color: rgb(255, 75, 75);
+    color: var(--red-60);
+    border-color: var(--red-60);
 }
 
 [data-priority="3"] {
-    border-left-color: rgb(240, 151, 151);
+    &:before {
+        background-color: var(--red-60);
+    }
 }
 
 [data-priority="2"] {
-    border-left-color: rgb(218, 199, 119);
+    &:before {
+        background-color: var(--yellow-100);
+    }
 }
 
 [data-priority="1"] {
-    border-left-color: rgb(116, 187, 146);
+    &:before {
+        background-color: var(--green-100);
+    }
 }
 
 .TodoItem input {
@@ -74,8 +92,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 39px;
-    height: 39px;
+    width: 38px;
+    height: 46px;
+    padding: 0;
     background: none;
     border: none;
     cursor: pointer;

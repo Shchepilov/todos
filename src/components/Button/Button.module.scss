@@ -1,0 +1,79 @@
+@mixin button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    font-weight: 600;
+    color: #fff;
+    transition: all 0.2s ease;
+
+    &[disabled] {
+        cursor: default;
+        opacity: 0.3;
+    }
+}
+.button {
+    @include button;
+    background: #000;
+    border: none;
+
+    &:hover {
+        background: var(--violet-100);
+    }
+}
+.buttonSecondary {
+    @include button;
+    border: 1px solid var(--black-warm-10);
+    background: #fff;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+.buttonIcon {
+    @include button;
+
+    border-radius: 50%;
+    background: var(--black-warm-off);
+    color: var(--black-warm-20);
+    border: none;
+
+    &.large {
+        width: 100px;
+        height: 100px;
+
+        svg {
+            width: 50px;
+            height: 50px;
+        }
+    }
+
+    &.medium {
+        width: 50px;
+        height: 50px;
+
+        svg {
+            width: 25px;
+            height: 25px;
+        }
+    }
+
+    &.small {
+        width: 30px;
+        height: 30px;
+        padding: 0;
+
+        svg {
+            width: 15px;
+            height: 15px;
+        }
+    }
+
+    &:hover {
+        background: var(--violet-100);
+        color: #fff;
+    }
+}

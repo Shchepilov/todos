@@ -1,12 +1,44 @@
+@use "@styles/functions" as *;
+@use "@styles/mixins" as *;
+
 .container {
+    display: grid;
+    grid-template-columns: min-content 1fr min-content;
+    align-items: center;
     text-align: center;
+    margin-bottom: 24px;
+    width: 70%;
+    justify-self: center;
+
+    @include mobile-only {
+        margin-bottom: 15px;
+    }
 }
-.title {
-    margin: 0 0 1rem;
-}
-.buttons {
+.button {
+    width: 44px;
+    height: 44px;
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    margin-bottom: 20px;
+    border-radius: 50%;
+    background: none;
+    border: none;
+
+    &:hover {
+        background-color: var(--black-warm-off);
+    }
+}
+
+.title {
+    position: relative;
+    font-size: rem(18);
+
+    span {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 0);
+        font-size: rem(12);
+        color: var(--black-warm-40);
+    }
 }

@@ -4,6 +4,7 @@ import { TrashIcon, CalendarIcon, DotsVerticalIcon, Pencil1Icon } from "@radix-u
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import EditForm from "./EditForm";
 import Loader from "@components/Loader/Loader";
+import Modal from "@components/Modal/Modal";
 import styles from "./TodoItem.module.scss";
 import dropdown from '@components/Dropdown/Dropdown.module.scss';
 import dayjs from "dayjs";
@@ -91,17 +92,17 @@ const TodoItem = ({ todo }) => {
                 </DropdownMenu.Portal>
             </DropdownMenu.Root>
 
-            <EditForm
-                content={todo.content}
-                priority={todo.priority}
-                id={todo.id}
-                date={todo.date}
-                dueDate={todo.dueDate}
-                autoMove={todo.autoMove}
-                handleUpdate={handleUpdate}
-                isDialogOpen={isDialogOpen}
-                setIsDialogOpen={setIsDialogOpen}
-            />
+            <Modal heading='Edit Todo' isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
+                <EditForm
+                    content={todo.content}
+                    priority={todo.priority}
+                    id={todo.id}
+                    date={todo.date}
+                    dueDate={todo.dueDate}
+                    autoMove={todo.autoMove}
+                    handleUpdate={handleUpdate}
+                />
+            </Modal>
         </motion.li>
     );
 };

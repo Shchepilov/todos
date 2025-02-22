@@ -6,6 +6,7 @@
         "@features/*": ["features/*"],
         "@store/*": ["store/*"],
         "@styles/*": ["styles/*"],
+        "@assets/*": ["assets/*"]
       }
     },
     "include": ["src"]

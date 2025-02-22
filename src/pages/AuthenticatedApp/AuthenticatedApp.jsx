@@ -9,7 +9,7 @@ import "@styles/global.scss";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import dropdown from '@components/Dropdown/Dropdown.module.scss';
 import styles from './AuthenticatedApp.module.scss';
-import logo from "../../../public/logo.png";
+import logo from '@assets/logo.png';
 
 const AuthenticatedApp = () => {
     const [sliderStyle, setSliderStyle] = useState({});

@@ -3,6 +3,7 @@ import { useStore } from "@store/store"
 import { TrashIcon, DotsVerticalIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import Loader from "@components/Loader/Loader";
+import Modal from "@components/Modal/Modal";
 import EditNote from "./EditForm";
 import styles from "./NoteItem.module.scss";
 import todoItemStyles from "@features/todos/components/TodoItem/TodoItem.module.scss";
@@ -35,7 +36,7 @@ const NoteItem = ({ note }) => {
             layout
             exit={{ opacity: 0, x: 15 }}
             transition={{ duration: 0.2 }}
-            className={styles.item + " " + todoItemStyles.TodoItem}>
+            className={styles.item + " " + todoItemStyles.item}>
             {isLoading && <Loader className={styles.loader} />}
 
             <p>{note.content}</p>
@@ -65,12 +66,13 @@ const NoteItem = ({ note }) => {
                 </DropdownMenu.Portal>
             </DropdownMenu.Root>
 
-            <EditNote 
-                content={note.content} 
-                id={note.id} 
-                handleUpdate={handleUpdate}
-                isDialogOpen={isDialogOpen}
-                setIsDialogOpen={setIsDialogOpen} />
+
+            <Modal heading='Edit Note' isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
+                <EditNote 
+                    content={note.content} 
+                    id={note.id} 
+                    handleUpdate={handleUpdate} />
+            </Modal>
         </motion.li>
     );
 };

@@ -58,8 +58,17 @@ const TodoItem = ({ todo }) => {
                 <div className={styles.badges}>
                     {todo.dueDate && (
                         <span className={badgeClass}>
-                            {isOverdue ? <ClockIcon className={styles.icon} /> : <CalendarIcon />}
-                            <span>{dueDateFormatted}</span>
+                            {isOverdue ? (
+                                    <>
+                                        <ClockIcon className={styles.icon} />
+                                        <span>{dueDateFormatted} - Overdue</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <CalendarIcon />
+                                        <span>{dueDateFormatted}</span>
+                                    </>
+                                )}
                         </span>
                     )}
                     {todo.autoMove && !todo.done && (

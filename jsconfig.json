@@ -6,7 +6,8 @@
         "@features/*": ["features/*"],
         "@store/*": ["store/*"],
         "@styles/*": ["styles/*"],
-        "@assets/*": ["assets/*"]
+        "@assets/*": ["assets/*"],
+        "@baseUrl/*": ["*"]
       }
     },
     "include": ["src"]

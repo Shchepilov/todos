@@ -5,9 +5,9 @@ import Todos from "@features/todos/components/Todos/Todos";
 import Notes from "@features/notes/components/Notes/Notes";
 import Tasks from "@features/tasks/components/Tasks/Tasks";
 import { useStore } from "@store/store";
-import "@styles/global.scss";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { Switch } from "radix-ui";
+import "@styles/global.scss";
 import switcherStyles from'@components/Switcher/Switch.module.scss';
 import dropdown from '@components/Dropdown/Dropdown.module.scss';
 import styles from './AuthenticatedApp.module.scss';
@@ -20,7 +20,7 @@ const AuthenticatedApp = () => {
     const location = useLocation();
     const user = useStore((state) => state.user);
     const signOut = useStore((state) => state.signOut);
-    const removeUserData = useStore((state) => state.removeUserData);
+    const removeAllTodos = useStore((state) => state.removeAllTodos);
     const errorMessage = useStore((state) => state.errorMessage);
     const toggleTheme = useStore((state) => state.toggleTheme);
     const isDarkTheme = useStore((state) => state.theme === 'dark');
@@ -73,12 +73,8 @@ const AuthenticatedApp = () => {
 
                                 <DropdownMenu.Separator className={dropdown.separator} />
 
-                                <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={() => removeUserData("todos")}>
+                                <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={() => removeAllTodos()}>
                                     Clear All Todos
-                                </DropdownMenu.Item>
-
-                                <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={() => removeUserData("notes")}>
-                                    Clear All Notes
                                 </DropdownMenu.Item>
 
                                 <DropdownMenu.Item className={dropdown.item} onSelect={signOut}>

@@ -47,10 +47,12 @@
 
   --site-bg: var(--black-cold-off);
   --dot: #bebebe;  
+
   --header-bg: var(--black-warm-off);
   --aside-bg: #fff;
   --aside-border: var(--black-warm-10);
   --todo-list-bg: #fff;
+  --calendar-weekday-color: var(--black-warm);
 
   /* Forms properties */
   --accent-color: var(--black-warm-80);
@@ -65,6 +67,7 @@
     --todo-list-bg: var(--black-warm-90);
     --accent-color: var(--black-warm-10);
     --primary-text-color: var(--black-warm-off);
+    --calendar-weekday-color: var(--black-warm-20);
 }
 
 /* ======================== Eric Meyer's CSS Reset */

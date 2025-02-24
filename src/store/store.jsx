@@ -12,7 +12,10 @@ export const useStore = create(persist((set, get) => ({
     allTodos: [],
     allNotes: [],
     errorMessage: null,
-
+    theme: 'light',
+    toggleTheme: () => {
+        set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' }));
+    },
     setCurrentDay: (currentDay) => set({ currentDay }),
 
     googleSignIn: async () => {

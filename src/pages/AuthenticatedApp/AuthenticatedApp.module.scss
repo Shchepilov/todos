@@ -6,15 +6,26 @@
     align-items: center;
     align-content: center;
     justify-self: center;
+    padding: 5px 5px 5px 20px;
+    border-radius: 30px;
+    height: 60px;
     width: 100%;
     max-width: 1024px;
     gap: 1rem;
+    background: var(--header-bg);
     position: relative;
+    transition: all 0.2s ease;
 
     @include mobile-only {
         grid-template-columns: 1fr 1fr;
     }
 }
+
+.logoSwitcher {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}   
 
 .logo {
     width: 80px;
@@ -71,6 +82,7 @@
 }
 
 .userName {
+    color: var(--primary-text-color);
     @include mobile-only {
         display: none;
     }
@@ -94,8 +106,8 @@
 }
 
 .userImage {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     overflow: hidden;
 }

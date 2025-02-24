@@ -22,13 +22,14 @@
 
 .aside {
     padding: 24px;
-    border-right: 1px solid var(--black-warm-10);
+    border-right: 1px solid var(--aside-border);
+    background: var(--aside-bg);
 
     @include mobile-only {
         padding: 15px 0 0;
         margin: 0 15px;
         border-right: none;
-        border-bottom: 1px solid var(--black-warm-10);
+        border-bottom: 1px solid var(--aside-border);
     }
 }
 
@@ -36,6 +37,7 @@
     display: grid;
     grid-template-rows: min-content 1fr;
     padding: 20px;
+    background: var(--todo-list-bg);
 
     @include mobile-only {
         padding: 10px;

@@ -11,6 +11,7 @@
     overflow: hidden;
     position: relative;
     box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.25);
+    color: var(--primary-text-color);
 
     &:before {
         content: '';
@@ -110,6 +111,7 @@
     background: none;
     border: none;
     cursor: pointer;
+    color: var(--primary-text-color);
     &:hover {
         color: orange;
     }

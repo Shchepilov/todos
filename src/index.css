@@ -9,6 +9,7 @@
   --black-warm-40: #6C678E;
   --black-warm-60: #6C678E;
   --black-warm-80: #48455F;
+  --black-warm-90: #212224;
   --black-warm: #2D2B3B;
 
   --black-cold-off: #F4F7F7;
@@ -42,9 +43,28 @@
 
   --border-color: var(--black-warm-40);
   --font-family: "Inter Tight", serif;
+  --primary-text-color: var(--black-warm);
+
+  --site-bg: var(--black-cold-off);
+  --dot: #bebebe;  
+  --header-bg: var(--black-warm-off);
+  --aside-bg: #fff;
+  --aside-border: var(--black-warm-10);
+  --todo-list-bg: #fff;
 
   /* Forms properties */
   --accent-color: var(--black-warm-80);
+}
+
+[data-theme="dark"] {
+    --site-bg: var(--black-cold-80);
+    --dot: #6b6b6b;
+    --header-bg: var(--black-warm-90);
+    --aside-bg: #2A2C31;
+    --aside-border: #2A2C31;
+    --todo-list-bg: var(--black-warm-90);
+    --accent-color: var(--black-warm-10);
+    --primary-text-color: var(--black-warm-off);
 }
 
 /* ======================== Eric Meyer's CSS Reset */
@@ -104,8 +124,7 @@ ul,ol {
 
 body {
   font-family: var(--font-family);
-  background: #E4E8ED radial-gradient(rgb(190, 190, 190) 1px, transparent 5%) repeat 0 0 / 50px 50px; /* Adjust the size of the dots */
-  color: var(--black-warm);
+  color: var(--primary-text-color);
   scrollbar-width: thin; /* Options: auto, thin, none */
   scrollbar-color: #888 #fff; /* thumb color and track color */
 }

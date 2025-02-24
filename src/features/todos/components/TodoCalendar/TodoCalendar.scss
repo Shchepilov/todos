@@ -5,13 +5,18 @@
     width: 100%;
     border: none;
     font-family: var(--font-family);
-
+    background: var(--aside-bg);
+    
+    &__tile {
+        color: var(--primary-text-color);
+    }
+    
     &__month-view__days__day {
         border-radius: 50%;
         aspect-ratio: 1;
 
         &--weekend {
-            color: initial;
+            color: var(--primary-text-color);
         }
 
         &.react-calendar__tile--active:enabled:hover, 
@@ -32,10 +37,12 @@
             justify-content: center;
             border-radius: 50%;
             aspect-ratio: 1;
+            color: var(--primary-text-color);
         }
 
         &__label {
             border-radius: 22px;
+            color: var(--primary-text-color);
         }
 
         &__label__labelText {

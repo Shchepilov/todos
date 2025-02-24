@@ -7,9 +7,12 @@ import Tasks from "@features/tasks/components/Tasks/Tasks";
 import { useStore } from "@store/store";
 import "@styles/global.scss";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { Switch } from "radix-ui";
+import switcherStyles from'@components/Switcher/Switch.module.scss';
 import dropdown from '@components/Dropdown/Dropdown.module.scss';
 import styles from './AuthenticatedApp.module.scss';
 import logo from '@assets/logo.png';
+import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 
 const AuthenticatedApp = () => {
     const [sliderStyle, setSliderStyle] = useState({});
@@ -19,6 +22,8 @@ const AuthenticatedApp = () => {
     const signOut = useStore((state) => state.signOut);
     const removeUserData = useStore((state) => state.removeUserData);
     const errorMessage = useStore((state) => state.errorMessage);
+    const toggleTheme = useStore((state) => state.toggleTheme);
+    const isDarkTheme = useStore((state) => state.theme === 'dark');
     
     useEffect(() => {
         const activeLink = navRef.current.querySelector(`.${styles.active}`);
@@ -33,9 +38,16 @@ const AuthenticatedApp = () => {
     return (
         <>
             <header className={styles.header}>
-                <h1 className={styles.title}>
-                    <img src={logo} className={styles.logo} alt="ACT" />
-                </h1>
+                <div className={styles.logoSwitcher}>
+                    <h1 className={styles.title}>
+                        <img src={logo} className={styles.logo} alt="ACT" />
+                    </h1>
+                    <Switch.Root className={switcherStyles.wrapper} onCheckedChange={toggleTheme} checked={isDarkTheme}>
+                        <SunIcon className={switcherStyles.icon}/>
+                        <Switch.Thumb className={switcherStyles.switcher} />
+                        <MoonIcon className={switcherStyles.icon}/>
+                    </Switch.Root>
+                </div>
 
                 <nav ref={navRef} className={styles.nav}>
                     <span className={styles.slider} style={{ ...sliderStyle }}/>
@@ -45,8 +57,6 @@ const AuthenticatedApp = () => {
                 </nav>
 
                 <div className={styles.user}>
-                    
-
                     <DropdownMenu.Root>
                         <DropdownMenu.Trigger asChild>
                             <button className={styles.userTrigger}>

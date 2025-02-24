@@ -9,11 +9,13 @@
     margin-bottom: 24px;
     width: 70%;
     justify-self: center;
+    color: var(--primary-text-color);
 
     @include mobile-only {
         margin-bottom: 15px;
     }
 }
+
 .button {
     width: 44px;
     height: 44px;
@@ -23,6 +25,7 @@
     border-radius: 50%;
     background: none;
     border: none;
+    color: var(--primary-text-color);
 
     &:hover {
         background-color: var(--black-warm-off);

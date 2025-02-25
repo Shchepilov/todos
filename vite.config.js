@@ -10,7 +10,9 @@ export default defineConfig({
       '@features': path.resolve(__dirname, 'src/features'),
       '@store': path.resolve(__dirname, 'src/store'),
       '@styles': path.resolve(__dirname, 'src/styles'),
-      '@assets': path.resolve(__dirname, 'src/assets')
+      '@assets': path.resolve(__dirname, 'src/assets'),
+      '@layout': path.resolve(__dirname, 'src/layout'),
+      '@baseUrl': path.resolve(__dirname, 'src/')
     }
   },
   plugins: [

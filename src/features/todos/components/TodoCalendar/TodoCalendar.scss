@@ -1,28 +1,72 @@
 @use "@styles/functions" as *;
 
+:root {
+    --day-hover-bg: var(--black-warm-10);
+    --calendar-weekday-color: var(--black-warm-100);
+}
+
+[data-theme="dark"] {
+    --day-hover-bg: var(--black-warm-40);
+    --calendar-weekday-color: var(--black-warm-20);
+}
+
 .react-calendar {
     border-radius: 3px;
     width: 100%;
     border: none;
     font-family: var(--font-family);
+    background: var(--aside-bg);
+    
+    &__tile {
+        color: var(--primary-text-color);
+        transition: all 0.2s ease;
 
+        &:enabled:hover,
+        &:enabled:focus {
+            background: var(--day-hover-bg);
+        }
+
+        &--now {
+            background: var(--violet-60);
+            color: var(--black-warm-off);
+            
+            &:enabled:hover,
+            &:enabled:focus {
+                background: var(--violet-100);
+            }
+        }
+    }
+    
     &__month-view__days__day {
         border-radius: 50%;
         aspect-ratio: 1;
 
         &--weekend {
-            color: initial;
+            color: var(--primary-text-color);
         }
 
         &.react-calendar__tile--active:enabled:hover, 
         &.react-calendar__tile--active:enabled:focus {
-            background-color: var(--violet-100);
+            background-color: var(--violet-80);
+        }
+    }
+
+    &__month-view__weekdays__weekday {
+        abbr {
+            text-decoration: none;
+            color: var(--calendar-weekday-color);
+            font-size: rem(10);
         }
     }
 
     &__tile--active {
-        background-color: var(--violet-100);
+        background-color: var(--violet-80);
         color: #fff;
+
+        &:hover,
+        &:focus {
+            background-color: var(--day-hover-bg);
+        }
     }
 
     &__navigation {
@@ -32,15 +76,27 @@
             justify-content: center;
             border-radius: 50%;
             aspect-ratio: 1;
+            color: var(--primary-text-color);
         }
 
         &__label {
             border-radius: 22px;
+            color: var(--primary-text-color);
         }
 
         &__label__labelText {
             font-family: var(--font-family);
             font-size: rem(18);
+        }
+
+        button {
+            transition: all 0.2s ease;
+        }
+
+        button:enabled:hover, 
+        button:enabled:focus {
+            background: none;
+            color: var(--violet-60);
         }
     }
 }

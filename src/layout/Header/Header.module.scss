@@ -1,65 +1,95 @@
 @use "@styles/mixins" as *;
 
+:root {
+    --header-bg: #fff;
+    --nav-item: var(--black-warm-40);
+    --nav-item-active: var(--black-warm-90);
+}
+
+[data-theme="dark"] {
+    --header-bg: var(--black-warm-90);
+    --nav-item: var(--black-warm-60);
+    --nav-item-active: var(--black-warm-off);
+}
+
 .header {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     align-items: center;
     align-content: center;
     justify-self: center;
+    padding: 5px 7px 5px 20px;
+    border-radius: 30px;
+    height: 60px;
     width: 100%;
     max-width: 1024px;
     gap: 1rem;
+    background: var(--header-bg);
     position: relative;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
 
     @include mobile-only {
-        grid-template-columns: 1fr 1fr;
+        height: 48px;
+        padding: 5px 8px 5px 16px;
     }
 }
 
+.logoSwitcher {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}   
+
 .logo {
     width: 80px;
+
+    @include mobile-only {
+        width: 35px;
+    }
+
+    [data-theme="dark"] & {
+        filter: invert(1);
+    }
 }
 
 .nav {
     display: inline-flex;
-    justify-content: center;
+    justify-content: stretch;
     justify-self: center;
-    border: 1px solid #F4F7F7;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+    align-self: stretch;
+    margin: -6px 0;
+    gap: 25px;
     text-align: center;
-    overflow: hidden;
     position: relative;
 
     a {
+        display: flex;
+        align-items: center;
         flex-grow: 1;
-        padding: 7px 30px;
+        padding: 0;
         text-decoration: none;
-        color: #000;
+        color: var(--nav-item);
         transition: all 0.2s ease;
         position: relative;
         line-height: 1;
     }
 
     .active {
-        color: #fff;
+        color: var(--nav-item-active);
         z-index: 1;
     }
 
     @include mobile-only {
-        grid-column: span 2;
-        order: 3;
-        justify-self: normal;
+        margin: -8px 0;
     }
 }
 
 .slider {
     position: absolute;
     bottom: 0;
-    height: 100%;
-    border-radius: 7px;
-    background: #363332;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--violet-60);
     transition: all 0.2s ease;
 }
 
@@ -71,6 +101,7 @@
 }
 
 .userName {
+    color: var(--primary-text-color);
     @include mobile-only {
         display: none;
     }
@@ -94,8 +125,13 @@
 }
 
 .userImage {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     overflow: hidden;
+
+    @include mobile-only {
+        width: 32px;
+        height: 32px;
+    }
 }

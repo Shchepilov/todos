@@ -1,6 +1,6 @@
 import { useState, memo } from "react";
 import { useStore } from "@store/store";
-import { TrashIcon, CalendarIcon, DotsVerticalIcon, Pencil1Icon } from "@radix-ui/react-icons";
+import { TrashIcon, CalendarIcon, DotsVerticalIcon, Pencil1Icon, ReloadIcon, ClockIcon } from "@radix-ui/react-icons";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import EditForm from "./EditForm";
 import Loader from "@components/Loader/Loader";
@@ -42,7 +42,9 @@ const TodoItem = ({ todo }) => {
     return (
         <motion.li
             key={todo.id}
-            
+            layout
+            exit={{ opacity: 0, x: 15 }}
+            transition={{ duration: 0.2 }}
             data-priority={todo.priority}
             className={styles.item}
         >
@@ -56,10 +58,25 @@ const TodoItem = ({ todo }) => {
                 <div className={styles.badges}>
                     {todo.dueDate && (
                         <span className={badgeClass}>
-                            Due date: {dueDateFormatted} {isOverdue && '- OVERDUE'}
+                            {isOverdue ? (
+                                    <>
+                                        <ClockIcon className={styles.icon} />
+                                        <span>{dueDateFormatted} - Overdue</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <CalendarIcon />
+                                        <span>{dueDateFormatted}</span>
+                                    </>
+                                )}
                         </span>
                     )}
-                    {todo.autoMove && !todo.done && <span className={styles.badge} >Auto move to next day</span>}
+                    {todo.autoMove && !todo.done && (
+                        <span className={styles.badge}>
+                            <ReloadIcon className={styles.icon} />
+                            <span>Automove</span>
+                        </span>
+                    )}
                 </div>
             </div>
 

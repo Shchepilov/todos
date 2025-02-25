@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { useStore } from "@store/store";
-import Modal from "@components/Modal/Modal";
-import TodoForm from "../TodoForm/TodoForm";
-import Loader from "@components/Loader/Loader";
-import TodoItem from "../TodoItem/TodoItem";
-import Button from "@components/Button/Button";
 import { PlusIcon } from "@radix-ui/react-icons";
-import styles from "./TodoList.module.scss";
 import { AnimatePresence } from "framer-motion";
+import { useStore } from "@store/store";
+import TodoForm from "../TodoForm/TodoForm";
+import TodoItem from "../TodoItem/TodoItem";
+import Loader from "@components/Loader/Loader";
+import Modal from "@components/Modal/Modal";
+import Button from "@components/Button/Button";
+import styles from "./TodoList.module.scss";
 
 const TodoList = () => {
     const user = useStore((state) => state.user);

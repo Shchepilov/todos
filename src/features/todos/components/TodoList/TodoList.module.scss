@@ -4,6 +4,25 @@
 .TodoListContainer {
     display: grid;
     position: relative;
+
+    .addButtonSmall {
+        position: absolute;
+        top: 22px;
+        right: 25px;
+        width: 35px;
+        height: 35px;
+        background: var(--violet-80);
+        color: #fff;
+        z-index: 1;
+
+        &:hover {
+            background: var(--violet-100);
+        }
+    
+        @include mobile-only {
+            top: 12px;
+        }
+    }
 }
 
 .loader {
@@ -21,10 +40,11 @@
     grid-auto-rows: min-content;
     align-content: start;
     gap: 1rem;
-    padding: 5px;
+    padding: 80px 5px 10px;
 
     @include tablet-up {
-        max-height: calc(65vh - 115px);    
+        max-height: 65vh;
+        padding: 90px 20px 24px;
         overflow-y: auto;
     }
 }
@@ -32,22 +52,7 @@
 .addButton {
     width: 50px;
     height: 50px;
-}
-
-.addButtonSmall {
-    position: absolute;
-    right: 5px;
-    bottom: calc(100% + 30px);
-    background: var(--violet-100);
-    color: #fff;
-
-    &:hover {
-        background: var(--violet-80);
-    }
-
-    @include mobile-only {
-        bottom: calc(100% + 22px);
-    }
+    border: 1px solid var(--black-warm-20);
 }
 
 .noTodos {
@@ -57,7 +62,6 @@
     gap: 20px;
     transform: translateY(-30px);
     text-align: center;
-    font-weight: 600;
     color: var(--black-warm-60);
     font-size: rem(18);
 

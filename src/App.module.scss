@@ -5,17 +5,10 @@
     grid-template-rows: min-content 1fr;
     padding: 24px 10px 10px;
     min-height: 100vh;
+    background: var(--site-bg) radial-gradient(var(--dot) 1px, transparent 5%) repeat 0 0 / 50px 50px;
 
     @include mobile-only {
         padding: 10px;
         gap: 1rem;
     }
 }
-
-.errorMessage {
-    margin-bottom: 1rem;
-    color: red;
-}
-
-
-

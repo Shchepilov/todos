@@ -29,6 +29,7 @@
 
     @include mobile-only {
         grid-template-columns: 1fr;
+        grid-template-rows: min-content 1fr;
         height: auto;
         align-content: start;
         align-self: stretch;
@@ -53,7 +54,7 @@
     position: relative;
 
     @include mobile-only {
-        grid-template-rows: min-content 1fr;
+        grid-template-rows: 1fr;
         padding: 10px;
     }
 }

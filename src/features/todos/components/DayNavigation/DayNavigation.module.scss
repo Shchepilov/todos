@@ -27,6 +27,10 @@
     backdrop-filter: blur(12px);
     background: rgba(var(--glass-bg), 0.6);
     z-index: 1;
+
+    @include mobile-only {
+        background: none;
+    }
 }
 
 .button {

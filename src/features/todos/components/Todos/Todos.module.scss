@@ -1,5 +1,18 @@
 @use "@styles/mixins" as *;
 
+:root {
+    --layout-todos-border: var(--black-warm-off);
+    --layout-todos-bg: #fff;
+    --aside-border: var(--black-warm-10);
+}
+
+[data-theme="dark"] {
+    --layout-todos-border: var(--black-warm-60);
+    --layout-todos-bg: var(--black-warm-80);
+    --aside-border: var(--black-warm-80);
+    --todo-list-bg: var(--black-warm-90);
+}
+
 .layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -7,12 +20,15 @@
     justify-self: center;
     align-content: stretch;
     border-radius: 24px;
+    background: var(--layout-todos-bg);
+    border: 1px solid var(--layout-todos-border);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     max-width: 915px;
     height: 65vh;
+    overflow: hidden;
 
     @include mobile-only {
-        grid-template-columns: 100%;
+        grid-template-columns: 1fr;
         height: auto;
         align-content: start;
         align-self: stretch;
@@ -20,12 +36,11 @@
 }
 
 .aside {
-    padding: 24px;
+    padding: 18px 24px 24px;
     border-right: 1px solid var(--aside-border);
-    background: var(--aside-bg);
 
     @include mobile-only {
-        padding: 15px 0 0;
+        padding: 15px 0 20px;
         margin: 0 15px;
         border-right: none;
         border-bottom: 1px solid var(--aside-border);
@@ -34,11 +49,11 @@
 
 .main {
     display: grid;
-    grid-template-rows: min-content 1fr;
-    padding: 20px;
     background: var(--todo-list-bg);
+    position: relative;
 
     @include mobile-only {
+        grid-template-rows: min-content 1fr;
         padding: 10px;
     }
 }

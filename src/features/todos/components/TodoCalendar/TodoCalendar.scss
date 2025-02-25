@@ -1,5 +1,15 @@
 @use "@styles/functions" as *;
 
+:root {
+    --day-hover-bg: var(--black-warm-10);
+    --calendar-weekday-color: var(--black-warm-100);
+}
+
+[data-theme="dark"] {
+    --day-hover-bg: var(--black-warm-40);
+    --calendar-weekday-color: var(--black-warm-20);
+}
+
 .react-calendar {
     border-radius: 3px;
     width: 100%;
@@ -9,9 +19,21 @@
     
     &__tile {
         color: var(--primary-text-color);
+        transition: all 0.2s ease;
+
+        &:enabled:hover,
+        &:enabled:focus {
+            background: var(--day-hover-bg);
+        }
 
         &--now {
-            background: var(--violet-80);
+            background: var(--violet-60);
+            color: var(--black-warm-off);
+            
+            &:enabled:hover,
+            &:enabled:focus {
+                background: var(--violet-100);
+            }
         }
     }
     
@@ -25,7 +47,7 @@
 
         &.react-calendar__tile--active:enabled:hover, 
         &.react-calendar__tile--active:enabled:focus {
-            background-color: var(--violet-100);
+            background-color: var(--violet-80);
         }
     }
 
@@ -38,8 +60,13 @@
     }
 
     &__tile--active {
-        background-color: var(--violet-100);
+        background-color: var(--violet-80);
         color: #fff;
+
+        &:hover,
+        &:focus {
+            background-color: var(--day-hover-bg);
+        }
     }
 
     &__navigation {
@@ -60,6 +87,16 @@
         &__label__labelText {
             font-family: var(--font-family);
             font-size: rem(18);
+        }
+
+        button {
+            transition: all 0.2s ease;
+        }
+
+        button:enabled:hover, 
+        button:enabled:focus {
+            background: none;
+            color: var(--violet-60);
         }
     }
 }

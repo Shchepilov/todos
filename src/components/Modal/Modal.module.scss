@@ -9,6 +9,7 @@
     padding: 10px;
     background: rgba(0, 0, 0, 0.5);
     animation: overlayShow 0.2s ease;
+    z-index: 5;
 }
 
 .content {
@@ -21,6 +22,7 @@
     background: white;
     padding: 20px;
     animation: contentShow 0.2s ease;
+    z-index: 6;
 
     @media screen and (min-width: 768px) {
         width: clamp(300px, 400px, 800px);

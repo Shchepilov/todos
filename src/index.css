@@ -4,22 +4,18 @@
   --violet-60: #A871FF;
   --violet-20: #EFE5FF;
   
-  --black-warm-off: #FAF9FE ;
-  --black-warm-10: #E8E7EE;
-  --black-warm-20: #AFACC3;
-  --black-warm-40: #6C678E;
-  --black-warm-60: #6C678E;
-  --black-warm-80: #48455F;
+  --black-warm-off: #F4F7F7;
+  --black-warm-5: #E4E7E7;
+  --black-warm-10: #C9CBCF;
+  --black-warm-20: #A1A3AD;
+  --black-warm-30: #858893;
+  --black-warm-40: #7A7D87;
+  --black-warm-50: #636670;
+  --black-warm-60: #575960;
+  --black-warm-70: #3B3F46;
+  --black-warm-80: #303236;
   --black-warm-90: #212224;
-  --black-warm: #2D2B3B;
-
-  --black-cold-off: #F4F7F7;
-  --black-cold-10: #C9CBCF;
-  --black-cold-20: #94969E;
-  --black-cold-40: #7A7D87;
-  --black-cold-60: #575960;
-  --black-cold-80: #303236;
-  --black-cold: #303236;
+  --black-warm-100: #131415;
 
   --green-100: #48E16D;
   --green-80: #81F39C;
@@ -45,27 +41,18 @@
   --border-color: var(--black-warm-40);
   --font-family: "Inter Tight", serif;
   --primary-text-color: var(--black-warm);
-
-  --site-bg: var(--black-cold-off);
-  --dot: #bebebe;  
-
-  --header-bg: var(--black-warm-off);
-  --aside-bg: #fff;
-  --aside-border: var(--black-warm-10);
-  --todo-list-bg: #fff;
+  --site-bg: var(--black-warm-off);
+  --dot: #bebebe;
+  --scrollbar-thumb: var(--black-warm-10);
+  
   --calendar-weekday-color: var(--black-warm);
-
-  /* Forms properties */
   --accent-color: var(--black-warm-80);
 }
 
 [data-theme="dark"] {
-    --site-bg: var(--black-cold-80);
+    --site-bg: var(--black-warm-80);
     --dot: #6b6b6b;
-    --header-bg: var(--black-warm-90);
-    --aside-bg: #2A2C31;
-    --aside-border: #2A2C31;
-    --todo-list-bg: var(--black-warm-90);
+    --scrollbar-thumb: var(--black-warm-60);
     --accent-color: var(--black-warm-10);
     --primary-text-color: var(--black-warm-off);
     --calendar-weekday-color: var(--black-warm-20);
@@ -129,8 +116,6 @@ ul,ol {
 body {
   font-family: var(--font-family);
   color: var(--primary-text-color);
-  scrollbar-width: thin; /* Options: auto, thin, none */
-  scrollbar-color: #888 #fff; /* thumb color and track color */
 }
 
 p {
@@ -143,23 +128,16 @@ button {
 
 /* The entire scrollbar */
 ::-webkit-scrollbar {
-  width: 12px;
-  height: 12px; /* For horizontal scrollbars */
+  width: 5px;
 }
 
 /* The track (background) of the scrollbar */
-::-webkit-scrollbar-track {
-  background: #fff;
-}
+/* ::-webkit-scrollbar-track {
+  background: var(--aside-bg);
+} */
 
 /* The draggable thumb */
 ::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 10px;
-  border: 3px solid #fff;
-}
-
-/* Optional: Change thumb on hover */
-::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
+  background-color: var(--scrollbar-thumb);
+  border-radius: 3px;
 }

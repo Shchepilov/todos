@@ -72,19 +72,19 @@
 
 [data-priority="3"] {
     &:before {
-        background-color: var(--red-60);
+        background-color: var(--pink-80);
     }
 }
 
 [data-priority="2"] {
     &:before {
-        background-color: var(--yellow-100);
+        background-color: var(--yellow-80);
     }
 }
 
 [data-priority="1"] {
     &:before {
-        background-color: var(--green-100);
+        background-color: var(--green-60);
     }
 }
 

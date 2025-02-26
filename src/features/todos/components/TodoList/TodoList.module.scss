@@ -36,11 +36,13 @@
 
 .loader {
     position: absolute;
-    bottom: calc(100% + 35px);
-    left: 0;
+    top: 32px;
+    left: 24px;
+    z-index: 1;
 
     @include mobile-only {
-        bottom: calc(100% + 25px);
+        top: 22px;
+        left: 10px;
     }
 }
 

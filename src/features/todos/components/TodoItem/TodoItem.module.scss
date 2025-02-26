@@ -34,6 +34,12 @@
     }
 }
 
+.loading:before {
+    background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.25) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.25) 50%, rgba(0, 0, 0, 0.25) 75%, transparent 75%, transparent);
+    background-size: 1em 1em;
+    animation: verticalStripe 1s linear infinite;
+}
+
 .badge {
     display: inline-flex;
     align-items: center;
@@ -72,7 +78,7 @@
 
 [data-priority="3"] {
     &:before {
-        background-color: var(--pink-80);
+        background-color: var(--pink-40);
     }
 }
 
@@ -134,7 +140,7 @@
 .loader {
     position: absolute;
     bottom: 10px;
-    left: 10px;
+    left: 18px;
 }
 
 @keyframes appear {
@@ -147,4 +153,12 @@
         transform: translateY(0);
     }
 }
-  
+
+@keyframes verticalStripe {
+    0% {
+        background-position: 0 1em;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}

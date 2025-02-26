@@ -52,7 +52,7 @@
 .icon {
     position: absolute;
     top: 50%;
-    left: 10px;
+    left: 9px;
     width: 16px;
     height: 16px;
     transform: translateY(-50%);
@@ -60,6 +60,6 @@
 
     &:last-child {
         left: auto;
-        right: 10px;
+        right: 8px;
     }
 }

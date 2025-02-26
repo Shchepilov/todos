@@ -4,12 +4,20 @@
     --header-bg: #fff;
     --nav-item: var(--black-warm-40);
     --nav-item-active: var(--black-warm-90);
+    --header-border: var(--black-warm-5);
+    --slider-todos-bg: var(--violet-60);
+    --slider-notes-bg: var(--yellow-100);
+    --slider-tasks-bg: var(--pink-60);
 }
 
 [data-theme="dark"] {
     --header-bg: var(--black-warm-90);
     --nav-item: var(--black-warm-60);
     --nav-item-active: var(--black-warm-off);
+    --header-border: var(--black-warm-70);
+    --slider-todos-bg: var(--violet-40);
+    --slider-notes-bg: var(--yellow-60);
+    --slider-tasks-bg: var(--pink-40);
 }
 
 .header {
@@ -25,6 +33,7 @@
     max-width: 1024px;
     gap: 1rem;
     background: var(--header-bg);
+    border: 1px solid var(--header-border);
     position: relative;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
 
@@ -89,8 +98,16 @@
     bottom: 0;
     height: 2px;
     border-radius: 2px;
-    background: var(--violet-60);
+    background: var(--slider-todos-bg);
     transition: all 0.2s ease;
+
+    &[data-page="notes"] {
+        background: var(--slider-notes-bg);
+    }
+
+    &[data-page="tasks"] {
+        background: var(--slider-tasks-bg);
+    }
 }
 
 .user {

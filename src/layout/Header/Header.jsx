@@ -14,6 +14,7 @@ import styles from './Header.module.scss';
 
 const Header = () => {
     const [sliderStyle, setSliderStyle] = useState({});
+    const [pageLink, setPageLink] = useState('');
     const navRef = useRef(null);
     const location = useLocation();
     const user = useStore((state) => state.user);
@@ -27,6 +28,8 @@ const Header = () => {
         if (activeLink) {
             document.fonts.ready.then(() => {
                 const { offsetLeft, offsetWidth } = activeLink;
+                
+                setPageLink(activeLink.href.split('/').pop());
                 setSliderStyle({ left: offsetLeft, width: offsetWidth });
             });  
         }
@@ -40,7 +43,7 @@ const Header = () => {
                 </h1>
 
                 <nav ref={navRef} className={styles.nav}>
-                    <span className={styles.slider} style={{ ...sliderStyle }}/>
+                    <span className={styles.slider} data-page={pageLink} style={{ ...sliderStyle }}/>
                     <NavLink to="/todos" className={({isActive}) => (isActive ? styles.active : null)}>Todos</NavLink>
                     <NavLink to="/notes" className={({isActive}) => (isActive ? styles.active : null)}>Notes</NavLink>
                     <NavLink to="/tasks" className={({isActive}) => (isActive ? styles.active : null)}>Tasks</NavLink>

@@ -19,18 +19,40 @@ const TodoItem = ({ todo }) => {
     const currentDay = useStore((state) => state.currentDay);
     const day = dayjs(currentDay).format("YYYY-MM-DD");
 
-    const update = async (id, data) => {
+    const handleUpdate = async (id, content, priority, date, dueDate, autoMove) => {
         setIsLoading(true);
-        await updateTodo(id, data);
-        setIsLoading(false);
+        try {
+            await updateTodo(id, { content, priority, date, dueDate: dueDate, autoMove });
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    const handleUpdate = (id, content, priority, date, dueDate, autoMove) => {
-        update(id, { content, priority, date, dueDate: dueDate, autoMove });
+    const handleStatusChange = async () => {
+        setIsLoading(true);
+        try {
+            await updateTodo(todo.id, { done: !todo.done });
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    const handleStatusChange = () => {
-        update(todo.id, { done: !todo.done });
+    const handleDeleteTodo = async () => {
+        setIsLoading(true);
+        try {
+            await deleteTodo(todo.id);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleMoveToNextDay = async () => {
+        setIsLoading(true);
+        try {
+            await moveToNextDay(todo.id);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const isOverdue = dayjs(todo.dueDate).isBefore(dayjs(day));
@@ -38,6 +60,7 @@ const TodoItem = ({ todo }) => {
     const badgeClass = isOverdue || isToday ? styles.isToday + " " + styles.badge : styles.badge;
     const timestampFormatted = dayjs(new Date(todo.timestamp.seconds * 1000)).format("MMM D, YYYY");
     const dueDateFormatted = dayjs(todo.dueDate).format("MMM D");
+    const classes = isLoading ? styles.item + " " + styles.loading : styles.item;
 
     return (
         <motion.li
@@ -46,10 +69,9 @@ const TodoItem = ({ todo }) => {
             exit={{ opacity: 0, x: 15 }}
             transition={{ duration: 0.2 }}
             data-priority={todo.priority}
-            className={styles.item}
+            className={classes}
         >
-            {isLoading && <Loader className={styles.loader} />}
-
+            
             <input type="checkbox" checked={todo.done} onChange={handleStatusChange} />
 
             <div className={styles.Content}>
@@ -98,11 +120,11 @@ const TodoItem = ({ todo }) => {
                             <Pencil1Icon /> Edit
                         </DropdownMenu.Item>
 
-                        <DropdownMenu.Item className={dropdown.item} onSelect={() => moveToNextDay(todo.id)}>
+                        <DropdownMenu.Item className={dropdown.item} onSelect={handleMoveToNextDay}>
                             <CalendarIcon /> Move to next day
                         </DropdownMenu.Item>
 
-                        <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={() => deleteTodo(todo.id)}>
+                        <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={handleDeleteTodo}>
                             <TrashIcon /> Delete
                         </DropdownMenu.Item>
                     </DropdownMenu.Content>

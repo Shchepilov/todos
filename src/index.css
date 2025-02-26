@@ -121,6 +121,7 @@ ul,ol {
 body {
   font-family: var(--font-family);
   color: var(--primary-text-color);
+  font-weight: 500;
 }
 
 p {

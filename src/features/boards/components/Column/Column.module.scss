@@ -1,0 +1,16 @@
+.column {
+    display: grid;
+    align-content: start;
+    gap: 1rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--header-bg);
+    color: var(--primary-text-color);
+    border-radius: 0.25rem;
+    padding: 1rem;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}

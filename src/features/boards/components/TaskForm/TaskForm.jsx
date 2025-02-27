@@ -1,19 +1,29 @@
-import forms from "@styles/Forms.module.scss";
+import { useRef } from "react";
+import { useStore } from "@store/store";
 import styles from './TaskForm.module.scss';
 
-const TaskForm = () => {
+const TaskForm = ({ columnId, boardId }) => {
+    const addTask = useStore((state) => state.addTask);
+    const titleRef = useRef();
+
+    const handleAddTask = () => {
+        
+        const title = titleRef.current.value;
+
+        if (!title) return;
+
+        addTask(boardId, columnId, { title });
+        titleRef.current.value = "";
+    }
+
     return (
         <div className={styles.TaskForm}>
-            <form className={forms.form} onSubmit={(e) => e.preventDefault()}>
-                <div className={forms.formLabel}>
-                    <label>Title</label>
+            <form onSubmit={(e) => e.preventDefault()}>
+                <div>
+                    <input type="text" ref={titleRef} placeholder="Title"/>
                 </div>
 
-                <div className={forms.formField}>
-                    <input type="text" placeholder="Title"/>
-                </div>
-
-                <div className={forms.formLabel}>
+                {/* <div className={forms.formLabel}>
                     <label>Description</label>
                 </div>
 
@@ -73,10 +83,10 @@ const TaskForm = () => {
                 <div className={forms.formField}>
                     <input type="text" placeholder="1h 15m" />
                     <input type="checkbox" />
-                </div>
+                </div> */}
 
-                <div className={forms.emptyLabel}>
-                    <button type="submit">Add Task</button>
+                <div>
+                    <button onClick={handleAddTask}>Add Task</button>
                 </div>
             </form>
         </div>

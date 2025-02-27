@@ -46,7 +46,7 @@ const Header = () => {
                     <span className={styles.slider} data-page={pageLink} style={{ ...sliderStyle }}/>
                     <NavLink to="/todos" className={({isActive}) => (isActive ? styles.active : null)}>Todos</NavLink>
                     <NavLink to="/notes" className={({isActive}) => (isActive ? styles.active : null)}>Notes</NavLink>
-                    <NavLink to="/tasks" className={({isActive}) => (isActive ? styles.active : null)}>Tasks</NavLink>
+                    <NavLink to="/boards" className={({isActive}) => (isActive ? styles.active : null)}>Boards</NavLink>
                 </nav>
 
                 <div className={styles.user}>

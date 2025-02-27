@@ -1,0 +1,14 @@
+.nav {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    a {
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+
+    .active {
+        text-decoration: underline;
+    }
+}

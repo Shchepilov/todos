@@ -2,10 +2,12 @@
     display: grid;
     align-content: start;
     gap: 1rem;
-    border: 1px solid var(--border-color);
+    
+    flex-basis: 33%;
+    border: 1px solid var(--layout-boards-border);
     background-color: var(--header-bg);
     color: var(--primary-text-color);
-    border-radius: 0.25rem;
+    border-radius: 6px;
     padding: 1rem;
 }
 .header {

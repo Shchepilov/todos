@@ -61,7 +61,9 @@ export const useBoardsStore = (set, get) => ({
     deleteBoard: async (id) => {
         try {
             await deleteDoc(doc(db, "boards", id));
-            get().fetchBoards();
+            await get().deleteAllColumns(id);
+            await get().deleteAllBoardTasks(id);
+            await get().fetchBoards();
         } catch (error) {
             throw new Error(error.message);
         }
@@ -122,9 +124,26 @@ export const useBoardsStore = (set, get) => ({
         }
     },
 
-    removeColumn: async (columnId, boardId) => {
+    deleteColumn: async (columnId, boardId) => {
         try {
             await deleteDoc(doc(db, "columns", columnId));
+            await get().deleteAllColumnTasks(columnId);
+            await get().fetchBoardData(boardId);
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    },
+
+    deleteAllColumns: async (boardId) => {
+        try {
+            const columnsQuery = query(
+                collection(db, "columns"),
+                where("boardId", "==", boardId)
+            );
+            const columnsSnapshot = await getDocs(columnsQuery);
+            columnsSnapshot.forEach(async (doc) => {
+                await deleteDoc(doc.ref);
+            });
             await get().fetchBoardData(boardId);
         } catch (error) {
             throw new Error(error.message);
@@ -154,10 +173,40 @@ export const useBoardsStore = (set, get) => ({
         }
     },
 
-    removeTask: async (taskId, boardId) => {
+    deleteTask: async (taskId, boardId) => {
         try {
             await deleteDoc(doc(db, "tasks", taskId));
             await get().fetchBoardData(boardId);
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    },
+
+    deleteAllColumnTasks: async (columnId) => {
+        try {
+            const tasksQuery = query(
+                collection(db, "tasks"),
+                where("columnId", "==", columnId)
+            );
+            const tasksSnapshot = await getDocs(tasksQuery);
+            tasksSnapshot.forEach(async (doc) => {
+                await deleteDoc(doc.ref);
+            });
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    },
+
+    deleteAllBoardTasks: async (boardId) => {
+        try {
+            const tasksQuery = query(
+                collection(db, "tasks"),
+                where("boardId", "==", boardId)
+            );
+            const tasksSnapshot = await getDocs(tasksQuery);
+            tasksSnapshot.forEach(async (doc) => {
+                await deleteDoc(doc.ref);
+            });
         } catch (error) {
             throw new Error(error.message);
         }

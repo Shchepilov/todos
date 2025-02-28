@@ -11,14 +11,12 @@ const Columns = ({boardId}) => {
         fetchBoardData(boardId);
     }, []);
 
-    return ( 
-        <>
-            <div className={styles.columns}>
-                {columns && columns.map((column) => (
-                    <Column key={column.id} column={column} boardId={boardId} />
-                ))}
-            </div>
-        </>
+    return (
+        <div className={styles.columns}>
+            {columns && columns.map((column) => (
+                <Column key={column.id} column={column} boardId={boardId} />
+            ))}
+        </div>
      );
 }
  

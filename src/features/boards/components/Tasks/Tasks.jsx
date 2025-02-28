@@ -13,13 +13,11 @@ const Tasks = ({ columnId, boardId }) => {
     }, []);
 
     return (
-        <div className={styles.Tasks}>
-            <ul>
-                {tasks && tasks.map((task) => (
-                    <Task key={task.id} task={task} />
-                ))}
-            </ul>
-        </div>
+        <ul className={styles.tasks}>
+            {tasks && tasks.map((task) => (
+                <Task key={task.id} task={task} />
+            ))}
+        </ul>
     );
 };
 

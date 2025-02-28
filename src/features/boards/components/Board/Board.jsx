@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useStore } from "@store/store";
-import { Cross2Icon } from "@radix-ui/react-icons";
 import ColumnForm from '../ColumnForm/ColumnForm';
 import Columns from '../Columns/Columns';
+import styles from './Board.module.scss';
 
 const Board = () => {
     const boards = useStore((state) => state.boards);
@@ -26,10 +26,10 @@ const Board = () => {
     };
 
     return ( 
-        <div>
-            <h2>
+        <div className={styles.board}>
+            <h2 className={styles.title}>
                 {board.name}
-                <button onClick={handleDeleteBoard}><Cross2Icon /></button>
+                <button onClick={handleDeleteBoard}>x</button>
             </h2>
 
             <ColumnForm boardId={boardId} />

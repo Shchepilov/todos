@@ -8,10 +8,10 @@ const Boards = () => {
     const boards = useStore((state) => state.boards);
 
     return (  
-        <div>
+        <div className={styles.layout}>
             <BoardForm />
 
-            <h1>Boards</h1>
+            <h1>My Boards</h1>
             <nav className={styles.nav}>
                 {boards && boards.map((board) => (
                     <NavLink key={board.id} 

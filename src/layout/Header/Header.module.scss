@@ -7,7 +7,7 @@
     --header-border: var(--black-warm-5);
     --slider-todos-bg: var(--violet-60);
     --slider-notes-bg: var(--yellow-100);
-    --slider-tasks-bg: var(--pink-60);
+    --slider-boards-bg: var(--pink-60);
 }
 
 [data-theme="dark"] {
@@ -17,7 +17,7 @@
     --header-border: var(--black-warm-70);
     --slider-todos-bg: var(--violet-40);
     --slider-notes-bg: var(--yellow-60);
-    --slider-tasks-bg: var(--pink-40);
+    --slider-boards-bg: var(--pink-40);
 }
 
 .header {
@@ -105,8 +105,8 @@
         background: var(--slider-notes-bg);
     }
 
-    &[data-page="tasks"] {
-        background: var(--slider-tasks-bg);
+    &[data-page="boards"] {
+        background: var(--slider-boards-bg);
     }
 }
 

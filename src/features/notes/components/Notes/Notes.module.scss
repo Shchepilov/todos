@@ -1,4 +1,9 @@
 .layout {
     display: grid;
+    align-content: start;
+    justify-self: center;
     gap: 1rem;
+    margin-top: 2rem;
+    max-width: 1024px;
+    width: 100%;
 }

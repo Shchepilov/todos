@@ -154,6 +154,15 @@ export const useBoardsStore = (set, get) => ({
         }
     },
 
+    removeTask: async (taskId, boardId) => {
+        try {
+            await deleteDoc(doc(db, "tasks", taskId));
+            await get().fetchBoardData(boardId);
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    },
+
     moveTask: async (taskId, newColumnId, newOrder) => {
         try {
             await updateDoc(doc(db, "tasks", taskId), {

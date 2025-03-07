@@ -7,6 +7,7 @@ import Loader from "@components/Loader/Loader";
 import Modal from "@components/Modal/Modal";
 import styles from "./TodoItem.module.scss";
 import dropdown from '@components/Dropdown/Dropdown.module.scss';
+import Checkbox from "@components/Checkbox/Checkbox";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 
@@ -72,7 +73,9 @@ const TodoItem = ({ todo }) => {
             className={classes}
         >
             
-            <input type="checkbox" checked={todo.done} onChange={handleStatusChange} />
+            <Checkbox checked={todo.done} onChange={handleStatusChange} />
+
+            {/* <input type="checkbox" checked={todo.done} onChange={handleStatusChange} /> */}
 
             <div className={styles.Content}>
                 <p className={todo.done ? styles.Done : null}>{todo.content}</p>
@@ -93,7 +96,7 @@ const TodoItem = ({ todo }) => {
                                 )}
                         </span>
                     )}
-                    {todo.autoMove && !todo.done && (
+                    {todo.autoMove && (
                         <span className={styles.badge}>
                             <ReloadIcon className={styles.icon} />
                             <span>Automove</span>

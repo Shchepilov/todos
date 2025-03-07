@@ -42,12 +42,3 @@ input:not([type="checkbox"]), select {
 .emptyLabel {
     grid-column-start: 2;
 }
-
-[type="checkbox"],
-[type="radio"] {
-    accent-color: var(--accent-color);
-    width: 1rem;
-    height: 1rem;
-    margin: 2px 0 0 0;
-    cursor: pointer;
-}

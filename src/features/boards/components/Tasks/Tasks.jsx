@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useStore } from "@store/store";
 import Task from "../Task/Task";
 import styles from './Tasks.module.scss';
@@ -6,11 +5,6 @@ import styles from './Tasks.module.scss';
 const Tasks = ({ columnId, boardId }) => {
     const tasksBoard = useStore((state) => state.tasks[boardId]);
     const tasks = tasksBoard.filter((task) => task.columnId === columnId);
-    const fetchBoardData = useStore((state) => state.fetchBoardData);
-
-    useEffect(() => {
-        fetchBoardData(boardId);
-    }, []);
 
     return (
         <ul className={styles.tasks}>

@@ -5,6 +5,7 @@ import styles from './Column.module.scss';
 
 const Column = ({ column, boardId }) => {
     const deleteColumn = useStore((state) => state.deleteColumn);
+
     return ( 
         <div className={styles.column}>
             <div className={styles.header}>

@@ -1,32 +1,135 @@
+:root {
+    --color-item-shadow: var(--white-warm);
+    --note-color: var(--black-warm-5);
+}
+
+[data-theme="dark"] {
+    
+}
+
 .item {
-    grid-template-columns: 1fr auto;
-
-    p {
-        white-space: pre-wrap;
-        flex-basis: 100%;
-    }
-}
-
-.editForm {
     display: grid;
+    grid-template-rows: auto 1fr;
+    position: relative;
+    border-radius: 4px;
+    min-height: 200px;
+    min-width: 200px;
+    box-shadow: 0 44px 32px 0 var(--black-warm-10);
+    overflow: hidden;
+    background-color: color-mix(in srgb,var(--note-color),#fff 75%);
+    transition: all 0.2s ease;
+
+}
+
+.header {
+    padding: 8px 9px;
+}
+
+.colors {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-left: 0.5rem;
     gap: 1rem;
+}
 
-    textarea {
-        resize: none;
-        min-height: 100px;
-        padding: 5px;
-    }
+.colorsItem {
+    display: flex;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--black-warm-5);
+    cursor: pointer;
+    box-shadow: 0 0 0 1px var(--color-item-shadow);
 
-    .actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 0.5rem;
+    &:first-child {
+        --color-item-shadow: var(--black-warm-10);
     }
 }
 
-button {
+.colorLabel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
     svg {
-        width: 24px;
-        height: 24px;
+        width: 16px;
+        height: 16px;
     }
+}
+
+.colorInput {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  
+    &:checked + .colorLabel {
+        box-shadow: 0 0 0 2px var(--color-item-shadow);
+    }
+  
+    &:focus + .colorLabel {
+        box-shadow: 0 0 0 2px var(--color-item-shadow);
+    }
+}
+
+.dragContainer {
+    display: flex;
+    align-items: center;
+
+    cursor: grab;
+
+    &:active {
+        cursor: grabbing;
+    }
+}
+
+.textarea {
+    resize: none;
+    height: 100%;
+    width: 100%;
+    padding: 15px;
+    background: none;
+    border: none;
+
+    &:focus {
+        outline: none;
+    }
+
+    &[readonly] {
+        cursor: default;
+    }
+}
+
+.buttonIcon {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: var(--black-warm-40);
+    }
+}
+
+.actions,
+.editActions {
+    display: flex;
+}
+
+.editActions {
+    justify-content: space-between;
+}
+
+.dragContainer {
+    padding: 0.5rem;
+    margin-right: auto;
 }

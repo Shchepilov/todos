@@ -72,10 +72,7 @@ const TodoItem = ({ todo }) => {
             data-priority={todo.priority}
             className={classes}
         >
-            
             <Checkbox checked={todo.done} onChange={handleStatusChange} />
-
-            {/* <input type="checkbox" checked={todo.done} onChange={handleStatusChange} /> */}
 
             <div className={styles.Content}>
                 <p className={todo.done ? styles.Done : null}>{todo.content}</p>

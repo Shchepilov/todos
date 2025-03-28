@@ -21,7 +21,7 @@ export const useNotesStore = (set, get) => ({
         try {
             await addDoc(collection(db, "notes"), {
                 userId: user.uid,
-                content,
+                ...content,
                 timestamp: serverTimestamp(),
             });
             get().fetchNotes();

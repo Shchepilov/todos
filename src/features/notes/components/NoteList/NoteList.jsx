@@ -8,6 +8,7 @@ import { AnimatePresence } from "framer-motion";
 
 const NoteList = () => {
     const notes = useStore((state) => state.allNotes);
+    const addNote = useStore((state) => state.addNote);
     const fetchNotes = useStore((state) => state.fetchNotes);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -19,6 +20,12 @@ const NoteList = () => {
         };
         fetch();
     }, []);
+
+    const handleAddNote = () => {
+        const content = { edit: true };
+
+        addNote(content);
+    };
 
     return (
         <div className={styles.container}>
@@ -33,6 +40,8 @@ const NoteList = () => {
                     </AnimatePresence>
                 </ul>
             )}
+
+            <button onClick={handleAddNote}>Add Note</button>
         </div>
     );
 };

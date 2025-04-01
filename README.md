@@ -1,4 +1,6 @@
 # ToDo List
+Application in progress
+Demo: https://todo-453ae.web.app/
 
 ## Overview
 ToDo is a task management application built with React, Zustand for state management, and Firebase for authentication and database. It allows users to add, update, delete, and view their everyday tasks. The application also supports navigation between different days and displays tasks in a calendar view.

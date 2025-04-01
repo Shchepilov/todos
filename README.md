@@ -1,5 +1,4 @@
-# ToDo List
-Application in progress
+# ToDo List (in progress)
 Demo: https://todo-453ae.web.app/
 
 ## Overview

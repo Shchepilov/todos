@@ -3,7 +3,6 @@ import { useStore } from "@store/store";
 import { TrashIcon, CalendarIcon, DotsVerticalIcon, Pencil1Icon, ReloadIcon, ClockIcon } from "@radix-ui/react-icons";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import EditForm from "./EditForm";
-import Loader from "@components/Loader/Loader";
 import Modal from "@components/Modal/Modal";
 import styles from "./TodoItem.module.scss";
 import dropdown from '@components/Dropdown/Dropdown.module.scss';
@@ -72,10 +71,7 @@ const TodoItem = ({ todo }) => {
             data-priority={todo.priority}
             className={classes}
         >
-            
             <Checkbox checked={todo.done} onChange={handleStatusChange} />
-
-            {/* <input type="checkbox" checked={todo.done} onChange={handleStatusChange} /> */}
 
             <div className={styles.Content}>
                 <p className={todo.done ? styles.Done : null}>{todo.content}</p>

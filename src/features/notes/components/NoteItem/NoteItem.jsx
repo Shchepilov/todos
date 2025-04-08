@@ -1,78 +1,194 @@
-import { useState, memo } from "react";
+import { useState, useRef, useEffect, memo } from "react";
 import { useStore } from "@store/store"
-import { TrashIcon, DotsVerticalIcon, Pencil1Icon } from "@radix-ui/react-icons";
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { TrashIcon, Pencil1Icon, PaperPlaneIcon, CheckIcon } from "@radix-ui/react-icons";
+import Button from "@components/Button/Button";
 import Loader from "@components/Loader/Loader";
-import Modal from "@components/Modal/Modal";
-import EditNote from "./EditForm";
+import { AnimatePresence, motion } from "framer-motion";
 import styles from "./NoteItem.module.scss";
-import todoItemStyles from "@features/todos/components/TodoItem/TodoItem.module.scss";
-import dropdown from '@components/Dropdown/Dropdown.module.scss';
 
-import { motion } from "framer-motion";
-import dayjs from "dayjs";
+const COLOR_OPTIONS = [
+    { id: 'default', value: '#FEFEFE' },
+    { id: 'yellow', value: '#FFDD1B' },
+    { id: 'purple', value: '#B180FF' },
+    { id: 'pink', value: '#FF89B7' },
+    { id: 'green', value: '#48E16D' },
+    { id: 'blue', value: '#62A6FF' },
+    { id: 'orange', value: '#FF812D' },
+];
 
-const NoteItem = ({ note }) => {
+const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isEditMode, setEditMode] = useState(note.edit);
+    const [content, setContent] = useState(note.content);
+    const [selectedColor, setSelectedColor] = useState(note.color || COLOR_OPTIONS[0].value);
+    const [symbols, setSymbols] = useState(note.content ? note.content.length : 0);
+    const textAreaRef = useRef(null);
+    const noteRef = useRef(null);
 
     const deleteNote = useStore((state) => state.deleteNote);
-    const updateNote = useStore((state) => state.updateNote);
+    const updateNote = useStore((state) => state.updateNote);    
+
+    useEffect(() => {
+        if (textAreaRef.current) {
+            textAreaRef.current.style.height = "125px";
+            textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+        }
+
+        if (!isEditMode) return;
+
+        function handleClickOutside(event) {
+            if (noteRef.current && !noteRef.current.contains(event.target)) {
+                handleUpdate();
+            }
+        }
+        
+        document.addEventListener("mousedown", handleClickOutside);
+        
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isEditMode, content, selectedColor]);
+
 
     const update = async (id, data) => {
         setIsLoading(true);
-        await updateNote(id, data);
-        setIsLoading(false);
-    };
-    
-    const handleUpdate = (id, content) => {
-        update(id, { content });
+
+        try {
+            await updateNote(id, data);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    const timestampFormatted = dayjs(new Date(note.timestamp.seconds * 1000)).format("MMM D, YYYY");
+    const handleUpdate = () => {
+        if (content !== note.content || selectedColor !== note.color) {
+            update(note.id, { content, color: selectedColor, edit: false });
+        }
+
+        if (!content && note.edit) {
+            deleteNote(note.id);
+        }
+
+        setEditMode(false);
+        setIsAnyNoteInEditMode(false);
+    };
+
+    const handleChange = (e) => {
+        if (e.target.value.length > 400) return;
+        setSymbols(e.target.value.length);
+        setContent(e.target.value);
+    };
+
+    const handleEdit = () => {
+        setEditMode(true);
+        setIsAnyNoteInEditMode(true);
+        textAreaRef.current.focus();
+
+        if (textAreaRef.current) {
+            const length = textAreaRef.current.value.length;
+            textAreaRef.current.setSelectionRange(length, length);
+        }
+    };
+
+    const handleDelete = () => {
+        deleteNote(note.id);
+    };
+
+    const handleColorChange = (color) => {
+        update(note.id, { color: selectedColor });
+        setSelectedColor(color);
+    };
 
     return (
-        <motion.li 
-            layout
+        <motion.li
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0, x: 15 }}
             transition={{ duration: 0.2 }}
-            className={styles.item + " " + todoItemStyles.item}>
+            className={styles.item}
+            ref={noteRef}
+            style={{'--note-color': selectedColor }}
+        >
             {isLoading && <Loader className={styles.loader} />}
 
-            <p>{note.content}</p>
+            <div className={styles.header}>
+                <AnimatePresence mode="wait">
+                {isEditMode ? (
+                    <motion.div
+                        key="edit-mode"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.2 }}
+                        className={styles.editActions}>
 
-            <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild>
-                    <button className={todoItemStyles.dropdownButton}>
-                        <DotsVerticalIcon />
-                    </button>
-                </DropdownMenu.Trigger>
+                        <ul className={styles.colors}>
+                            {COLOR_OPTIONS.map((color) => (
+                                <li key={color.id} className={styles.colorsItem}>
+                                    <input
+                                        type="radio"
+                                        name="color"
+                                        value={color.value}
+                                        id={`color-${color.id}`}
+                                        className={styles.colorInput}
+                                        checked={selectedColor === color.value}
+                                        onChange={() => handleColorChange(color.value)}
+                                    />
+                                    <label 
+                                        htmlFor={`color-${color.id}`}
+                                        className={styles.colorLabel}
+                                        style={{ backgroundColor: color.value }}
+                                    >
+                                        {selectedColor === color.value && <CheckIcon />}
+                                    </label>
+                                </li>
+                            ))}
+                        </ul>
 
-                <DropdownMenu.Portal>
-                    <DropdownMenu.Content className={dropdown.content} align="end">
-                        <DropdownMenu.Item className={dropdown.item} disabled>
-                            Created at: {timestampFormatted}
-                        </DropdownMenu.Item>
-                        <DropdownMenu.Separator className={dropdown.separator} />
+                        <Button size="small" className={styles.buttonIcon} onClick={handleUpdate}>
+                            <PaperPlaneIcon />
+                        </Button>
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        key="view-mode"
+                        initial={{ opacity: 0 }} 
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.2 }}
+                        className={styles.actions}>
 
-                        <DropdownMenu.Item className={dropdown.item} onSelect={() => setIsDialogOpen(true)}>
-                            <Pencil1Icon /> Edit
-                        </DropdownMenu.Item>
+                        <Button size="small" className={styles.buttonIcon} onClick={handleEdit}>
+                            <Pencil1Icon />
+                        </Button>
 
-                        <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={() => deleteNote(note.id)}>
-                            <TrashIcon /> Delete
-                        </DropdownMenu.Item>
-                    </DropdownMenu.Content>
-                </DropdownMenu.Portal>
-            </DropdownMenu.Root>
+                        <Button size="small" className={styles.buttonIcon} onClick={handleDelete}>
+                            <TrashIcon />
+                        </Button>
+                    </motion.div>
+                )}
+                </AnimatePresence>
+            </div>
 
+            <textarea
+                className={styles.textarea}
+                ref={textAreaRef}
+                value={content}
+                onChange={handleChange}
+                readOnly={!isEditMode}
+                autoFocus={isEditMode}
+                onFocus={(e) => e.preventDefault()}
+            />
 
-            <Modal heading='Edit Note' isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
-                <EditNote 
-                    content={note.content} 
-                    id={note.id} 
-                    handleUpdate={handleUpdate} />
-            </Modal>
+            <div className={styles.footer}>
+                {isEditMode && (
+                    <motion.div 
+                        initial={{ opacity: 0 }} 
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}>
+                            {symbols} / 400
+                    </motion.div>
+                )}
+            </div>
         </motion.li>
     );
 };

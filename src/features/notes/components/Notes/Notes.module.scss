@@ -1,9 +1,12 @@
+@use "@styles/mixins" as *;
+
 .layout {
-    display: grid;
-    align-content: start;
     justify-self: center;
-    gap: 1rem;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     max-width: 1024px;
     width: 100%;
+
+    @include mobile-only {
+        margin-top: 0.5rem;
+    }
 }

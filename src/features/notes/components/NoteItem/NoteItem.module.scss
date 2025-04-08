@@ -1,32 +1,130 @@
+:root {
+    --color-item-shadow: var(--white-warm);
+    --note-color: var(--black-warm-5);
+}
+
+.loader {
+    position: absolute;
+    left: 7px;
+    bottom: 7px;
+    width: 13px;
+    height: 13px;
+    border-width: 2px;
+}
+
 .item {
-    grid-template-columns: 1fr auto;
-
-    p {
-        white-space: pre-wrap;
-        flex-basis: 100%;
-    }
-}
-
-.editForm {
     display: grid;
+    grid-template-rows: min-content 1fr 14px;
+    position: relative;
+    border-radius: 4px;
+    min-height: 200px;
+    min-width: 200px;
+    padding: 15px 15px 10px 15px;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    background-color: color-mix(in srgb,var(--note-color),#fff 75%);
+    transition: all 0.2s ease;
+}
+
+.header {
+    height: 20px;
+    margin-bottom: 0.5rem;
+}
+
+.colors {
+    display: flex;
+    gap: 8px;
+    align-items: center;
     gap: 1rem;
+}
 
-    textarea {
-        resize: none;
-        min-height: 100px;
-        padding: 5px;
-    }
+.colorsItem {
+    display: flex;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--black-warm-5);
+    cursor: pointer;
+    box-shadow: 0 0 0 1px var(--color-item-shadow);
 
-    .actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 0.5rem;
+    &:first-child {
+        --color-item-shadow: var(--black-warm-10);
     }
 }
 
-button {
+.colorLabel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
     svg {
-        width: 24px;
-        height: 24px;
+        width: 16px;
+        height: 16px;
+        color: var(--black-warm-60);
     }
+}
+
+.colorInput {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  
+    &:checked + .colorLabel {
+        box-shadow: 0 0 0 2px var(--color-item-shadow);
+    }
+  
+    &:focus + .colorLabel {
+        box-shadow: 0 0 0 2px var(--color-item-shadow);
+    }
+}
+
+.textarea {
+    resize: none;
+    width: 100%;
+    height: 100%;
+    background: none;
+    border: none;
+
+    &:focus {
+        outline: none;
+    }
+
+    &[readonly] {
+        cursor: default;
+    }
+}
+
+.buttonIcon {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: var(--black-warm-40);
+    }
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.editActions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer {
+    color: var(--black-warm-40);
+    font: 12px monospace;
+    text-align: right;
 }

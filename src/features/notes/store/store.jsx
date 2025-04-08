@@ -36,7 +36,7 @@ export const useNotesStore = (set, get) => ({
             const notesQuery = query(
                 collection(db, "notes"),
                 where("userId", "==", user.uid),
-                orderBy("timestamp", "asc")
+                orderBy("timestamp", "desc")
             );
             const notesSnapshot = await getDocs(notesQuery);
             const notes = notesSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));

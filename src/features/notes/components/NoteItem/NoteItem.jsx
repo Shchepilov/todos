@@ -1,11 +1,9 @@
 import { useState, useRef, useEffect, memo } from "react";
 import { useStore } from "@store/store"
-import { TrashIcon, Pencil1Icon, PaperPlaneIcon, MoveIcon, CheckIcon } from "@radix-ui/react-icons";
+import { TrashIcon, Pencil1Icon, PaperPlaneIcon, CheckIcon } from "@radix-ui/react-icons";
 import Button from "@components/Button/Button";
 import Loader from "@components/Loader/Loader";
-
-
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import styles from "./NoteItem.module.scss";
 
 const COLOR_OPTIONS = [
@@ -18,11 +16,12 @@ const COLOR_OPTIONS = [
     { id: 'orange', value: '#FF812D' },
 ];
 
-const NoteItem = ({ note }) => {
+const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isEditMode, setEditMode] = useState(note.edit);
     const [content, setContent] = useState(note.content);
     const [selectedColor, setSelectedColor] = useState(note.color || COLOR_OPTIONS[0].value);
+    const [symbols, setSymbols] = useState(note.content ? note.content.length : 0);
     const textAreaRef = useRef(null);
     const noteRef = useRef(null);
 
@@ -30,8 +29,13 @@ const NoteItem = ({ note }) => {
     const updateNote = useStore((state) => state.updateNote);    
 
     useEffect(() => {
+        if (textAreaRef.current) {
+            textAreaRef.current.style.height = "125px";
+            textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+        }
+
         if (!isEditMode) return;
-        
+
         function handleClickOutside(event) {
             if (noteRef.current && !noteRef.current.contains(event.target)) {
                 handleUpdate();
@@ -40,7 +44,6 @@ const NoteItem = ({ note }) => {
         
         document.addEventListener("mousedown", handleClickOutside);
         
-        
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
@@ -48,7 +51,8 @@ const NoteItem = ({ note }) => {
 
 
     const update = async (id, data) => {
-        //setIsLoading(true);
+        setIsLoading(true);
+
         try {
             await updateNote(id, data);
         } finally {
@@ -66,14 +70,18 @@ const NoteItem = ({ note }) => {
         }
 
         setEditMode(false);
+        setIsAnyNoteInEditMode(false);
     };
 
     const handleChange = (e) => {
+        if (e.target.value.length > 400) return;
+        setSymbols(e.target.value.length);
         setContent(e.target.value);
     };
 
     const handleEdit = () => {
         setEditMode(true);
+        setIsAnyNoteInEditMode(true);
         textAreaRef.current.focus();
 
         if (textAreaRef.current) {
@@ -92,8 +100,9 @@ const NoteItem = ({ note }) => {
     };
 
     return (
-        <motion.li 
-            layout
+        <motion.li
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0, x: 15 }}
             transition={{ duration: 0.2 }}
             className={styles.item}
@@ -103,8 +112,15 @@ const NoteItem = ({ note }) => {
             {isLoading && <Loader className={styles.loader} />}
 
             <div className={styles.header}>
+                <AnimatePresence mode="wait">
                 {isEditMode ? (
-                    <div className={styles.editActions}>
+                    <motion.div
+                        key="edit-mode"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.2 }}
+                        className={styles.editActions}>
+
                         <ul className={styles.colors}>
                             {COLOR_OPTIONS.map((color) => (
                                 <li key={color.id} className={styles.colorsItem}>
@@ -131,10 +147,14 @@ const NoteItem = ({ note }) => {
                         <Button size="small" className={styles.buttonIcon} onClick={handleUpdate}>
                             <PaperPlaneIcon />
                         </Button>
-                    </div>
+                    </motion.div>
                 ) : (
-                    <div className={styles.actions}>
-                        <span className={styles.dragContainer}><MoveIcon /></span>
+                    <motion.div
+                        key="view-mode"
+                        initial={{ opacity: 0 }} 
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.2 }}
+                        className={styles.actions}>
 
                         <Button size="small" className={styles.buttonIcon} onClick={handleEdit}>
                             <Pencil1Icon />
@@ -143,8 +163,9 @@ const NoteItem = ({ note }) => {
                         <Button size="small" className={styles.buttonIcon} onClick={handleDelete}>
                             <TrashIcon />
                         </Button>
-                    </div>
+                    </motion.div>
                 )}
+                </AnimatePresence>
             </div>
 
             <textarea
@@ -156,6 +177,18 @@ const NoteItem = ({ note }) => {
                 autoFocus={isEditMode}
                 onFocus={(e) => e.preventDefault()}
             />
+
+            <div className={styles.footer}>
+                {isEditMode && (
+                    <motion.div 
+                        initial={{ opacity: 0 }} 
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}>
+                            {symbols} / 400
+                    </motion.div>
+                )}
+            </div>
         </motion.li>
     );
 };

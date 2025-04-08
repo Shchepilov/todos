@@ -1,48 +1,61 @@
 :root {
   --violet-100: #6827CF;
   --violet-80: #833FEF;
-  --violet-60: #A871FF;
-  --violet-40: #B180FF;
-  --violet-20: #EFE5FF;
+  --violet-60: #B180FF;
+  --violet-40: #D3B7FF;
+  --violet-20: #DAC3FF;
+  --violet-10: #E6D6FF;
+  --violet-5: #EFE5FF;
   
-  --black-warm-off: #F4F7F7;
-  --black-warm-5: #E4E7E7;
-  --black-warm-10: #C9CBCF;
-  --black-warm-20: #A1A3AD;
-  --black-warm-30: #858893;
-  --black-warm-40: #7A7D87;
-  --black-warm-50: #636670;
-  --black-warm-60: #575960;
-  --black-warm-70: #3B3F46;
-  --black-warm-80: #303236;
-  --black-warm-85: #2A2C31;
-  --black-warm-90: #212224;
   --black-warm-100: #131415;
+  --black-warm-90: #212224;
+  --black-warm-88: #242629;
+  --black-warm-85: #2A2C31;
+  --black-warm-80: #31353D;
+  --black-warm-70: #3B3F48;
+  --black-warm-60: #595B65;
+  --black-warm-50: #636670;
+  --black-warm-40: #7A7D87;
+  --black-warm-30: #858893;
+  --black-warm-20: #A1A3AD;
+  --black-warm-10: #C9CBCF;
+  --black-warm-5: #E4E7E7;
+  --black-warm-3: #EFF2F2;
+  --black-warm-off: #F4F7F7;
 
   --white-warm: #FEFEFE;
 
   --green-100: #23B947;
-  --green-60: #48E16D;
-  --green-40: #81F39C;
-  --green-20: #E5FEEB;
+  --green-80: #48E16D;
+  --green-60: #81F39C;
+  --green-40: #B4FFC6;
+  --green-20: #CAFFD7;
+  --green-10: #E5FEEB;
 
-  --red-100: #972139;
-  --red-80: #C92C4B;
-  --red-60: #DA5872;
-  --red-20: #E58A9C;
+  --blue-100: #62A6FF;
+  --blue-80: #79B3FF;
+  --blue-60: #94CAFF;
+  --blue-40: #A9E5FF;
+  --blue-20: #BFECFF;
 
-  --pink-100: #D03572;
-  --pink-60: #E65790;
-  --pink-40: #FF89B7;
-  --pink-20: #FDD7E6;
+  --pink-100: #D03572; 
+  --pink-80: #E65790;
+  --pink-60: #FF89B7;
+  --pink-40: #FFAFCF;
+  --pink-20: #FFDBE9;
   
-  --orange-100: #FF812D;
-  --orange-80: #FFC061;
-  --orange-20: #FFEED4;
+  --orange-100: #FF6600;
+  --orange-80: #FF812D;
+  --orange-60: #FF944C;
+  --orange-40: #FFB27E;
+  --orange-20: #FFD1B2;
+  --orange-10: #FFE5D4;
 
-  --yellow-100: #FFBC2D;
-  --yellow-80: #FFD75E;
+  --yellow-100: #FFDD1B;
+  --yellow-80: #FFF241;
   --yellow-60: #FFF67A;
+  --yellow-40: #FFF9AC;
+  --yellow-20: #FFFCCE;
 
   --border-color: var(--black-warm-40);
   --font-family: "Inter Tight", serif;
@@ -50,8 +63,6 @@
   --site-bg: var(--black-warm-off);
   --dot: #bebebe;
   --scrollbar-thumb: var(--black-warm-10);
-  
-  --calendar-weekday-color: var(--black-warm);
   --accent-color: var(--black-warm-80);
 }
 
@@ -61,7 +72,6 @@
     --scrollbar-thumb: var(--black-warm-60);
     --accent-color: var(--black-warm-10);
     --primary-text-color: var(--black-warm-off);
-    --calendar-weekday-color: var(--black-warm-20);
 }
 
 /* ======================== Eric Meyer's CSS Reset */

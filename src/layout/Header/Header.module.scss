@@ -4,7 +4,7 @@
     --header-bg: #fff;
     --nav-item: var(--black-warm-40);
     --nav-item-active: var(--black-warm-90);
-    --header-border: var(--black-warm-5);
+    --header-border: var(--black-warm-10);
     --slider-todos-bg: var(--violet-60);
     --slider-notes-bg: var(--yellow-100);
     --slider-boards-bg: var(--pink-60);
@@ -14,7 +14,7 @@
     --header-bg: var(--black-warm-90);
     --nav-item: var(--black-warm-60);
     --nav-item-active: var(--black-warm-off);
-    --header-border: var(--black-warm-70);
+    --header-border: var(--black-warm-80);
     --slider-todos-bg: var(--violet-40);
     --slider-notes-bg: var(--yellow-60);
     --slider-boards-bg: var(--pink-40);
@@ -29,13 +29,12 @@
     padding: 5px 7px 5px 20px;
     border-radius: 30px;
     height: 60px;
-    width: 100%;
     max-width: 1024px;
     gap: 1rem;
     background: var(--header-bg);
     border: 1px solid var(--header-border);
     position: relative;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 0 16px 32px 0 rgb(12, 12, 13, 0.1);
 
     @include mobile-only {
         height: 48px;

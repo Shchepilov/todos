@@ -21,7 +21,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       manifest: {
         name: 'Todo App',
-        short_name: 'Todo',
+        short_name: 'ACT',
         description: 'A Todo and Notes Application',
         theme_color: '#ffffff',
         background_color: '#ffffff',

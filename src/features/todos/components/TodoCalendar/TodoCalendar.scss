@@ -1,102 +1,110 @@
 @use "@styles/functions" as *;
 
 :root {
-    --day-hover-bg: var(--black-warm-10);
+    --day-hover-bg: var(--black-warm-5);
+    --day-active-bg: var(--black-warm-10);
     --calendar-weekday-color: var(--black-warm-100);
 }
 
 [data-theme="dark"] {
-    --day-hover-bg: var(--black-warm-40);
+    --day-hover-bg: var(--black-warm-70);
+    --day-active-bg: var(--black-warm-90);
     --calendar-weekday-color: var(--black-warm-20);
 }
 
-.react-calendar {
-    border-radius: 3px;
-    width: 100%;
-    border: none;
-    font-family: var(--font-family);
-    background: var(--aside-bg);
+aside {
+    .react-calendar {
+        border-radius: 3px;
+        width: 100%;
+        border: none;
+        font-family: var(--font-family);
+        background: var(--aside-bg);
+        &__tile {
+            color: var(--primary-text-color);
+            transition: all 0.2s ease;
+            font-size: rem(14);
+
+            &--active {
+                background: var(--day-active-bg);
     
-    &__tile {
-        color: var(--primary-text-color);
-        transition: all 0.2s ease;
+                &:not(.react-calendar__tile--now):hover,
+                &:not(.react-calendar__tile--now):enabled:focus {
+                    background: var(--day-active-bg);
+                }
+            }
 
-        &:enabled:hover,
-        &:enabled:focus {
-            background: var(--day-hover-bg);
-        }
-
-        &--now {
-            background: var(--violet-60);
-            color: var(--black-warm-off);
-            
-            &:enabled:hover,
-            &:enabled:focus {
+            &--now {
                 background: var(--violet-100);
+                color: var(--black-warm-off);
+                
+                &.has-todos::after {
+                    background-color: var(--black-warm-80);
+                }
+
+                &:enabled:hover,
+                &:enabled:focus {
+                    background: var(--violet-80);
+                }
+            }
+
+            &:not(.react-calendar__tile--active, .react-calendar__tile--now):hover,
+            &:not(.react-calendar__tile--active, .react-calendar__tile--now):focus {
+                background: var(--day-hover-bg);
             }
         }
-    }
-    
-    &__month-view__days__day {
-        border-radius: 50%;
-        aspect-ratio: 1;
-
-        &--weekend {
-            color: var(--primary-text-color);
+        
+        &__month-view__days {
+            display: grid!important;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            &__day {
+                flex-basis: auto!important;
+                border-radius: 50%;
+                aspect-ratio: 1;
+        
+                &--weekend {
+                    color: var(--primary-text-color);
+                }
+            }
         }
 
-        &.react-calendar__tile--active:enabled:hover, 
-        &.react-calendar__tile--active:enabled:focus {
-            background-color: var(--violet-80);
-        }
-    }
-
-    &__month-view__weekdays__weekday {
-        abbr {
-            text-decoration: none;
-            color: var(--calendar-weekday-color);
-            font-size: rem(10);
-        }
-    }
-
-    &__tile--active {
-        background-color: var(--violet-80);
-        color: #fff;
-
-        &:hover,
-        &:focus {
-            background-color: var(--day-hover-bg);
-        }
-    }
-
-    &__navigation {
-        &__arrow {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            aspect-ratio: 1;
-            color: var(--primary-text-color);
+        &__month-view__weekdays__weekday {
+            abbr {
+                text-decoration: none;
+                color: var(--calendar-weekday-color);
+                font-size: rem(10);
+            }
         }
 
-        &__label {
-            border-radius: 22px;
-            color: var(--primary-text-color);
-        }
+        &__navigation {
+            &__arrow {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                aspect-ratio: 1;
+                color: var(--primary-text-color);
+            }
 
-        &__label__labelText {
-            font-family: var(--font-family);
-            font-size: rem(18);
-        }
+            &__label {
+                border-radius: 22px;
+                color: var(--primary-text-color);
+            }
 
-        button {
-            transition: all 0.2s ease;
-        }
+            &__label__labelText {
+                font-family: var(--font-family);
+                font-size: rem(18);
+            }
 
-        button:enabled:hover, 
-        button:enabled:focus {
-            background: none;
-            color: var(--violet-60);
+            button {
+                transition: all 0.2s ease;
+            }
+
+            button:enabled:hover, 
+            button:enabled:focus {
+                background: none;
+                color: var(--violet-60);
+            }
         }
     }
 }
@@ -104,17 +112,15 @@
     position: relative;
 }
 
-/* Dot indicator */
-
 .has-todos::after {
     content: "";
-    width: 8px;
-    height: 8px;
-    background-color: #333;
+    width: 6px;
+    height: 6px;
+    background-color: #595B65;
     border-radius: 50%;
     position: absolute;
     bottom: 12%;
-    left: calc(50% - 4px);
+    left: calc(50% - 3px);
 }
 
 .has-todos.all-done::after {

@@ -1,6 +1,12 @@
+@use "@styles/mixins" as *;
+
 .columns {
     display: flex;
     min-height: 500px;
     gap: 1rem;
-}
 
+    @include tablet-down {
+        flex-direction: column;
+        min-height: auto;
+    }
+}

@@ -1,4 +1,5 @@
 @use "@styles/functions" as *;
+@use "@styles/mixins" as *;
 
 :root {
     --day-hover-bg: var(--black-warm-5);
@@ -38,7 +39,7 @@ aside {
                 color: var(--black-warm-off);
                 
                 &.has-todos::after {
-                    background-color: var(--black-warm-80);
+                    background-color: var(--black-warm-10);
                 }
 
                 &:enabled:hover,
@@ -57,6 +58,10 @@ aside {
             display: grid!important;
             grid-template-columns: repeat(7, 1fr);
             gap: 10px;
+
+            @include mobile-only {
+                gap: 5px;
+            }
             &__day {
                 flex-basis: auto!important;
                 border-radius: 50%;
@@ -84,6 +89,11 @@ aside {
                 border-radius: 50%;
                 aspect-ratio: 1;
                 color: var(--primary-text-color);
+
+                svg {
+                    width: 24px;
+                    height: 24px;
+                }
             }
 
             &__label {
@@ -116,7 +126,7 @@ aside {
     content: "";
     width: 6px;
     height: 6px;
-    background-color: #595B65;
+    background-color: var(--black-warm-40);
     border-radius: 50%;
     position: absolute;
     bottom: 12%;

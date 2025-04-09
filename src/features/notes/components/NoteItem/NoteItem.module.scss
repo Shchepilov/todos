@@ -1,3 +1,5 @@
+@use "@styles/mixins" as *;
+
 :root {
     --color-item-shadow: var(--white-warm);
     --note-color: var(--black-warm-5);
@@ -24,6 +26,10 @@
     overflow: hidden;
     background-color: color-mix(in srgb,var(--note-color),#fff 75%);
     transition: all 0.2s ease;
+
+    @include mobile-only {
+        border-radius: 10px;
+    }
 }
 
 .header {

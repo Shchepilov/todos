@@ -1,3 +1,5 @@
+@use "@styles/mixins" as *;
+
 :root {
     --layout-boards-bg: #fff;
 }
@@ -15,8 +17,12 @@
     border-radius: 24px;
     background: var(--layout-boards-bg);
     border: 1px solid var(--border-color);
-    min-width: 1024px;
-    
+    max-width: 1024px;
+    width: 100%;
+
+    @include mobile-only {
+        margin-top: 0;
+    }
 }
 
 .nav {

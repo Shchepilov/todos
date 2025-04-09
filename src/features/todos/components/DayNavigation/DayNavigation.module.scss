@@ -42,6 +42,11 @@
     background: none;
     color: var(--primary-text-color);
 
+    svg {
+        width: 24px;
+        height: 24px;
+    }
+
     &:hover {
         color: var(--violet-60);
     }

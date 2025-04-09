@@ -7,5 +7,6 @@
 
     @include tablet-down {
         flex-direction: column;
+        min-height: auto;
     }
 }

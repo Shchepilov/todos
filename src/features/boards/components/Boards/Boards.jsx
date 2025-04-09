@@ -11,7 +11,7 @@ const Boards = () => {
         <div className={styles.layout}>
             <BoardForm />
 
-            <h1>My Boards</h1>
+            <h1 className={styles.title}>My Boards</h1>
             <nav className={styles.nav}>
                 {boards && boards.map((board) => (
                     <NavLink key={board.id} 

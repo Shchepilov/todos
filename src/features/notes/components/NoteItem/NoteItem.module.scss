@@ -107,21 +107,28 @@
     }
 }
 
-.buttonIcon {
-    display: flex;
-    align-items: center;
-    background: none;
-    border: none;
-    transition: color 0.2s ease;
-
-    &:hover {
-        color: var(--black-warm-40);
+.item {
+    .buttonIcon {
+        display: flex;
+        align-items: center;
+        width: 20px;
+        height: 20px;
+        background: none;
+        border: none;
+        transition: color 0.2s ease;
+        color: var(--black-warm-80);
+    
+        &:hover {
+            color: var(--black-warm-40);
+            background: none;
+        }
     }
 }
 
 .actions {
     display: flex;
     justify-content: flex-end;
+    gap: 5px;
 }
 
 .editActions {

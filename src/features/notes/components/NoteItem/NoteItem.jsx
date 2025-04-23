@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect, memo } from "react";
 import { useStore } from "@store/store"
 import { TrashIcon, Pencil1Icon, PaperPlaneIcon, CheckIcon } from "@radix-ui/react-icons";
+import * as Dialog from '@radix-ui/react-dialog';
 import Button from "@components/Button/Button";
 import Loader from "@components/Loader/Loader";
+import Modal from "@components/Modal/Modal";
 import { AnimatePresence, motion } from "framer-motion";
 import styles from "./NoteItem.module.scss";
 
@@ -22,6 +24,7 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
     const [content, setContent] = useState(note.content);
     const [selectedColor, setSelectedColor] = useState(note.color || COLOR_OPTIONS[0].value);
     const [symbols, setSymbols] = useState(note.content ? note.content.length : 0);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const textAreaRef = useRef(null);
     const noteRef = useRef(null);
 
@@ -61,16 +64,17 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
     };
 
     const handleUpdate = () => {
+        setEditMode(false);
+        setIsAnyNoteInEditMode(false);
+
+        if (!content) {
+            deleteNote(note.id);
+            return;
+        }
+
         if (content !== note.content || selectedColor !== note.color) {
             update(note.id, { content, color: selectedColor, edit: false });
         }
-
-        if (!content && note.edit) {
-            deleteNote(note.id);
-        }
-
-        setEditMode(false);
-        setIsAnyNoteInEditMode(false);
     };
 
     const handleChange = (e) => {
@@ -144,7 +148,7 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
                             ))}
                         </ul>
 
-                        <Button size="small" className={styles.buttonIcon} onClick={handleUpdate}>
+                        <Button size="small" variation="icon" className={styles.buttonIcon} onClick={handleUpdate} disabled={!content}>
                             <PaperPlaneIcon />
                         </Button>
                     </motion.div>
@@ -156,11 +160,11 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
                         transition={{ duration: 0.2 }}
                         className={styles.actions}>
 
-                        <Button size="small" className={styles.buttonIcon} onClick={handleEdit}>
+                        <Button size="small" variation="icon" className={styles.buttonIcon} onClick={handleEdit}>
                             <Pencil1Icon />
                         </Button>
 
-                        <Button size="small" className={styles.buttonIcon} onClick={handleDelete}>
+                        <Button size="small" variation="icon" className={styles.buttonIcon} onClick={() => setIsDialogOpen(true)}>
                             <TrashIcon />
                         </Button>
                     </motion.div>
@@ -189,6 +193,14 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
                     </motion.div>
                 )}
             </div>
+
+            <Modal heading='Delete Note' isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
+                <p>Do you really want to see this note?</p>
+                <div className="button-group">
+                    <Button variation="secondary" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
+                    <Button onClick={handleDelete}>Delete</Button>
+                </div>
+            </Modal>
         </motion.li>
     );
 };

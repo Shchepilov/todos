@@ -1,3 +1,5 @@
+@use "@styles/functions" as *;
+
 :root {
     --modal-bg: var(--white-warm);
 }
@@ -20,18 +22,26 @@
     z-index: 5;
 }
 
+.title {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: rem(24);
+    color: var(--primary-text-color);
+}
+
 .content {
     position: fixed;
     inset: 0;
     margin: auto;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 16px;
     width: 90%;
     max-width: 400px;
     height: fit-content;
     background: var(--modal-bg);
-    padding: 20px;
+    padding: 16px;
     animation: contentShow 0.2s ease;
     z-index: 6;
 }
@@ -52,12 +62,12 @@
     color: var(--primary-text-color);
     transition: all 0.2s ease;
     svg {
-        width: 20px;
-        height: 20px;
+        width: 24px;
+        height: 24px;
     }
 
     &:hover {
-        background: var(--black-warm-off);
+        background: rgba(0, 0, 0, 0.1);
     }
 }
 

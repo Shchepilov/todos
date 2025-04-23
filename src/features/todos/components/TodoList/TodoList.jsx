@@ -55,7 +55,7 @@ const TodoList = () => {
                 </div>
             )}
 
-            <Modal heading='New Todo' isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
+            <Modal heading='+ New Todo' isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
                 <TodoForm />
             </Modal>
         </div>

@@ -9,7 +9,7 @@ const Modal = ({ heading, isDialogOpen, setIsDialogOpen, children }) => {
             <Dialog.Portal>
                 <Dialog.Overlay className={modal.backdrop} />
                 <Dialog.Content className={modal.content} aria-describedby={undefined}>
-                    <Dialog.Title className="DialogTitle">{heading}</Dialog.Title>
+                    <Dialog.Title className={modal.title}>{heading}</Dialog.Title>
                     <Dialog.Close asChild>
                         <button className={modal.close} aria-label="Close">
                             <Cross2Icon />

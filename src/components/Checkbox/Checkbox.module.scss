@@ -3,13 +3,11 @@
 :root {
     --checkbox-primary-color: var(--black-warm-80);
     --checkbox-checked-color: var(--black-warm-80);
-    --label-color: var(--black-warm-80);
 }
 
 [data-theme="dark"] {
     --checkbox-primary-color: var(--black-warm-off);
     --checkbox-checked-color: var(--black-warm-80);
-    --label-color: var(--black-warm-40);
 }
 
 .wrapper {
@@ -27,7 +25,6 @@
 }
 
 .labelText {
-    color: var(--label-color);
     font-size: rem(14);
     line-height: 1;
 }

@@ -1,9 +1,9 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useId } from "react";
 import { Dialog } from "radix-ui";
 import dayjs from "dayjs";
 import { useStore } from "@store/store";
-import styles from "./EditForm.module.scss";
-import forms from "@styles/Forms.module.scss";
+import Checkbox from "@components/Checkbox/Checkbox";
+import Button from "@components/Button/Button";
 
 const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate }) => {
     const currentDay = useStore((state) => state.currentDay);
@@ -14,6 +14,9 @@ const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate
     const [newPriority, setNewPriority] = useState(priority);
     const [newDate, setNewDate] = useState(date);
     const [newAutoMove, setNewAutoMove] = useState(autoMove);
+    const priorityId = useId();
+    const dueDateId = useId();
+    const dateId = useId();
     const closeDialogRef = useRef(null);
 
     const handleUpdateTodo = (e) => {
@@ -29,63 +32,58 @@ const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate
     };
 
     return (
-        <form className={forms.form} onSubmit={(e) => e.preventDefault()}>
-            <div className={forms.formLabel}>
-                <label>Title</label>
+        <form className="form" onSubmit={(e) => e.preventDefault()}>
+            <div className="row">
+                <div className="field">
+                    <input
+                        type="text"
+                        value={newContent}
+                        onChange={(e) => setNewContent(e.target.value)}
+                        placeholder="Add a new todo"
+                    />
+                </div>
             </div>
 
-            <div className={forms.formField}>
-                <input
-                    type="text"
-                    value={newContent}
-                    onChange={(e) => setNewContent(e.target.value)}
-                    placeholder="Add a new todo"
-                />
+            <div className="row">
+                <div className="field">
+                    <label htmlFor={priorityId} className="label">Priority</label>
+
+                    <select value={newPriority} id={priorityId} onChange={(e) => setNewPriority(e.target.value)}>
+                        <option value="1">Low</option>
+                        <option value="2">Medium</option>
+                        <option value="3">High</option>
+                    </select>    
+                </div>
             </div>
 
-            <div className={forms.formLabel}>
-                <label>Priority</label>
+            <div className="row">
+                <div className="field">
+                    <label htmlFor={dateId} className="label">Date</label>
+                    <input type="date" id={dateId} value={newDate} onChange={(e) => setNewDate(e.target.value)} />
+                </div>
+
+                <div className="field">
+                    <label htmlFor={dueDateId} className="label">Due Date</label>
+
+                    <div className="field split-field">
+                        <input type="date" id={dueDateId} disabled={!isDueDate} value={newDueDate} onChange={(e) => setNewDueDate(e.target.value)} />
+                        <Checkbox type="checkbox" checked={isDueDate} onChange={(e) => setIsDueDate(e.target.checked)} />
+                    </div>    
+                </div>
             </div>
 
-            <div className={forms.formField}>
-                <select value={newPriority} onChange={(e) => setNewPriority(e.target.value)}>
-                    <option value="1">Low</option>
-                    <option value="2">Medium</option>
-                    <option value="3">High</option>
-                </select>
+            <div className="row">
+                <div className="field split-field">
+                    <Checkbox type="checkbox" checked={newAutoMove} label="Auto move" onChange={(e) => setNewAutoMove(e.target.checked)} />
+                </div>
             </div>
 
-            <div className={forms.formLabel}>
-                <label>Date</label>
+            <div className="button-group">
+                <Button variation="secondary" onClick={() => closeDialogRef.current?.click()}>Cancel</Button>
+                <Button onClick={handleUpdateTodo} disabled={!newContent}>Update</Button>
             </div>
 
-            <div className={forms.formField}>
-                <input type="date" value={newDate} onChange={(e) => setNewDate(e.target.value)} />
-            </div>
-
-            <div className={forms.formLabel}>
-                <label>Due date</label>
-            </div>
-            
-            <div className={forms.formField}>
-                <input type="date" disabled={!isDueDate} value={newDueDate} onChange={(e) => setNewDueDate(e.target.value)} />
-                <input type="checkbox" checked={isDueDate} onChange={(e) => setIsDueDate(e.target.checked)} />
-            </div>
-
-            <div className={forms.formLabel}>
-                <label>Auto move</label>
-            </div>
-
-            <div className={forms.formField}>
-                <input type="checkbox" checked={newAutoMove} onChange={(e) => setNewAutoMove(e.target.checked)} />
-            </div>
-
-            <div className={styles.actions}>
-                <button onClick={handleUpdateTodo}>Update</button>
-                <Dialog.Close ref={closeDialogRef} asChild>
-                    <button>Cancel</button>
-                </Dialog.Close>
-            </div>
+            <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>
         </form>
     );
 };

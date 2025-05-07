@@ -17,54 +17,40 @@ const TodoItem = ({ todo }) => {
     const updateTodo = useStore((state) => state.updateTodo);
     const moveToNextDay = useStore((state) => state.moveToNextDay);
     const currentDay = useStore((state) => state.currentDay);
+
     const day = dayjs(currentDay).format("YYYY-MM-DD");
-
-    const handleUpdate = async (id, content, priority, date, dueDate, autoMove) => {
-        setIsLoading(true);
-
-        try {
-            await updateTodo(id, { content, priority, date, dueDate: dueDate, autoMove });
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const handleStatusChange = async () => {
-        setIsLoading(true);
-
-        try {
-            await updateTodo(todo.id, { done: !todo.done });
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const handleDeleteTodo = async () => {
-        setIsLoading(true);
-
-        try {
-            await deleteTodo(todo.id);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const handleMoveToNextDay = async () => {
-        setIsLoading(true);
-
-        try {
-            await moveToNextDay(todo.id);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
     const isOverdue = dayjs(todo.dueDate).isBefore(dayjs(day));
     const isToday = todo.dueDate === day;
     const badgeClass = isOverdue || isToday ? styles.isToday + " " + styles.badge : styles.badge;
     const timestampFormatted = dayjs(new Date(todo.timestamp.seconds * 1000)).format("MMM D, YYYY");
     const dueDateFormatted = dayjs(todo.dueDate).format("MMM D");
     const classes = isLoading ? styles.item + " " + styles.loading : styles.item;
+
+    const handleUpdate = async (id, content, priority, date, dueDate, autoMove) => {
+        setIsLoading(true);
+        await updateTodo(id, { content, priority, date, dueDate: dueDate, autoMove });
+        setIsLoading(false);
+    };
+
+    const handleStatusChange = async () => {
+        setIsLoading(true);
+        await updateTodo(todo.id, { done: !todo.done });
+        setIsLoading(false);
+    };
+
+    const handleDeleteTodo = async () => {
+        setIsLoading(true);
+        await deleteTodo(todo.id);
+        setIsLoading(false);
+    };
+
+    const handleMoveToNextDay = async () => {
+        setIsLoading(true);
+        await moveToNextDay(todo.id);
+        setIsLoading(false);
+    };
+
+    console.log('TodoItem rendered', todo.id);
 
     return (
         <motion.li

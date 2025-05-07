@@ -26,6 +26,12 @@
     }
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+    @include mobile-only {
+        display: none;
+    }
+}
+
 input:not([type="checkbox"]),
 select { 
     font-size: rem(14);

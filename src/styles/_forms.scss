@@ -26,6 +26,12 @@
     }
 }
 
+input[type="date"] {
+    @include mobile-only {
+        appearance: none;
+    }
+}
+
 input[type="date"]::-webkit-calendar-picker-indicator {
     @include mobile-only {
         display: none;

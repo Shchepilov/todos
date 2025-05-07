@@ -32,7 +32,7 @@ export const useTodosStore = (set, get) => ({
                 autoMove,
                 timestamp: serverTimestamp(),
             });
-            return get().fetchTodos();
+            await get().fetchTodos();
         } catch (error) {
             throw new Error(error.message);
         }
@@ -41,7 +41,7 @@ export const useTodosStore = (set, get) => ({
     updateTodo: async (id, data) => {
         try {
             await updateDoc(doc(db, "todos", id), data);
-            return get().fetchTodos();
+            await get().fetchTodos();
         } catch (error) {
             throw new Error(error.message);
         }
@@ -51,7 +51,7 @@ export const useTodosStore = (set, get) => ({
         try {
             const date = dayjs(get().currentDay).add(1, "day").format("YYYY-MM-DD");
             await updateDoc(doc(db, "todos", id), { date });
-            return get().fetchTodos();
+            await get().fetchTodos();
         } catch (error) {
             throw new Error(error.message);
         }
@@ -60,7 +60,7 @@ export const useTodosStore = (set, get) => ({
     deleteTodo: async (id) => {
         try {
             await deleteDoc(doc(db, "todos", id));
-            return get().fetchTodos();
+            await get().fetchTodos();
         } catch (error) {
             throw new Error(error.message);
         }
@@ -119,7 +119,7 @@ export const useTodosStore = (set, get) => ({
                 await deleteDoc(doc.ref);
             });
 
-            return get().fetchTodos();
+            await get().fetchTodos();
         } catch (error) {
             throw new Error(error.message);
         }

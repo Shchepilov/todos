@@ -21,6 +21,7 @@ const TodoItem = ({ todo }) => {
 
     const handleUpdate = async (id, content, priority, date, dueDate, autoMove) => {
         setIsLoading(true);
+
         try {
             await updateTodo(id, { content, priority, date, dueDate: dueDate, autoMove });
         } finally {
@@ -30,6 +31,7 @@ const TodoItem = ({ todo }) => {
 
     const handleStatusChange = async () => {
         setIsLoading(true);
+
         try {
             await updateTodo(todo.id, { done: !todo.done });
         } finally {
@@ -39,6 +41,7 @@ const TodoItem = ({ todo }) => {
 
     const handleDeleteTodo = async () => {
         setIsLoading(true);
+
         try {
             await deleteTodo(todo.id);
         } finally {
@@ -48,6 +51,7 @@ const TodoItem = ({ todo }) => {
 
     const handleMoveToNextDay = async () => {
         setIsLoading(true);
+
         try {
             await moveToNextDay(todo.id);
         } finally {

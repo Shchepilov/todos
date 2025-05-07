@@ -24,7 +24,7 @@ export const useNotesStore = (set, get) => ({
                 ...content,
                 timestamp: serverTimestamp(),
             });
-            get().fetchNotes();
+            await get().fetchNotes();
         } catch (error) {
             throw new Error(error.message);
         }
@@ -49,7 +49,7 @@ export const useNotesStore = (set, get) => ({
     updateNote: async (id, data) => {
         try {
             await updateDoc(doc(db, "notes", id), data);
-            get().fetchNotes();
+            await get().fetchNotes();
         } catch (error) {
             throw new Error(error.message);
         }
@@ -58,7 +58,7 @@ export const useNotesStore = (set, get) => ({
     deleteNote: async (id) => {
         try {
             await deleteDoc(doc(db, "notes", id));
-            get().fetchNotes();
+            await get().fetchNotes();
         } catch (error) {
             throw new Error(error.message);
         }

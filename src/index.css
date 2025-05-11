@@ -146,6 +146,7 @@ button {
 /* The entire scrollbar */
 ::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
 }
 
 /* The track (background) of the scrollbar */

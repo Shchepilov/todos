@@ -1,17 +1,38 @@
+@use "@styles/functions" as *;
+
 .column {
     display: grid;
     align-content: start;
     gap: 1rem;
-    flex-basis: 33%;
-    border: 1px solid var(--border-color);
-    background-color: var(--header-bg);
+    background-color: var(--black-warm-85);
     color: var(--primary-text-color);
-    border-radius: 6px;
+    border-radius: 15px;
     padding: 1rem;
 }
 .header {
     display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
+}
+
+.titleWrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+}
+
+.title {
+    font-size: rem(18);
+    line-height: 1;
+    text-transform: capitalize;
+}
+
+.addTaskButton {
+    width: 25px;
+    height: 25px;
+    background: var(--violet-80);
+    color: var(--black-warm-off);
 }

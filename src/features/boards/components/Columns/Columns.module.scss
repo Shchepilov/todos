@@ -1,12 +1,22 @@
 @use "@styles/mixins" as *;
 
-.columns {
-    display: flex;
-    min-height: 500px;
-    gap: 1rem;
+.columnsWrapper {
+    display: grid;
+    max-width: 100%;
+}
 
-    @include tablet-down {
-        flex-direction: column;
-        min-height: auto;
+.columns {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 280px;
+    gap: 1rem;
+    margin-inline: -15px;
+    padding-inline: 15px;
+    overflow-x: auto;
+
+    @include mobile-only {
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 }

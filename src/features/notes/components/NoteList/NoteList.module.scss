@@ -1,13 +1,15 @@
 @use "@styles/functions" as *;
 
 :root {
-    --add-button-border: var(--black-warm-10);
+    --add-button-border: var(--black-warm-20);
     --add-button-bg: var(--black-warm-off);
+    --button-text: var(--black-warm-50);
 }
 
 [data-theme='dark'] {
-    --add-button-border: var(--black-warm-60);
+    --add-button-border: var(--black-warm-50);
     --add-button-bg: var(--black-warm-80);
+    --button-text: var(--black-warm-10);
 }
 
 .container {
@@ -40,7 +42,7 @@
     align-self: center;
     gap: 20px;
     text-align: center;
-    color: var(--black-warm-60);
+    color: var(--button-text);
     font-size: rem(18);
 }
 
@@ -51,4 +53,5 @@
     background: var(--add-button-bg);
     justify-self: center;
     position: relative;
+
 }

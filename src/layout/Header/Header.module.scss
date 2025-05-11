@@ -50,9 +50,10 @@
 
 .logo {
     width: 80px;
+    margin-top: -5px;
 
     @include mobile-only {
-        width: 35px;
+        width: 50px;
     }
 
     [data-theme="dark"] & {
@@ -95,8 +96,8 @@
 .slider {
     position: absolute;
     bottom: 0;
-    height: 2px;
-    border-radius: 2px;
+    height: 3px;
+    border-radius: 3px;
     background: var(--slider-todos-bg);
     transition: all 0.2s ease;
 

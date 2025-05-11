@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect, memo } from "react";
 import { useStore } from "@store/store"
 import { TrashIcon, Pencil1Icon, PaperPlaneIcon, CheckIcon } from "@radix-ui/react-icons";
-import * as Dialog from '@radix-ui/react-dialog';
 import Button from "@components/Button/Button";
 import Loader from "@components/Loader/Loader";
 import Modal from "@components/Modal/Modal";
@@ -64,13 +63,14 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
     };
 
     const handleUpdate = () => {
-        setEditMode(false);
         setIsAnyNoteInEditMode(false);
 
         if (!content) {
             deleteNote(note.id);
             return;
         }
+
+        setEditMode(false);
 
         if (content !== note.content || selectedColor !== note.color) {
             update(note.id, { content, color: selectedColor, edit: false });

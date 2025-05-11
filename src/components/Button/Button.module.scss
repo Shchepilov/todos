@@ -1,3 +1,5 @@
+@use "@styles/functions" as *;
+
 :root {
     --secondary-border-color: var(--black-warm-30);
     --secondary-border-color-hover: var(--black-warm-80);
@@ -41,6 +43,12 @@
     &:not([disabled]):hover {
         background: var(--violet-80);
     }
+
+    &.small:not(.icon) {
+        padding: 5px 7px;
+        border-radius: 4px;
+        font-size: rem(14);
+    }
 }
 
 .secondary {
@@ -60,6 +68,18 @@
 
     &:not([disabled]):hover {
         background: var(--pink-80);
+    }
+}
+
+.transparent {
+    padding: 0;
+    background: none;
+    border: none;
+    color: var(--primary-text-color);
+
+    &:not([disabled]):hover {
+        color: orange;
+        background: none;
     }
 }
 

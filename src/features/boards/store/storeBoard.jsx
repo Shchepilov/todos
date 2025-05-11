@@ -19,13 +19,14 @@ export const useBoardStore = (set, get) => ({
         const user = get().user;
 
         try {
-            await addDoc(collection(db, "boards"), {
+            const docRef = await addDoc(collection(db, "boards"), {
                 userId: user.uid,
                 name,
                 columns: [],
                 timestamp: serverTimestamp(),
             });
-            get().fetchBoards();
+            await get().fetchBoards();
+            return docRef.id;
         } catch (error) {
             throw new Error(error.message);
         }

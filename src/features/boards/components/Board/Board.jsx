@@ -1,13 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { TrashIcon, PlusIcon, GearIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import { useStore } from "@store/store";
-import ColumnForm from '../ColumnForm/ColumnForm';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import Button from '@components/Button/Button';
+import Modal from "@components/Modal/Modal";
+import ColumnForm from './ColumnForm';
 import Columns from '../Columns/Columns';
+import dropdown from '@components/Dropdown/Dropdown.module.scss';
 import styles from './Board.module.scss';
 
 const Board = () => {
     const boards = useStore((state) => state.boards);
     const deleteBoard = useStore((state) => state.deleteBoard);
+    const [columnFormModal, setColumnFormModal] = useState(false);
     const { boardId } = useParams();
     const navigate = useNavigate();
 
@@ -25,17 +31,48 @@ const Board = () => {
         await deleteBoard(boardId);
     };
 
-    return ( 
-        <div className={styles.board}>
-            <h2 className={styles.title}>
-                {board.name}
-                <button onClick={handleDeleteBoard}>x</button>
-            </h2>
+    const showColumnForm = () => {
+        setColumnFormModal(true);
+    }
 
-            <ColumnForm boardId={boardId} />
+    return ( 
+        <main className={styles.board}>
+            <header className={styles.header}>
+                <div className={styles.titleWrapper}>
+                    <h2 className={styles.title}>{board.name}</h2>
+
+                    <DropdownMenu.Root>
+                        <DropdownMenu.Trigger asChild>
+                            <Button variation="transparent">
+                                <GearIcon width={18} height={18} />
+                            </Button>
+                        </DropdownMenu.Trigger>
+        
+                        <DropdownMenu.Portal>
+                            <DropdownMenu.Content className={dropdown.content} align="start" sideOffset={5}>
+                                <DropdownMenu.Item className={dropdown.item} onSelect={() => console.log('Edit')}>
+                                    <Pencil1Icon /> Edit
+                                </DropdownMenu.Item>
+        
+                                <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={handleDeleteBoard}>
+                                    <TrashIcon /> Delete Board
+                                </DropdownMenu.Item>
+                            </DropdownMenu.Content>
+                        </DropdownMenu.Portal>
+                    </DropdownMenu.Root>
+                </div>
+
+                <Button size='small' className={styles.addColumnButton} onClick={showColumnForm}>
+                    <PlusIcon width={16} height={16}/> Column
+                </Button>
+            </header>
+
+            <Modal heading='+ Add Coulmn' isDialogOpen={columnFormModal} setIsDialogOpen={setColumnFormModal}>
+                <ColumnForm boardId={boardId} />
+            </Modal>
 
             <Columns boardId={boardId} />
-        </div>
+        </main>
      );
 }
  

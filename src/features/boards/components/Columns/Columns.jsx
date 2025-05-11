@@ -6,10 +6,12 @@ const Columns = ({boardId}) => {
     const columns = useStore((state) => state.columns[boardId]);
 
     return (
-        <div className={styles.columns}>
-            {columns && columns.map((column) => (
-                <Column key={column.id} column={column} boardId={boardId} />
-            ))}
+        <div className={styles.columnsWrapper}>
+            <div className={styles.columns}>
+                {columns && columns.map((column) => (
+                    <Column key={column.id} column={column} boardId={boardId} />
+                ))}
+            </div>
         </div>
      );
 }

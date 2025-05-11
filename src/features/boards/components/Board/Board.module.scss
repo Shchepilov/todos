@@ -1,12 +1,49 @@
+@use "@styles/mixins" as *;
+@use "@styles/functions" as *;
+
 .board {
-    border: 1px solid var(--border-color);
-    padding: 1rem;
-    border-radius: 12px;
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    padding: 20px;
+    border-radius: 20px;
+    background: var(--layout-todos-bg);
+    border: 1px solid var(--layout-todos-border);
+    box-shadow: 0 16px 32px 0 rgb(12, 12, 13, 0.1);
+    min-height: 75vh;
+
+    @include mobile-only {
+        padding: 16px;
+        min-height: 80vh;
+        width: 100%;
+    }
+
+    @include desktop-only {
+        min-width: 400px;
+    }
+}
+
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;   
 }
 
 .title {
+    font-size: rem(18);
+    line-height: 1;
+    text-transform: capitalize;
+}
+
+.titleWrapper {
     display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 1rem;
+    align-items: flex-start;
+    gap: 7px;
+}
+
+.addColumnButton {
+    margin-left: auto;
+    gap: 5px;
 }

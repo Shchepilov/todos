@@ -14,7 +14,7 @@ const Column = ({ column, boardId }) => {
     const [taskFormModal, setTaskFormModal] = useState(false);
 
     const showTaskForm = () => setTaskFormModal(true);
-    const handleDeleteColumn = () => deleteColumn(column.id, boardId)
+    const handleDeleteColumn = () => deleteColumn(column.id, boardId);
 
     return ( 
         <div className={styles.column}>

@@ -1,7 +1,130 @@
+@use "@styles/functions" as *;
+
+:root {
+    --task-bg: #fff;
+    --task-border-color: var(--black-warm-10);
+}
+
+[data-theme="dark"] {
+    --task-bg: var(--black-warm-90);
+    --task-border-color: var(--task-bg);
+}
+
 .item {
+    display: grid;
+    gap: 10px;
+    background: var(--task-bg);
+    border: 1px solid var(--task-border-color);
+    padding: 10px 7px 10px 20px;
+    border-radius: 5px;
+    position: relative;
+    animation: appear 0.2s ease;
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 5px;
+        left: 8px;
+        bottom: 5px;
+        border-radius: 2px;
+        width: 4px;
+    }
+}
+
+.title {
+    font-size: rem(14);
+    font-weight: 300;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.priority {
     display: flex;
-    justify-content: space-between;
-    padding: 0.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: 3px;
+    align-items: center;
+    gap: 5px;
+    color: var(--black-warm-40);
+}
+
+.fieldWrapper {
+    display: grid;
+    grid-template-columns: min-content min-content;
+    gap: 10px;
+    align-items: center;
+}
+
+.field {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: span 2;
+    gap: 0.5rem;
+    align-items: center;
+
+    label {
+        white-space: nowrap;
+    }
+}
+
+.select {
+    padding: 3px 30px 3px 7px;
+    height: auto;
+    width: auto;
+    background-position: center right 5px;
+    text-transform: capitalize;
+}
+
+[data-priority="6"] {
+    box-shadow: inset 0 0 3px 0px red;
+
+    &:before {
+        background-color: red;
+    }
+}
+
+[data-priority="5"] {
+    &:before {
+        background-color: var(--pink-80);
+    }
+}
+
+[data-priority="4"] {
+    &:before {
+        background-color: var(--orange-80);
+    }
+}
+
+[data-priority="3"] {
+    &:before {
+        background-color: var(--yellow-100);
+    }
+}
+
+[data-priority="2"] {
+    &:before {
+        background-color: var(--green-80);
+    }
+}
+
+[data-priority="1"] {
+    &:before {
+        background-color: var(--black-warm-20);
+    }
+}
+
+.taskDetail {
+    display: grid;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

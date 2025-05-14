@@ -61,19 +61,19 @@
   --font-family: "Inter Tight", serif;
   --primary-text-color: var(--black-warm);
   --site-bg: var(--black-warm-off);
-  --dot: #bebebe;
+  --dot: #c6c6c6;
   --scrollbar-thumb: var(--black-warm-10);
   --accent-color: var(--black-warm-80);
 }
 
 [data-theme="dark"] {
     --site-bg: var(--black-warm-80);
-    --dot: #6b6b6b;
+    --dot: #585b62;
     --scrollbar-thumb: var(--black-warm-60);
     --accent-color: var(--black-warm-10);
     --primary-text-color: var(--black-warm-off);
 }
-
+sortedList
 /* ======================== Eric Meyer's CSS Reset */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,

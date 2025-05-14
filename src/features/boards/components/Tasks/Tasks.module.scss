@@ -1,4 +1,9 @@
 .tasks {
     display: grid;
+    align-content: start;
     gap: 1rem;
+    height: 60vh;
+    margin-right: -5px;
+    padding-right: 5px;
+    overflow-y: auto;
 }

@@ -37,7 +37,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         display: none;
     }
 }
-
+textarea,
 input:not([type="checkbox"]),
 select { 
     font-size: rem(14);
@@ -61,6 +61,11 @@ select {
     &:disabled {
         opacity: 0.5;
     }
+}
+
+textarea {
+    height: auto;
+    resize: none;
 }
 
 select {
@@ -88,6 +93,7 @@ select {
 .label {
     display: flex;
     font-size: rem(12);
+    margin-inline: 2px;
 }
 
 .field {

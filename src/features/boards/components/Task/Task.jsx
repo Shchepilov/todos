@@ -2,7 +2,7 @@ import { useStore } from "@store/store";
 import { useNavigate } from 'react-router-dom';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import dropdown from '@components/Dropdown/Dropdown.module.scss';
-import { DotsVerticalIcon } from "@radix-ui/react-icons";
+import { DotsVerticalIcon, TrashIcon } from "@radix-ui/react-icons";
 import Button from "@components/Button/Button";
 import styles from './Task.module.scss';
 import { motion } from "framer-motion";
@@ -45,8 +45,13 @@ const Task = ({ task }) => {
             className={styles.item} 
             data-priority={task.priority}>
                 
-                
-            <p className={styles.title} onClick={handleTaskDetails}>{task.title}</p>
+                <header className={styles.header}>
+                    <span role="button" className={styles.title} onClick={handleTaskDetails}>{task.title}</span>
+
+                    <Button variation="transparent" size="small" aria-label="Delete task">
+                        <TrashIcon onClick={handleDeleteTask} />
+                    </Button>
+                </header>
             
             <div className={styles.fieldWrapper}>
                 <div className={styles.field}>
@@ -71,7 +76,6 @@ const Task = ({ task }) => {
                     </select>
                 </div>
             </div>
-
                             
 
             {/* <DropdownMenu.Root>

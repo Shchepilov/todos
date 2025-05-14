@@ -12,17 +12,46 @@ import styles from './Column.module.scss';
 
 const Column = ({ column, boardId }) => {
     const deleteColumn = useStore((state) => state.deleteColumn);
+    const updateTask = useStore((state) => state.updateTask);
     const [taskFormModal, setTaskFormModal] = useState(false);
+    const [isDragOver, setIsDragOver] = useState(false);
 
     const showTaskForm = () => setTaskFormModal(true);
     const handleDeleteColumn = () => deleteColumn(column.id, boardId);
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+
+        if (!isDragOver) setIsDragOver(true);
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+
+        setIsDragOver(false);
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        setIsDragOver(false);
+        
+        const dragTaskId = e.dataTransfer.getData("taskId");
+        const dragColumnId = e.dataTransfer.getData("columnId");
+
+        if (dragColumnId !== column.id) {
+            updateTask(boardId, dragTaskId, { columnId: column.id });
+        }
+    };
 
     return ( 
         <motion.div 
             layout
             exit={{ opacity: 0, x: 15 }}
             transition={{ duration: 0.2 }}
-            className={styles.column}>
+            className={`${styles.column} ${isDragOver ? styles.dragOver : ''}`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}>
 
             <div className={styles.header}>
                 <div className={styles.titleWrapper}>

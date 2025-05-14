@@ -13,10 +13,17 @@
     align-content: start;
     gap: 1rem;
     background-color: var(--column-bg);
+    border: 1px dashed transparent;
     color: var(--primary-text-color);
     border-radius: 15px;
     padding: 1rem;
     animation: appear 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+.dragOver {
+    opacity: 0.8;
+    border-color: var(--black-warm-40);
 }
 
 .header {

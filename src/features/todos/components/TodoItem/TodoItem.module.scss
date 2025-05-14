@@ -35,6 +35,24 @@
     &:has(input:checked) {
         opacity: 0.3;
     }
+
+    &[data-priority="3"] {
+        &:before {
+            background-color: var(--pink-80);
+        }
+    }
+    
+    &[data-priority="2"] {
+        &:before {
+            background-color: var(--yellow-100);
+        }
+    }
+    
+    &[data-priority="1"] {
+        &:before {
+            background-color: var(--green-80);
+        }
+    }
 }
 
 .loading:before {
@@ -76,24 +94,6 @@
 
 .isToday {
     color: var(--pink-80);
-}
-
-[data-priority="3"] {
-    &:before {
-        background-color: var(--pink-80);
-    }
-}
-
-[data-priority="2"] {
-    &:before {
-        background-color: var(--yellow-100);
-    }
-}
-
-[data-priority="1"] {
-    &:before {
-        background-color: var(--green-80);
-    }
 }
 
 .TodoItem input {

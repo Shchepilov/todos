@@ -24,8 +24,21 @@ const Task = ({ task }) => {
         navigate(`/boards/${task.boardId}/tasks/${task.id}`);
     };
 
+    const handleDragStart = (e) => {
+        e.dataTransfer.setData("taskId", task.id);
+        e.dataTransfer.setData("columnId", task.columnId);
+        e.target.classList.add(styles.dragging);
+    };
+
+    const handleDragEnd = (e) => {
+        e.target.classList.remove(styles.dragging);
+    };
+
     return (
         <motion.li
+            draggable="true"
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
             layout
             exit={{ opacity: 0, scale: 0.5 }}
             transition={{ duration: 0.2 }}

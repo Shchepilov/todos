@@ -1,14 +1,24 @@
 @use "@styles/functions" as *;
 
+:root {
+    --column-bg: var(--black-warm-5);
+}
+
+[data-theme="dark"] {
+    --column-bg: var(--black-warm-85);
+}
+
 .column {
     display: grid;
     align-content: start;
     gap: 1rem;
-    background-color: var(--black-warm-85);
+    background-color: var(--column-bg);
     color: var(--primary-text-color);
     border-radius: 15px;
     padding: 1rem;
+    animation: appear 0.2s ease;
 }
+
 .header {
     display: flex;
     flex-wrap: wrap;
@@ -32,6 +42,18 @@
 .addTaskButton {
     width: 25px;
     height: 25px;
-    background: var(--violet-80);
-    color: var(--black-warm-off);
+    background: transparent;
+    color: var(--black-warm-40);
+    border: 1px solid var(--black-warm-40);
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

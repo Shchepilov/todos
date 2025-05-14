@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Routes, Route } from 'react-router-dom';
 import { TrashIcon, PlusIcon, GearIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import { useStore } from "@store/store";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
@@ -7,6 +7,7 @@ import Button from '@components/Button/Button';
 import Modal from "@components/Modal/Modal";
 import ColumnForm from './ColumnForm';
 import Columns from '../Columns/Columns';
+import TaskDetail from '../Task/TaskDetail';
 import dropdown from '@components/Dropdown/Dropdown.module.scss';
 import styles from './Board.module.scss';
 
@@ -67,11 +68,16 @@ const Board = () => {
                 </Button>
             </header>
 
-            <Modal heading='+ Add Coulmn' isDialogOpen={columnFormModal} setIsDialogOpen={setColumnFormModal}>
+            <Modal heading='+ Add Column' isDialogOpen={columnFormModal} setIsDialogOpen={setColumnFormModal}>
                 <ColumnForm boardId={boardId} />
             </Modal>
 
             <Columns boardId={boardId} />
+
+            {/* Task Detail Modal Route */}
+            <Routes>
+                <Route path="tasks/:taskId" element={<TaskDetail />} />
+            </Routes>
         </main>
      );
 }

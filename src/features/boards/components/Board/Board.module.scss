@@ -1,12 +1,20 @@
 @use "@styles/mixins" as *;
 @use "@styles/functions" as *;
 
+:root {
+    --board-bg: #fff;
+}
+
+[data-theme="dark"] {
+    --board-bg: var(--black-warm-70);
+}
+
 .board {
     display: grid;
     grid-template-rows: min-content 1fr;
     padding: 20px;
     border-radius: 20px;
-    background: var(--layout-todos-bg);
+    background: var(--board-bg);
     border: 1px solid var(--layout-todos-border);
     box-shadow: 0 16px 32px 0 rgb(12, 12, 13, 0.1);
     min-height: 75vh;

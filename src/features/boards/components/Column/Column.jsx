@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useStore } from "@store/store";
 import { TrashIcon, PlusIcon, GearIcon, Pencil1Icon } from "@radix-ui/react-icons";
+import { motion } from "framer-motion";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import dropdown from '@components/Dropdown/Dropdown.module.scss';
 import Modal from "@components/Modal/Modal";
@@ -17,7 +18,12 @@ const Column = ({ column, boardId }) => {
     const handleDeleteColumn = () => deleteColumn(column.id, boardId);
 
     return ( 
-        <div className={styles.column}>
+        <motion.div 
+            layout
+            exit={{ opacity: 0, x: 15 }}
+            transition={{ duration: 0.2 }}
+            className={styles.column}>
+
             <div className={styles.header}>
                 <div className={styles.titleWrapper}>
                     <h3 className={styles.title}>{column.name}</h3>
@@ -53,7 +59,7 @@ const Column = ({ column, boardId }) => {
             </Modal>
 
             <Tasks columnId={column.id} boardId={boardId} />
-        </div>
+        </motion.div>
      );
 }
  

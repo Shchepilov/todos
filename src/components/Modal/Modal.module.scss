@@ -33,8 +33,6 @@
 
 .content {
     position: fixed;
-    inset: 0;
-    margin: auto;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -43,8 +41,21 @@
     height: fit-content;
     background: var(--modal-bg);
     padding: 16px;
-    animation: contentShow 0.2s ease;
     z-index: 6;
+
+    &.center {
+        animation: showCenter 0.2s ease;
+        inset: 0;
+        margin: auto;
+    }
+    
+    &.right {
+        right: 20px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        animation: contentSlide 0.2s ease;
+    }
 
     @include mobile-only {
         margin: 65px auto;
@@ -91,7 +102,7 @@
 	}
 }
 
-@keyframes contentShow {
+@keyframes showCenter {
 	from {
 		opacity: 0;
 		transform: translateY(-5px);
@@ -100,4 +111,15 @@
 		opacity: 1;
 		transform: translateY(0);
 	}
+}
+
+@keyframes contentSlide {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }

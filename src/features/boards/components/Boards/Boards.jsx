@@ -83,7 +83,7 @@ const Boards = () => {
                         ? <Navigate to={`/boards/${boards.at(-1).id}`} replace />
                         : null
                 } />
-                <Route path="/:boardId" element={<Board />} />
+                <Route path="/:boardId/*" element={<Board />} />
             </Routes>
 
             <Modal heading='+ Add Board' isDialogOpen={boardFormModal} setIsDialogOpen={setBoardFormModal}>

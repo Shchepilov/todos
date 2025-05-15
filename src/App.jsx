@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useStore } from "@store/store";
 import Auth from "./pages/Auth/Auth";
+import 'drag-drop-touch';
 import AuthenticatedApp from "./pages/AuthenticatedApp/AuthenticatedApp";
 import "@styles/global.scss";
 import styles from "./App.module.scss";

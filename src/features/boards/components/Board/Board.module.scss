@@ -45,13 +45,26 @@
     text-transform: capitalize;
 }
 
+.loading {
+    animation: rotation 1s linear infinite;
+}
+
 .titleWrapper {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 7px;
 }
 
 .addColumnButton {
     margin-left: auto;
     gap: 5px;
+}
+
+@keyframes rotation {
+    from {
+        rotate: 0;
+    }
+    to {
+        rotate: 360deg;
+    }
 }

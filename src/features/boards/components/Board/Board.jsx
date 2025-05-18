@@ -13,8 +13,10 @@ import styles from './Board.module.scss';
 
 const Board = () => {
     const boards = useStore((state) => state.boards);
+    const fetchBoardData = useStore((state) => state.fetchBoardData);
     const deleteBoard = useStore((state) => state.deleteBoard);
     const [columnFormModal, setColumnFormModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const { boardId } = useParams();
     const navigate = useNavigate();
 
@@ -26,7 +28,18 @@ const Board = () => {
         }
     }, [board]);
 
-    if (!board) return;
+    useEffect(() => {
+        const fetch = async () => {
+            setIsLoading(true);
+
+            try {
+                await fetchBoardData(boardId);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetch();
+    }, [boardId]);
 
     const handleDeleteBoard = async () => {
         await deleteBoard(boardId);
@@ -45,7 +58,7 @@ const Board = () => {
                     <DropdownMenu.Root>
                         <DropdownMenu.Trigger asChild>
                             <Button variation="transparent">
-                                <GearIcon width={18} height={18} />
+                                <GearIcon className={isLoading ? styles.loading : ''} />
                             </Button>
                         </DropdownMenu.Trigger>
         

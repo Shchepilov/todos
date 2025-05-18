@@ -13,8 +13,10 @@ import styles from './Column.module.scss';
 const Column = ({ column, boardId }) => {
     const deleteColumn = useStore((state) => state.deleteColumn);
     const updateTask = useStore((state) => state.updateTask);
+    const setDroppedColumnId = useStore((state) => state.setDroppedColumnId);
     const [taskFormModal, setTaskFormModal] = useState(false);
     const [isDragOver, setIsDragOver] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const showTaskForm = () => setTaskFormModal(true);
     const handleDeleteColumn = () => deleteColumn(column.id, boardId);
@@ -31,15 +33,22 @@ const Column = ({ column, boardId }) => {
         setIsDragOver(false);
     };
 
-    const handleDrop = (e) => {
+    const handleDrop = async(e) => {
         e.preventDefault();
         setIsDragOver(false);
+        setDroppedColumnId(column.id);
         
         const dragTaskId = e.dataTransfer.getData("taskId");
         const dragColumnId = e.dataTransfer.getData("columnId");
 
         if (dragColumnId !== column.id) {
-            updateTask(boardId, dragTaskId, { columnId: column.id });
+            setIsLoading(true);
+            
+            try {
+                await updateTask(boardId, dragTaskId, { columnId: column.id });
+            } finally {
+                setIsLoading(false);
+            }
         }
     };
 
@@ -60,7 +69,7 @@ const Column = ({ column, boardId }) => {
                     <DropdownMenu.Root>
                         <DropdownMenu.Trigger asChild>
                             <Button variation="transparent">
-                                <GearIcon width={18} height={18} />
+                                <GearIcon className={isLoading ? styles.loading : ''} />
                             </Button>
                         </DropdownMenu.Trigger>
         

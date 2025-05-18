@@ -10,7 +10,7 @@ export const useStore = create(
     persist(
         (set, get) => ({
             currentDay: dayjs(),
-            theme: "light",
+            theme: "dark",
 
             toggleTheme: () => set((state) => ({ theme: state.theme === "light" ? "dark" : "light" })),
             setCurrentDay: (currentDay) => set({ currentDay }),

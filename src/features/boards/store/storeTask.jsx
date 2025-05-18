@@ -14,6 +14,8 @@ import { db } from "@baseUrl/firebase";
 
 export const useTaskStore = (set, get) => ({
     tasks: {},
+    droppedColumnId: null,
+    setDroppedColumnId: (columnId) => set({ droppedColumnId: columnId }),
 
     addTask: async (boardId, columnId, taskData) => {
         try {

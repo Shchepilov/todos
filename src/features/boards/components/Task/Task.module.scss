@@ -23,11 +23,11 @@
     &:before {
         content: '';
         position: absolute;
-        top: 5px;
+        top: 7px;
         left: 8px;
-        bottom: 5px;
-        border-radius: 2px;
-        width: 4px;
+        bottom: 7px;
+        border-radius: 4px;
+        width: 5px;
     }
 
     &[data-priority="6"] { 
@@ -103,6 +103,18 @@
     align-items: center;
 }
 
+.dragHandle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 35px;
+    cursor: grab;
+}
+
 .field {
     display: grid;
     grid-template-columns: subgrid;
@@ -121,6 +133,12 @@
     width: auto;
     background-position: center right 5px;
     text-transform: capitalize;
+}
+
+.deleteButton {
+    position: absolute;
+    bottom: 5px;
+    right: 2px;
 }
 
 .taskDetail {

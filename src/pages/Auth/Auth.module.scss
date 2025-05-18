@@ -9,6 +9,10 @@
 .guestTitle {
     width: 250px;
     margin-bottom: 20px;
+
+    [data-theme="dark"] & {
+        filter: invert(1);
+    }
 }
 
 .signButton {

@@ -12,6 +12,7 @@ const Task = ({ task }) => {
     const deleteTask = useStore((state) => state.deleteTask);
     const updateTask = useStore((state) => state.updateTask);
     const droppedColumnId = useStore((state) => state.droppedColumnId);
+    const setDroppedColumnId = useStore((state) => state.setDroppedColumnId);
     const columns = useStore((state) => state.columns[task.boardId]);
 
     const navigate = useNavigate();
@@ -29,6 +30,7 @@ const Task = ({ task }) => {
     };
 
     const handleDragStart = (e) => {
+        setDroppedColumnId(task.columnId);
         e.dataTransfer.setData("taskId", task.id);
         e.dataTransfer.setData("columnId", task.columnId);
         

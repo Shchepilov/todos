@@ -11,6 +11,8 @@ import { PlusIcon } from '@radix-ui/react-icons';
 const Boards = () => {
     const [boardFormModal, setBoardFormModal] = useState(false);
     const [sliderStyle, setSliderStyle] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+    const fetchBoards = useStore((state) => state.fetchBoards);
     const [pageLink, setPageLink] = useState('');
     const navRef = useRef(null);
     const navWrapper = useRef(null);
@@ -36,6 +38,19 @@ const Boards = () => {
         const clickedItem = e.currentTarget;
         scrollNavigation(clickedItem);
     };
+
+    useEffect(() => {
+        const fetch = async () => {
+            setIsLoading(true);
+
+            try {
+                await fetchBoards();
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetch();
+    }, []);
 
     useEffect(() => {
         if(!boards || boards.length === 0) return;

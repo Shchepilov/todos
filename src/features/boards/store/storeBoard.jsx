@@ -22,7 +22,6 @@ export const useBoardStore = (set, get) => ({
             const docRef = await addDoc(collection(db, "boards"), {
                 userId: user.uid,
                 name,
-                columns: [],
                 timestamp: serverTimestamp(),
             });
             await get().fetchBoards();

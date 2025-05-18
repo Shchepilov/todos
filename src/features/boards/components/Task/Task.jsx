@@ -1,8 +1,9 @@
 import { useStore } from "@store/store";
 import { useNavigate } from 'react-router-dom';
+import { useRef } from 'react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import dropdown from '@components/Dropdown/Dropdown.module.scss';
-import { DotsVerticalIcon, TrashIcon } from "@radix-ui/react-icons";
+import { DotsVerticalIcon, DragHandleDots2Icon, TrashIcon } from "@radix-ui/react-icons";
 import Button from "@components/Button/Button";
 import styles from './Task.module.scss';
 import { motion } from "framer-motion";
@@ -10,8 +11,11 @@ import { motion } from "framer-motion";
 const Task = ({ task }) => {
     const deleteTask = useStore((state) => state.deleteTask);
     const updateTask = useStore((state) => state.updateTask);
+    const droppedColumnId = useStore((state) => state.droppedColumnId);
     const columns = useStore((state) => state.columns[task.boardId]);
+
     const navigate = useNavigate();
+    const taskRef = useRef(null);
 
     const handleChangeColumn = (e) => updateTask(task.boardId, task.id, { columnId: e.target.value });
     const handleChangePriority = (e) => updateTask(task.boardId, task.id, { priority: e.target.value });
@@ -27,18 +31,22 @@ const Task = ({ task }) => {
     const handleDragStart = (e) => {
         e.dataTransfer.setData("taskId", task.id);
         e.dataTransfer.setData("columnId", task.columnId);
-        e.target.classList.add(styles.dragging);
+        
+        taskRef.current.classList.add(styles.dragging);
+        const taskWidth = taskRef.current.offsetWidth;
+    
+        e.dataTransfer.setDragImage(taskRef.current, taskWidth - 15, 20);
     };
 
-    const handleDragEnd = (e) => {
-        e.target.classList.remove(styles.dragging);
+    const handleDragEnd = () => {
+        if (task.columnId === droppedColumnId) {
+            taskRef.current.classList.remove(styles.dragging);
+        }
     };
 
     return (
         <motion.li
-            draggable="true"
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
+            ref={taskRef}
             layout
             exit={{ opacity: 0, scale: 0.5 }}
             transition={{ duration: 0.2 }}
@@ -48,9 +56,13 @@ const Task = ({ task }) => {
                 <header className={styles.header}>
                     <span role="button" className={styles.title} onClick={handleTaskDetails}>{task.title}</span>
 
-                    <Button variation="transparent" size="small" aria-label="Delete task">
-                        <TrashIcon onClick={handleDeleteTask} />
-                    </Button>
+                    <div draggable="true"
+                         onDragStart={handleDragStart}
+                         onDragEnd={handleDragEnd}
+                         className={styles.dragHandle}>
+
+                        <DragHandleDots2Icon width={20} height={20} />
+                    </div>
                 </header>
             
             <div className={styles.fieldWrapper}>
@@ -76,6 +88,10 @@ const Task = ({ task }) => {
                     </select>
                 </div>
             </div>
+
+            <Button variation="transparent" className={styles.deleteButton} size="small" aria-label="Delete task">
+                <TrashIcon onClick={handleDeleteTask} />
+            </Button>
                             
 
             {/* <DropdownMenu.Root>

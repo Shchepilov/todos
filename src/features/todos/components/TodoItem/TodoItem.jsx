@@ -50,8 +50,6 @@ const TodoItem = ({ todo }) => {
         setIsLoading(false);
     };
 
-    console.log('TodoItem rendered', todo.id);
-
     return (
         <motion.li
             key={todo.id}

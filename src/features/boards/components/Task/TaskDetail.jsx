@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useStore } from "@store/store";
 import { useParams, useNavigate } from 'react-router-dom';
+import { TrashIcon } from "@radix-ui/react-icons";
 import Modal from "@components/Modal/Modal";
 import styles from './Task.module.scss';
 import Button from '@components/Button/Button';
@@ -80,9 +81,9 @@ const TaskDetail = () => {
                     </div>
                 </div>
                 
-                <div className="button-group">
-                    <Button variation="confirmation" onClick={handleDeleteTask}>Delete</Button>
-                </div>
+                <Button variation="transparent" size="small" className={styles.detailDeleteButton} aria-label="Delete task">
+                    <TrashIcon onClick={handleDeleteTask} width={18} height={18} />
+                </Button>
             </div>
         </Modal>
     );

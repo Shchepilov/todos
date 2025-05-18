@@ -34,31 +34,34 @@
 .content {
     position: fixed;
     display: flex;
+    inset: 0;
     flex-direction: column;
     gap: 16px;
-    width: 90%;
-    max-width: 400px;
     height: fit-content;
     background: var(--modal-bg);
     padding: 16px;
+    animation: showCenter 0.2s ease;
     z-index: 6;
 
-    &.center {
-        animation: showCenter 0.2s ease;
-        inset: 0;
-        margin: auto;
-    }
     
-    &.right {
-        right: 20px;
-        top: 0;
-        bottom: 0;
-        margin: auto;
-        animation: contentSlide 0.2s ease;
-    }
+    
+    @include desktop-only {
+        width: 90%;
+        max-width: 400px;
 
-    @include mobile-only {
-        margin: 65px auto;
+        &.center {
+            inset: 0;
+            margin: auto;
+        }
+
+        &.right {
+            right: 20px;
+            top: 0;
+            left: auto;
+            bottom: 0;
+            margin: auto;
+            animation: contentSlide 0.2s ease;
+        }
     }
 }
 

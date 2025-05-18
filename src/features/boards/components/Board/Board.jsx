@@ -41,6 +41,8 @@ const Board = () => {
         fetch();
     }, [boardId]);
 
+    if(!board) return;
+
     const handleDeleteBoard = async () => {
         await deleteBoard(boardId);
     };

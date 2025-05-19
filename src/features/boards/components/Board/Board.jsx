@@ -24,12 +24,6 @@ const Board = () => {
     const board = boards.find(board => board.id === boardId);
 
     useEffect(() => {
-        if (!board) {
-            navigate('/boards', { replace: true });
-        }
-    }, [board]);
-
-    useEffect(() => {
         const fetch = async () => {
             setIsLoading(true);
 
@@ -46,6 +40,7 @@ const Board = () => {
 
     const handleDeleteBoard = async () => {
         await deleteBoard(boardId);
+        await navigate('/boards');
     };
 
     const showColumnForm = () => {

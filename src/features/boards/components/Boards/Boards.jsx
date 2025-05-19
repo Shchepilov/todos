@@ -13,6 +13,7 @@ const Boards = () => {
     const [sliderStyle, setSliderStyle] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const fetchBoards = useStore((state) => state.fetchBoards);
+    const activeBoardId = useStore((state) => state.activeBoardId);
     const [pageLink, setPageLink] = useState('');
     const navRef = useRef(null);
     const navWrapper = useRef(null);
@@ -95,7 +96,7 @@ const Boards = () => {
             <Routes>
                 <Route path="/" element={
                     boards && boards.length > 0 
-                        ? <Navigate to={`/boards/${boards.at(-1).id}`} replace />
+                        ? <Navigate to={`/boards/${activeBoardId ? activeBoardId : boards.at(-1).id}`} replace />
                         : null
                 } />
                 <Route path="/:boardId/*" element={<Board />} />

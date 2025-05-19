@@ -9,8 +9,8 @@ import Button from '@components/Button/Button';
 const TaskDetail = () => {
     const { boardId, taskId } = useParams();
     const navigate = useNavigate();
-    const columns = useStore((state) => state.columns[boardId]);
-    const tasks = useStore((state) => state.tasks[boardId] || []);
+    const columns = useStore((state) => state.columns);
+    const tasks = useStore((state) => state.tasks);
     const updateTask = useStore((state) => state.updateTask);
     const deleteTask = useStore((state) => state.deleteTask);
     const task = tasks.find(task => task.id === taskId);

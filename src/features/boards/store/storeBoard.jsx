@@ -14,6 +14,7 @@ import { db } from "@baseUrl/firebase";
 
 export const useBoardStore = (set, get) => ({
     boards: [],
+    activeBoardId: null,
 
     addBoard: async (name) => {
         const user = get().user;
@@ -62,6 +63,8 @@ export const useBoardStore = (set, get) => ({
             await get().deleteAllColumns(id);
             await get().deleteAllBoardTasks(id);
             await get().fetchBoards();
+
+            set({ activeBoardId: null });
         } catch (error) {
             throw new Error(error.message);
         }
@@ -91,10 +94,7 @@ export const useBoardStore = (set, get) => ({
                 ...doc.data()
             }));
 
-            set(state => ({
-                columns: { ...state.columns, [boardId]: columns },
-                tasks: { ...state.tasks, [boardId]: tasks }
-            }));
+            set({ activeBoardId: boardId, columns, tasks });
         } catch (error) {
             throw new Error(error.message);
         }

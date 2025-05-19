@@ -13,7 +13,7 @@
     grid-template-columns: min-content 1fr;
     align-items: start;
     gap: 10px;
-    padding: 12px 38px 12px 20px;
+    padding: 12px 38px 12px 22px;
     border-radius: 8px;
     animation: appear 0.2s ease;
     overflow: hidden;
@@ -25,10 +25,16 @@
     &:before {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        width: 10px;
+        // top: 0;
+        // left: 0;
+        // bottom: 0;
+        // width: 10px;
+
+        top: 7px;
+        left: 8px;
+        bottom: 7px;
+        border-radius: 4px;
+        width: 6px;
         background-color: var(--black-warm-10);
     }
 

@@ -13,7 +13,7 @@ import {
 import { db } from "@baseUrl/firebase";
 
 export const useColumnStore = (set, get) => ({
-    columns: {},
+    columns: [],
 
     addColumn: async (boardId, name) => {
         try {

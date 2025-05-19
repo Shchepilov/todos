@@ -15,6 +15,7 @@ const Board = () => {
     const boards = useStore((state) => state.boards);
     const fetchBoardData = useStore((state) => state.fetchBoardData);
     const deleteBoard = useStore((state) => state.deleteBoard);
+    const columns = useStore((state) => state.columns);
     const [columnFormModal, setColumnFormModal] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const { boardId } = useParams();
@@ -87,7 +88,13 @@ const Board = () => {
                 <ColumnForm boardId={boardId} />
             </Modal>
 
-            <Columns boardId={boardId} />
+            {columns.length === 0 ? (
+                <div className={styles.noColumns}>
+                    <p>No Columns</p>
+                </div>
+            ) : (
+                <Columns boardId={boardId} />
+            )}
 
             {/* Task Detail Modal Route */}
             <Routes>

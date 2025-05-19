@@ -59,6 +59,13 @@
     gap: 5px;
 }
 
+.noColumns {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    color: var(--button-text);
+}
+
 @keyframes rotation {
     from {
         rotate: 0;

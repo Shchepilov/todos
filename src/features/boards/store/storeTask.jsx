@@ -13,7 +13,7 @@ import {
 import { db } from "@baseUrl/firebase";
 
 export const useTaskStore = (set, get) => ({
-    tasks: {},
+    tasks: [],
     droppedColumnId: null,
     setDroppedColumnId: (columnId) => set({ droppedColumnId: columnId }),
 

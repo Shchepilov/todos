@@ -13,7 +13,7 @@ const Task = ({ task }) => {
     const updateTask = useStore((state) => state.updateTask);
     const droppedColumnId = useStore((state) => state.droppedColumnId);
     const setDroppedColumnId = useStore((state) => state.setDroppedColumnId);
-    const columns = useStore((state) => state.columns[task.boardId]);
+    const columns = useStore((state) => state.columns);
 
     const navigate = useNavigate();
     const taskRef = useRef(null);

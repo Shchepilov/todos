@@ -3,7 +3,7 @@ import Column from '../Column/Column';
 import styles from './Columns.module.scss';
 
 const Columns = ({boardId}) => {
-    const columns = useStore((state) => state.columns[boardId]);
+    const columns = useStore((state) => state.columns);
 
     return (
         <div className={styles.columnsWrapper}>

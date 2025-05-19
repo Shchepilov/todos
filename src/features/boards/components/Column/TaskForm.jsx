@@ -5,7 +5,7 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import Button from "@components/Button/Button";
 
 const TaskForm = ({ columnId, boardId }) => {
-    const columns = useStore((state) => state.columns[boardId]);
+    const columns = useStore((state) => state.columns);
     const addTask = useStore((state) => state.addTask);
     const closeDialogRef = useRef(null);
     const [taskName, setTaskName] = useState("");

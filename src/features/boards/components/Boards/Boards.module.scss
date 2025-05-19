@@ -12,6 +12,7 @@
     display: grid;
     grid-template-rows: min-content 1fr;
     justify-self: center;
+    justify-items: center;
     margin-top: 2rem;
 
     @include mobile-only {
@@ -23,7 +24,6 @@
 .boardNav {
     display: grid;
     grid-template-columns: 1fr auto;
-    justify-self: center;
     padding: 0 5px;
     border-radius: 21px;
     max-width: 100%;

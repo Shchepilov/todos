@@ -31,7 +31,7 @@ const TaskForm = ({ columnId, boardId }) => {
 
         if (!taskName) return;
 
-        addTask(boardId, columnId, { title: taskName, priority: priorityValue, columnId: columnIdValue });
+        addTask(boardId, columnIdValue, { title: taskName, priority: priorityValue, columnId: columnIdValue });
         setTaskName("");
         closeDialogRef.current?.click();
     }
@@ -58,7 +58,7 @@ const TaskForm = ({ columnId, boardId }) => {
             <div className="row">
                 <div className="field">
                     <label className="label">Column</label>
-                    <select value={columnId} onChange={handleChangeColumn}>
+                    <select value={columnIdValue} onChange={handleChangeColumn}>
                         {columns.map(column => (
                             <option key={column.id} value={column.id}>{column.name}</option>
                         ))}

@@ -24,8 +24,8 @@
         border-radius: 0;
     }
 
-    @include desktop-only {
-        min-width: 400px;
+    @include tablet-up {
+        min-width: 342px;
     }
 }
 

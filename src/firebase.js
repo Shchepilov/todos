@@ -22,6 +22,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleAuthProvider = new GoogleAuthProvider();
 const githubAuthProvider = new GithubAuthProvider();
+googleAuthProvider.addScope('email');
+githubAuthProvider.addScope('email');
 const db = getFirestore(app);
 
 export { auth, googleAuthProvider, githubAuthProvider, db };

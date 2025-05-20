@@ -61,7 +61,7 @@ const Header = () => {
                         <DropdownMenu.Portal>
                             <DropdownMenu.Content className={dropdown.content} sideOffset={5} align="end">
                                 <DropdownMenu.Item className={dropdown.item} disabled>
-                                    {user.email}
+                                    {user.providerData[0].email}
                                 </DropdownMenu.Item>
 
                                 <DropdownMenu.Separator className={dropdown.separator} />

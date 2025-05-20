@@ -66,6 +66,33 @@
     color: var(--button-text);
 }
 
+.buttonGroup {
+    display: flex;
+    gap: 10px;
+}
+
+.removeBoardButton {
+    margin-right: auto;
+}
+
+.watcherList {
+    display: grid;
+    width: fit-content;
+    gap: 3px;
+
+    padding: 7px 10px;
+    border: 1px solid var(--layout-todos-border);
+    border-radius: 10px;
+    background: var(--column-bg);
+
+    li {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        font-weight: 300;
+    }
+}
+
 @keyframes rotation {
     from {
         rotate: 0;

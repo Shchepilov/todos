@@ -67,7 +67,7 @@ const Boards = () => {
                 scrollNavigation(activeLink);
             });  
         }
-    }, [location]);
+    }, [location, boards]);
 
     return (  
         <div className={styles.layout}>

@@ -19,8 +19,8 @@
     grid-template-rows: min-content 1fr 14px;
     position: relative;
     border-radius: 4px;
-    min-height: 200px;
-    min-width: 200px;
+    min-height: 300px;
+    width: calc(1280px / 3 - 15px);
     padding: 15px 15px 10px 15px;
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.25);
     overflow: hidden;

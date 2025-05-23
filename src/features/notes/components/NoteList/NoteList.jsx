@@ -1,38 +1,31 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { PlusIcon } from "@radix-ui/react-icons";
+import { AnimatePresence } from "framer-motion";
 import { useStore } from "@store/store";
 import Loader from "@components/Loader/Loader";
 import Button from "@components/Button/Button";
-import NoteItem from "../NoteItem/NoteItem";
-import { AnimatePresence } from "framer-motion";
-import { PlusIcon } from "@radix-ui/react-icons";
+import { addNote } from "@features/notes/services/notesQuery";
+import useNotes from "@features/notes/hooks/useNotes";
+import NoteItem from "@features/notes/components/NoteItem/NoteItem";
 import styles from "./NoteList.module.scss";
 
 const NoteList = () => {
+    const userId = useStore((state) => state.user.uid);
     const notes = useStore((state) => state.allNotes);
-    const addNote = useStore((state) => state.addNote);
-    const fetchNotes = useStore((state) => state.fetchNotes);
-    const [isLoading, setIsLoading] = useState(false);
     const [isAnyNoteInEditMode, setIsAnyNoteInEditMode] = useState(false);
 
-    useEffect(() => {
-        const fetch = async () => {
-            setIsLoading(true);
-
-            try {
-                await fetchNotes();
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetch();
-    }, []);
+    const { loading: isLoading, error } = useNotes();
 
     const handleAddNote = () => {
         const content = { edit: true };
         setIsAnyNoteInEditMode(true);
 
-        addNote(content);
+        addNote(userId, content);
     };
+
+    if (error) {
+        return <div>Error loading notes</div>;
+    }
 
     return (
         <div className={styles.container}>

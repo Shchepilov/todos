@@ -1,21 +1,12 @@
 import { useState, useRef, useEffect, memo } from "react";
-import { useStore } from "@store/store"
+import { deleteNote, updateNote } from "@features/notes/services/notesQuery";
 import { TrashIcon, Pencil1Icon, PaperPlaneIcon, CheckIcon } from "@radix-ui/react-icons";
 import Button from "@components/Button/Button";
 import Loader from "@components/Loader/Loader";
 import Modal from "@components/Modal/Modal";
+import { COLOR_OPTIONS, MAX_NOTE_LENGTH } from "@features/notes/utils/constants";
 import { AnimatePresence, motion } from "framer-motion";
 import styles from "./NoteItem.module.scss";
-
-const COLOR_OPTIONS = [
-    { id: 'default', value: '#FEFEFE' },
-    { id: 'yellow', value: '#FFDD1B' },
-    { id: 'purple', value: '#B180FF' },
-    { id: 'pink', value: '#FF89B7' },
-    { id: 'green', value: '#48E16D' },
-    { id: 'blue', value: '#62A6FF' },
-    { id: 'orange', value: '#FF812D' },
-];
 
 const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -27,12 +18,8 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
     const textAreaRef = useRef(null);
     const noteRef = useRef(null);
 
-    const deleteNote = useStore((state) => state.deleteNote);
-    const updateNote = useStore((state) => state.updateNote);    
-
     useEffect(() => {
         if (textAreaRef.current) {
-            textAreaRef.current.style.height = "125px";
             textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
         }
 
@@ -78,7 +65,7 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
     };
 
     const handleChange = (e) => {
-        if (e.target.value.length > 400) return;
+        if (e.target.value.length > MAX_NOTE_LENGTH) return;
         setSymbols(e.target.value.length);
         setContent(e.target.value);
     };

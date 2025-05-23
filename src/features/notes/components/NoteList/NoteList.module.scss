@@ -1,4 +1,5 @@
 @use "@styles/functions" as *;
+@use "@styles/mixins" as *;
 
 :root {
     --add-button-border: var(--black-warm-20);
@@ -25,9 +26,14 @@
 }
 
 .list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-self: center;
     gap: 1rem;
+
+    @include tablet-down {
+        justify-content: center;
+    }
 }
 
 .loader {

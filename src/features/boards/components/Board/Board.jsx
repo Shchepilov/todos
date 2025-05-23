@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Routes, Route } from 'react-router-dom';
-import { TrashIcon, PlusIcon, GearIcon, Pencil1Icon } from "@radix-ui/react-icons";
+import { PlusIcon, GearIcon } from "@radix-ui/react-icons";
 import { useStore } from "@store/store";
 import Button from '@components/Button/Button';
 import Modal from "@components/Modal/Modal";
@@ -35,7 +35,7 @@ const Board = () => {
         return () => {
             cleanupBoardListeners(boardId);
         };
-    }, [boardId]);
+    }, [boardId, boards]);
 
     if(!board) return;
 
@@ -79,7 +79,6 @@ const Board = () => {
                 <Columns boardId={boardId} />
             )}
 
-            {/* Task Detail Modal Route */}
             <Routes>
                 <Route path="tasks/:taskId" element={<TaskDetail />} />
             </Routes>

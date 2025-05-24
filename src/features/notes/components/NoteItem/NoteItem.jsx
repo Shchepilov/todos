@@ -7,6 +7,8 @@ import Modal from "@components/Modal/Modal";
 import { COLOR_OPTIONS, MAX_NOTE_LENGTH } from "@features/notes/utils/constants";
 import { AnimatePresence, motion } from "framer-motion";
 import styles from "./NoteItem.module.scss";
+import { useStore } from "@store/store";
+import { serverTimestamp } from "firebase/firestore";
 
 const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -17,6 +19,8 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const textAreaRef = useRef(null);
     const noteRef = useRef(null);
+    const setNotesLastUpdated = useStore((state) => state.setNotesLastUpdated);
+    const notesLastUpdated = useStore((state) => state.notesLastUpdated);
 
     useEffect(() => {
         if (textAreaRef.current) {
@@ -40,10 +44,13 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
 
 
     const update = async (id, data) => {
+        const timestamp = serverTimestamp();
         setIsLoading(true);
 
         try {
             await updateNote(id, data);
+            await setNotesLastUpdated(timestamp);
+            //console.log(notesLastUpdated);
         } finally {
             setIsLoading(false);
         }

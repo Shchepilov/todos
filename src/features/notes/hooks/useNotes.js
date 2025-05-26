@@ -8,7 +8,6 @@ import { NOTE_COLLECTION } from "@features/notes/utils/constants";
 const useNotes = () => {
     const userId = useStore((state) => state.user.uid);
     const setAllNotes = useStore((state) => state.setAllNotes);
-    const notesLastUpdated = useStore((state) => state.notesLastUpdated);
 
     const notesQuery = query(
         collection(db, NOTE_COLLECTION),
@@ -23,7 +22,7 @@ const useNotes = () => {
             const notes = notesSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
             setAllNotes(notes);
         }
-    }, [notesSnapshot, notesLastUpdated]);
+    }, [notesSnapshot]);
 
     return { loading, error };
 }

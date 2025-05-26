@@ -7,11 +7,10 @@ import Modal from "@components/Modal/Modal";
 import { COLOR_OPTIONS, MAX_NOTE_LENGTH } from "@features/notes/utils/constants";
 import { AnimatePresence, motion } from "framer-motion";
 import styles from "./NoteItem.module.scss";
-import { useStore } from "@store/store";
-import { serverTimestamp } from "firebase/firestore";
+import useNoteItem from "@features/notes/hooks/useNoteItem";
 
 const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
-    const [isLoading, setIsLoading] = useState(false);
+    const {noteItemLoading, noteItemError} = useNoteItem(note.id);
     const [isEditMode, setEditMode] = useState(note.edit);
     const [content, setContent] = useState(note.content);
     const [selectedColor, setSelectedColor] = useState(note.color || COLOR_OPTIONS[0].value);
@@ -19,8 +18,13 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const textAreaRef = useRef(null);
     const noteRef = useRef(null);
-    const setNotesLastUpdated = useStore((state) => state.setNotesLastUpdated);
-    const notesLastUpdated = useStore((state) => state.notesLastUpdated);
+
+    useEffect(() => {
+        setContent(note.content);
+        setSelectedColor(note.color);
+        setSymbols(note.content ? note.content.length : 0);
+        setEditMode(note.edit);
+    }, [note]);
 
     useEffect(() => {
         if (textAreaRef.current) {
@@ -42,20 +46,6 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
         };
     }, [isEditMode, content, selectedColor]);
 
-
-    const update = async (id, data) => {
-        const timestamp = serverTimestamp();
-        setIsLoading(true);
-
-        try {
-            await updateNote(id, data);
-            await setNotesLastUpdated(timestamp);
-            //console.log(notesLastUpdated);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
     const handleUpdate = () => {
         setIsAnyNoteInEditMode(false);
 
@@ -67,7 +57,7 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
         setEditMode(false);
 
         if (content !== note.content || selectedColor !== note.color) {
-            update(note.id, { content, color: selectedColor, edit: false });
+            updateNote(note.id, { content, color: selectedColor, edit: false });
         }
     };
 
@@ -93,7 +83,6 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
     };
 
     const handleColorChange = (color) => {
-        update(note.id, { color: selectedColor });
         setSelectedColor(color);
     };
 
@@ -107,7 +96,7 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
             ref={noteRef}
             style={{'--note-color': selectedColor }}
         >
-            {isLoading && <Loader className={styles.loader} />}
+            {noteItemLoading && <Loader className={styles.loader} />}
 
             <div className={styles.header}>
                 <AnimatePresence mode="wait">

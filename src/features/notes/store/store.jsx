@@ -3,6 +3,9 @@
 export const useNotesStore = (set) => ({
     allNotes: [],
     setAllNotes: (notes) => set({ allNotes: notes }),
-    notesLastUpdated: null,
-    setNotesLastUpdated: (timestamp) => set({notesLastUpdated: timestamp})
+    updateNote: (updatedNote) => set((state) => ({
+        allNotes: state.allNotes.map(note => 
+            note.id === updatedNote.id ? updatedNote : note
+        )
+    }))
 });

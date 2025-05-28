@@ -1,5 +1,8 @@
 import {
     collection,
+    query,
+    where,
+    orderBy,
     addDoc,
     updateDoc,
     deleteDoc,
@@ -9,6 +12,14 @@ import {
 import { db } from "@baseUrl/firebase";
 
 import { NOTE_COLLECTION } from "@features/notes/utils/constants";
+
+export const notesQuery = (userId) => {
+    return query(
+        collection(db, "notes"),
+        where("userId", "==", userId),
+        orderBy("timestamp", "desc")
+    );
+}
 
 export const addNote = async (userId, content) => {
     try {

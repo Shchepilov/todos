@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { AnimatePresence } from "framer-motion";
 import { useStore } from "@store/store";
@@ -7,29 +7,18 @@ import TodoItem from "../TodoItem/TodoItem";
 import Loader from "@components/Loader/Loader";
 import Modal from "@components/Modal/Modal";
 import Button from "@components/Button/Button";
+import useTodos from "@features/todos/hooks/useTodos";
 import styles from "./TodoList.module.scss";
 
 const TodoList = () => {
-    const user = useStore((state) => state.user);
+    const { loading, error } = useTodos();
     const todos = useStore((state) => state.todos);
-    const fetchTodos = useStore((state) => state.fetchTodos);
-    const currentDay = useStore((state) => state.currentDay);
-    const [isLoading, setIsLoading] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-    useEffect(() => {
-        const fetch = async () => {
-            setIsLoading(true);
-            await fetchTodos();
-            setIsLoading(false);
-        }
-        fetch();
-    }, [user, currentDay]);
 
     return (
         <div className={styles.TodoListContainer}>
-            {isLoading && <Loader className={styles.loader} />}
-
+            {loading && <Loader className={styles.loader} />}
+            
             {todos.length > 0 && (
                 <>
                     <Button variation="icon" size="small" className={styles.addButtonSmall} onClick={() => setIsDialogOpen(true)}>

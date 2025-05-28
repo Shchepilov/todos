@@ -5,6 +5,7 @@ import { useStore } from "@store/store";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { Switch } from "radix-ui";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
+import { removeAllUserTodos } from "@features/todos/services/todosQuery";
 import logo from '@assets/logo.png';
 import "@styles/global.scss";
 import switcherStyles from'@components/Switcher/Switch.module.scss';
@@ -19,7 +20,6 @@ const Header = () => {
     const location = useLocation();
     const user = useStore((state) => state.user);
     const signOut = useStore((state) => state.signOut);
-    const removeAllTodos = useStore((state) => state.removeAllTodos);
     const toggleTheme = useStore((state) => state.toggleTheme);
     const isDarkTheme = useStore((state) => state.theme === 'dark');
     
@@ -76,7 +76,7 @@ const Header = () => {
                                     Dark
                                 </DropdownMenu.Item>
 
-                                <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={() => removeAllTodos()}>
+                                <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={() => removeAllUserTodos(user.uid)}>
                                     Clear All Todos
                                 </DropdownMenu.Item>
 

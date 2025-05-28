@@ -1,21 +1,14 @@
 import { useEffect } from "react";
 import { useStore } from "@store/store";
 import { useCollection } from 'react-firebase-hooks/firestore';
-import { collection, query, where, orderBy } from "firebase/firestore";
-import { db } from "@baseUrl/firebase";
-import { NOTE_COLLECTION } from "@features/notes/utils/constants";
+import { notesQuery } from "@features/notes/services/notesQuery";
 
 const useNotes = () => {
     const userId = useStore((state) => state.user.uid);
     const setAllNotes = useStore((state) => state.setAllNotes);
-
-    const notesQuery = query(
-        collection(db, NOTE_COLLECTION),
-        where("userId", "==", userId),
-        orderBy("timestamp", "desc")
-    );
+    const allNotesQuery = notesQuery(userId);
     
-    const [notesSnapshot, loading, error] = useCollection(notesQuery);
+    const [notesSnapshot, loading, error] = useCollection(allNotesQuery);
 
     useEffect(() => {
         if (notesSnapshot) {

@@ -4,11 +4,13 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { PlusIcon } from "@radix-ui/react-icons";
 import Checkbox from "@components/Checkbox/Checkbox";
 import Button from "@components/Button/Button";
+import { addTodo } from "@features/todos/services/todosQuery";
+import { PRIORITY_OPTIONS } from "@features/todos/utils/constants";
 import dayjs from "dayjs";
 
 const TodoForm = () => {
+    const userId = useStore((state) => state.user.uid);
     const currentDay = useStore((state) => state.currentDay);
-    const addTodo = useStore((state) => state.addTodo);
     const currentDate = dayjs(currentDay).format("YYYY-MM-DD");
     const priorityRef = useRef();
     const dueDateRef = useRef();
@@ -32,7 +34,7 @@ const TodoForm = () => {
         const dueDate = dueDateRef.current.value;
         const updatedDueDate = isDueDate ? dueDate : null;
 
-        addTodo(todoText, priority, updatedDueDate, newAutoMove);
+        addTodo(userId, todoText, priority, updatedDueDate, newAutoMove, currentDate);
         setTodoText("");
         setDueDate(currentDate);
         setIsDueDate(false);
@@ -51,9 +53,11 @@ const TodoForm = () => {
 
                     <select ref={priorityRef} id={priorityId}>
                         <option value="" disabled>Select priority</option>
-                        <option value="1">Low</option>
-                        <option value="2">Medium</option>
-                        <option value="3">High</option>
+                        {PRIORITY_OPTIONS.map(option => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))}
                     </select>
                 </div>
 

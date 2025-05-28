@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import { useStore } from "@store/store";
 import Checkbox from "@components/Checkbox/Checkbox";
 import Button from "@components/Button/Button";
+import { PRIORITY_OPTIONS } from "@features/todos/utils/constants";
 
 const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate }) => {
     const currentDay = useStore((state) => state.currentDay);
@@ -47,12 +48,13 @@ const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate
             <div className="row">
                 <div className="field">
                     <label htmlFor={priorityId} className="label">Priority</label>
-
                     <select value={newPriority} id={priorityId} onChange={(e) => setNewPriority(e.target.value)}>
-                        <option value="1">Low</option>
-                        <option value="2">Medium</option>
-                        <option value="3">High</option>
-                    </select>    
+                        {PRIORITY_OPTIONS.map(option => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))}
+                    </select>
                 </div>
             </div>
 

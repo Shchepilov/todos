@@ -7,28 +7,25 @@ import Modal from "@components/Modal/Modal";
 import styles from "./TodoItem.module.scss";
 import dropdown from '@components/Dropdown/Dropdown.module.scss';
 import Checkbox from "@components/Checkbox/Checkbox";
+import { deleteTodo, updateTodo, moveToNextDay } from "@features/todos/services/todosQuery";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 
 const TodoItem = ({ todo }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const deleteTodo = useStore((state) => state.deleteTodo);
-    const updateTodo = useStore((state) => state.updateTodo);
-    const moveToNextDay = useStore((state) => state.moveToNextDay);
     const currentDay = useStore((state) => state.currentDay);
-
     const day = dayjs(currentDay).format("YYYY-MM-DD");
     const isOverdue = dayjs(todo.dueDate).isBefore(dayjs(day));
     const isToday = todo.dueDate === day;
     const badgeClass = isOverdue || isToday ? styles.isToday + " " + styles.badge : styles.badge;
-    const timestampFormatted = dayjs(new Date(todo.timestamp.seconds * 1000)).format("MMM D, YYYY");
+    const timestampFormatted = todo.timestamp ? dayjs(new Date(todo.timestamp.seconds * 1000)).format("MMM D, YYYY") : null;
     const dueDateFormatted = dayjs(todo.dueDate).format("MMM D");
     const classes = isLoading ? styles.item + " " + styles.loading : styles.item;
 
     const handleUpdate = async (id, content, priority, date, dueDate, autoMove) => {
         setIsLoading(true);
-        await updateTodo(id, { content, priority, date, dueDate: dueDate, autoMove });
+        await updateTodo(id, { content, priority, date, dueDate, autoMove });
         setIsLoading(false);
     };
 
@@ -46,7 +43,7 @@ const TodoItem = ({ todo }) => {
 
     const handleMoveToNextDay = async () => {
         setIsLoading(true);
-        await moveToNextDay(todo.id);
+        await moveToNextDay(todo.id, currentDay);
         setIsLoading(false);
     };
 
@@ -57,8 +54,8 @@ const TodoItem = ({ todo }) => {
             exit={{ opacity: 0, x: 15 }}
             transition={{ duration: 0.2 }}
             data-priority={todo.priority}
-            className={classes}
-        >
+            className={classes}>
+                
             <Checkbox checked={todo.done} onChange={handleStatusChange} />
 
             <div className={styles.Content}>

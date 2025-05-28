@@ -7,18 +7,20 @@ import styles from './Boards.module.scss';
 import Button from '@components/Button/Button';
 import Modal from "@components/Modal/Modal";
 import { PlusIcon } from '@radix-ui/react-icons';
+import useBoards from '@features/boards/hooks/useBoards';
 
 const Boards = () => {
     const [boardFormModal, setBoardFormModal] = useState(false);
     const [sliderStyle, setSliderStyle] = useState({});
-    const [isLoading, setIsLoading] = useState(false);
-    const fetchBoards = useStore((state) => state.fetchBoards);
     const activeBoardId = useStore((state) => state.activeBoardId);
-    const [pageLink, setPageLink] = useState('');
+    const setActiveBoardId = useStore((state) => state.setActiveBoardId);
+    const [boardLink, setBoardLink] = useState('');
     const navRef = useRef(null);
     const navWrapper = useRef(null);
     const location = useLocation();
     const boards = useStore((state) => state.boards);
+
+    const { loading, error, watchLoading, watchError } = useBoards();
 
     const showBoardForm = () => setBoardFormModal(true);
 
@@ -38,34 +40,36 @@ const Boards = () => {
     const handleNavItemClick = (e) => {
         const clickedItem = e.currentTarget;
         scrollNavigation(clickedItem);
-    };
-
-    useEffect(() => {
-        const fetch = async () => {
-            setIsLoading(true);
-
-            try {
-                await fetchBoards();
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetch();
-    }, []);
-
+    };    
+    
     useEffect(() => {
         if(!boards || boards.length === 0) return;
+        if (!navRef.current) return;
 
         const activeLink = navRef.current.querySelector(`.${styles.active}`);
         if (activeLink) {
-            document.fonts.ready.then(() => {
+            const updateSlider = () => {
                 const { offsetLeft, offsetWidth } = activeLink;
-                
-                setPageLink(activeLink.href.split('/').pop());
-                setSliderStyle({ left: offsetLeft, width: offsetWidth });
+                const boardId = activeLink.href.split('/').pop();
 
+                setBoardLink(boardId);
+                setSliderStyle({ left: offsetLeft, width: offsetWidth });
                 scrollNavigation(activeLink);
-            });  
+            };
+
+            document.fonts.ready.then(updateSlider);
+        }
+
+    }, [location, boards]);
+
+    useEffect(() => {
+        if (!boards || boards.length === 0) return;
+        
+        const pathSegments = location.pathname.split('/');
+        const currentBoardId = pathSegments[pathSegments.length - 1];
+        
+        if (currentBoardId &&  boards.some(board => board.id === currentBoardId) && activeBoardId !== currentBoardId) {
+            setActiveBoardId(currentBoardId);
         }
     }, [location, boards]);
 
@@ -75,7 +79,7 @@ const Boards = () => {
                 {boards.length > 0 && (
                     <div ref={navWrapper} className={styles.navWrapper}>
                         <nav ref={navRef} className={styles.nav}>
-                            <span className={styles.slider} data-page={pageLink} style={{ ...sliderStyle }}/>
+                            <span className={styles.slider} data-page={boardLink} style={{ ...sliderStyle }}/>
                             {boards.map((board) => (
                                 <NavLink key={board.id} 
                                     to={`/boards/${board.id}`} 
@@ -92,7 +96,7 @@ const Boards = () => {
                     <PlusIcon />
                 </Button>
             </section>
-
+            
             <Routes>
                 <Route path="/" element={
                     boards && boards.length > 0 

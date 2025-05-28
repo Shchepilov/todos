@@ -12,32 +12,23 @@ import styles from './Board.module.scss';
 
 const Board = () => {
     const boards = useStore((state) => state.boards);
-    const fetchBoardData = useStore((state) => state.fetchBoardData);
-    const cleanupBoardListeners = useStore((state) => state.cleanupBoardListeners);
     const columns = useStore((state) => state.columns);
+    const setActiveBoardId = useStore((state) => state.setActiveBoardId);
     const [columnFormModal, setColumnFormModal] = useState(false);
     const [boardSettingsModal, setBoardSettingsModal] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const { boardId } = useParams();
     const board = boards.find(board => board.id === boardId);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const fetch = async () => {
-            setIsLoading(true);
-            try {
-                await fetchBoardData(boardId);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetch();
-
-        return () => {
-            cleanupBoardListeners(boardId);
-        };
-    }, [boardId, boards]);
-
-    if(!board) return;
+        if (!board) {
+            setActiveBoardId(null);
+            navigate('/boards');
+        }
+    }, [board]);
+    
+    if (!board) return;
 
     const showColumnForm = () => {
         setColumnFormModal(true);

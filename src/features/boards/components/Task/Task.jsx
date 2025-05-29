@@ -7,6 +7,7 @@ import { DotsVerticalIcon, DragHandleDots2Icon, TrashIcon } from "@radix-ui/reac
 import Button from "@components/Button/Button";
 import styles from './Task.module.scss';
 import { motion } from "framer-motion";
+import { TASK_STATUS } from "@features/boards/utils/constants";
 
 import { deleteTask, updateTask } from '@features/boards/services/tasksQuery';
 
@@ -14,6 +15,9 @@ const Task = ({ task }) => {
     const droppedColumnId = useStore((state) => state.droppedColumnId);
     const setDroppedColumnId = useStore((state) => state.setDroppedColumnId);
     const columns = useStore((state) => state.columns);
+    const activeBoardId = useStore((state) => state.activeBoardId);
+    const boards = useStore((state) => state.boards);
+    const isWatcher = boards.find(board => board.id === activeBoardId).isWatcher || false;
 
     const navigate = useNavigate();
     const taskRef = useRef(null);
@@ -78,20 +82,18 @@ const Task = ({ task }) => {
                     <label htmlFor="priority" className="label">Priority</label>
 
                     <select id="priority" value={task.priority} onChange={handleChangePriority} className={styles.select}>
-                        <option value="1">Backlog</option>
-                        <option value="2">Trivial</option>
-                        <option value="3">Minor</option>
-                        <option value="4">Major</option>
-                        <option value="5">Critical</option>
-                        <option value="6">Blocker</option>
+                        {TASK_STATUS.map((status, index) => (
+                            <option key={index} value={status.value}>{status.name}</option>
+                        ))}
                     </select>
                 </div>
             </div>
 
-            <Button variation="transparent" className={styles.deleteButton} size="small" aria-label="Delete task">
-                <TrashIcon onClick={handleDeleteTask} />
-            </Button>
-                            
+            {!isWatcher && (
+                <Button variation="transparent" className={styles.deleteButton} size="small" aria-label="Delete task">
+                    <TrashIcon onClick={handleDeleteTask} />
+                </Button>
+            )}
 
             {/* <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>

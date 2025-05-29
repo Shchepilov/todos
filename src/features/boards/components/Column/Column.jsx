@@ -17,7 +17,7 @@ const Column = ({ column, boardId }) => {
     const [taskFormModal, setTaskFormModal] = useState(false);
     const [isDragOver, setIsDragOver] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-
+    const boards = useStore((state) => state.boards);
     const showTaskForm = () => setTaskFormModal(true);
     const handleDeleteColumn = () => deleteColumn(column.id);
 
@@ -25,6 +25,8 @@ const Column = ({ column, boardId }) => {
     // const handleUpdateColumn = () => {
     //     updateColumn(column.id, { name: column.name });
     // }
+
+    const isWatcher = boards.find(board => board.id === boardId).isWatcher || false;
 
     const handleDragOver = (e) => {
         e.preventDefault();
@@ -71,25 +73,27 @@ const Column = ({ column, boardId }) => {
                 <div className={styles.titleWrapper}>
                     <h3 className={styles.title}>{column.name}</h3>
                     
-                    <DropdownMenu.Root>
-                        <DropdownMenu.Trigger asChild>
-                            <Button variation="transparent">
-                                <GearIcon className={isLoading ? styles.loading : ''} />
-                            </Button>
-                        </DropdownMenu.Trigger>
-        
-                        <DropdownMenu.Portal>
-                            <DropdownMenu.Content className={dropdown.content} align="start" sideOffset={5}>
-                                <DropdownMenu.Item className={dropdown.item} onSelect={() => console.log('Edit')}>
-                                    <Pencil1Icon /> Edit
-                                </DropdownMenu.Item>
-                                
-                                <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={handleDeleteColumn}>
-                                    <TrashIcon /> Delete Column
-                                </DropdownMenu.Item>
-                            </DropdownMenu.Content>
-                        </DropdownMenu.Portal>
-                    </DropdownMenu.Root>
+                    {!isWatcher && (
+                        <DropdownMenu.Root>
+                            <DropdownMenu.Trigger asChild>
+                                <Button variation="transparent">
+                                    <GearIcon className={isLoading ? styles.loading : ''} />
+                                </Button>
+                            </DropdownMenu.Trigger>
+            
+                            <DropdownMenu.Portal>
+                                <DropdownMenu.Content className={dropdown.content} align="start" sideOffset={5}>
+                                    <DropdownMenu.Item className={dropdown.item} onSelect={() => console.log('Edit')}>
+                                        <Pencil1Icon /> Edit
+                                    </DropdownMenu.Item>
+                                    
+                                    <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={handleDeleteColumn}>
+                                        <TrashIcon /> Delete Column
+                                    </DropdownMenu.Item>
+                                </DropdownMenu.Content>
+                            </DropdownMenu.Portal>
+                        </DropdownMenu.Root>
+                    )}
                 </div>
                 
                 <Button variation="icon" size="small" className={styles.addTaskButton} onClick={showTaskForm}>

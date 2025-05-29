@@ -8,9 +8,9 @@ import Button from "@components/Button/Button";
 import styles from './Task.module.scss';
 import { motion } from "framer-motion";
 
+import { deleteTask, updateTask } from '@features/boards/services/tasksQuery';
+
 const Task = ({ task }) => {
-    const deleteTask = useStore((state) => state.deleteTask);
-    const updateTask = useStore((state) => state.updateTask);
     const droppedColumnId = useStore((state) => state.droppedColumnId);
     const setDroppedColumnId = useStore((state) => state.setDroppedColumnId);
     const columns = useStore((state) => state.columns);
@@ -18,12 +18,9 @@ const Task = ({ task }) => {
     const navigate = useNavigate();
     const taskRef = useRef(null);
 
-    const handleChangeColumn = (e) => updateTask(task.boardId, task.id, { columnId: e.target.value });
-    const handleChangePriority = (e) => updateTask(task.boardId, task.id, { priority: e.target.value });
-
-    const handleDeleteTask = () => {
-        deleteTask(task.id, task.boardId);
-    };
+    const handleChangeColumn = (e) => updateTask(task.id, { columnId: e.target.value });
+    const handleChangePriority = (e) => updateTask(task.id, { priority: e.target.value });
+    const handleDeleteTask = () => deleteTask(task.id);
 
     const handleTaskDetails = () => {
         navigate(`/boards/${task.boardId}/tasks/${task.id}`);

@@ -1,19 +1,19 @@
 import {
     collection,
     addDoc,
-    getDocs,
     query,
     where,
     orderBy,
     updateDoc,
     deleteDoc,
     doc,
-    onSnapshot,
     serverTimestamp,
 } from "firebase/firestore";
 import { db } from "@baseUrl/firebase";
 
 import { BOARDS_COLLECTION } from "@features/boards/utils/constants";
+import { deleteAllColumns } from "@features/boards/services/columnsQuery";
+import { deleteAllBoardTasks } from "@features/boards/services/tasksQuery";
 
 export const addBoard = async (userId, name) => {
     try {
@@ -53,10 +53,11 @@ export const updateBoard = async (id, data) => {
     }
 }
 
-export const deleteBoard = async (id) => {
+export const deleteBoard = async (boardId) => {
     try {
-        await deleteDoc(doc(db, BOARDS_COLLECTION, id));
-        //delete all columns and tasks associated with the board
+        await deleteDoc(doc(db, BOARDS_COLLECTION, boardId));
+        await deleteAllColumns(boardId);
+        await deleteAllBoardTasks(boardId);
     } catch (error) {
         throw new Error(error.message);
     }

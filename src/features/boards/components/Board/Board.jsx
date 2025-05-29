@@ -10,16 +10,19 @@ import TaskDetail from '../Task/TaskDetail';
 import BoardSettings from './BoardSettings';
 import styles from './Board.module.scss';
 
+import useBoardData from '@features/boards/hooks/useBoardData';
+
 const Board = () => {
     const boards = useStore((state) => state.boards);
     const columns = useStore((state) => state.columns);
     const setActiveBoardId = useStore((state) => state.setActiveBoardId);
     const [columnFormModal, setColumnFormModal] = useState(false);
     const [boardSettingsModal, setBoardSettingsModal] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const { boardId } = useParams();
     const board = boards.find(board => board.id === boardId);
     const navigate = useNavigate();
+
+    const { columnsLoading, columnsError, tasksLoading, tasksError } = useBoardData(boardId);
 
     useEffect(() => {
         if (!board) {
@@ -45,7 +48,7 @@ const Board = () => {
                     <h2 className={styles.title}>{board.name}{board.isWatcher && '(watcher)'}</h2>
 
                     <Button variation="transparent" onClick={showBoardSettings}>
-                        <GearIcon className={isLoading ? styles.loading : ''} />
+                        <GearIcon className={columnsLoading ? styles.loading : ''} />
                     </Button>
                 </div>
 

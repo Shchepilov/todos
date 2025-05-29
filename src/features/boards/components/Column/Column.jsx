@@ -6,20 +6,25 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import dropdown from '@components/Dropdown/Dropdown.module.scss';
 import Modal from "@components/Modal/Modal";
 import Button from '@components/Button/Button';
+import { deleteColumn, updateColumn } from '@features/boards/services/columnsQuery';
+import { updateTask } from '@features/boards/services/tasksQuery';
 import TaskForm from "./TaskForm";
 import Tasks from "../Tasks/Tasks";
 import styles from './Column.module.scss';
 
 const Column = ({ column, boardId }) => {
-    const deleteColumn = useStore((state) => state.deleteColumn);
-    const updateTask = useStore((state) => state.updateTask);
     const setDroppedColumnId = useStore((state) => state.setDroppedColumnId);
     const [taskFormModal, setTaskFormModal] = useState(false);
     const [isDragOver, setIsDragOver] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const showTaskForm = () => setTaskFormModal(true);
-    const handleDeleteColumn = () => deleteColumn(column.id, boardId);
+    const handleDeleteColumn = () => deleteColumn(column.id);
+
+    //TODO: Implement column update functionality
+    // const handleUpdateColumn = () => {
+    //     updateColumn(column.id, { name: column.name });
+    // }
 
     const handleDragOver = (e) => {
         e.preventDefault();
@@ -45,7 +50,7 @@ const Column = ({ column, boardId }) => {
             setIsLoading(true);
             
             try {
-                await updateTask(boardId, dragTaskId, { columnId: column.id });
+                await updateTask(dragTaskId, { columnId: column.id });
             } finally {
                 setIsLoading(false);
             }
@@ -96,7 +101,7 @@ const Column = ({ column, boardId }) => {
                 <TaskForm columnId={column.id} boardId={boardId} />
             </Modal>
 
-            <Tasks columnId={column.id} boardId={boardId} />
+            <Tasks columnId={column.id} />
         </motion.div>
      );
 }

@@ -3,10 +3,10 @@ import { useStore } from "@store/store";
 import * as Dialog from '@radix-ui/react-dialog';
 import { PlusIcon } from "@radix-ui/react-icons";
 import Button from "@components/Button/Button";
+import { addTask } from "@features/boards/services/tasksQuery";
 
 const TaskForm = ({ columnId, boardId }) => {
     const columns = useStore((state) => state.columns);
-    const addTask = useStore((state) => state.addTask);
     const closeDialogRef = useRef(null);
     const [taskName, setTaskName] = useState("");
     const [priorityValue, setPriorityValue] = useState(2);

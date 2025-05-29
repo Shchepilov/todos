@@ -17,7 +17,8 @@ const Task = ({ task }) => {
     const columns = useStore((state) => state.columns);
     const activeBoardId = useStore((state) => state.activeBoardId);
     const boards = useStore((state) => state.boards);
-    const isWatcher = boards.find(board => board.id === activeBoardId).isWatcher || false;
+    const activeBoard = boards?.find(board => board.id === activeBoardId);
+    const isWatcher = activeBoard?.isWatcher || false;
 
     const navigate = useNavigate();
     const taskRef = useRef(null);

@@ -4,6 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { PlusIcon } from "@radix-ui/react-icons";
 import Button from "@components/Button/Button";
 import { addTask } from "@features/boards/services/tasksQuery";
+import { TASK_STATUS } from "@features/boards/utils/constants";
 
 const TaskForm = ({ columnId, boardId }) => {
     const columns = useStore((state) => state.columns);
@@ -45,12 +46,9 @@ const TaskForm = ({ columnId, boardId }) => {
                     <label className="label">Priority</label>
                     <select value={priorityValue} onChange={handleChangePriority}>
                         <option disabled>Select priority</option>
-                        <option value="1">Backlog</option>
-                        <option value="2">Trivial</option>
-                        <option value="3">Minor</option>
-                        <option value="4">Major</option>
-                        <option value="5">Critical</option>
-                        <option value="6">Blocker</option>
+                        {TASK_STATUS.map((status, index) => (
+                            <option key={index} value={status.value}>{status.name}</option>
+                        ))}
                     </select>    
                 </div>
             </div>

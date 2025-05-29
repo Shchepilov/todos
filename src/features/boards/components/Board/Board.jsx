@@ -45,11 +45,13 @@ const Board = () => {
         <main className={styles.board}>
             <header className={styles.header}>
                 <div className={styles.titleWrapper}>
-                    <h2 className={styles.title}>{board.name}{board.isWatcher && '(watcher)'}</h2>
+                    <h2 className={styles.title}>{board.name} {board.isWatcher && <span> (watcher)</span>}</h2>
 
-                    <Button variation="transparent" onClick={showBoardSettings}>
-                        <GearIcon className={columnsLoading ? styles.loading : ''} />
-                    </Button>
+                    {!board.isWatcher && (
+                        <Button variation="transparent" onClick={showBoardSettings}>
+                            <GearIcon className={columnsLoading ? styles.loading : ''} />
+                        </Button>
+                    )}
                 </div>
 
                 <Button size='small' className={styles.addColumnButton} onClick={showColumnForm}>
@@ -70,7 +72,7 @@ const Board = () => {
                     <p>No Columns</p>
                 </div>
             ) : (
-                <Columns boardId={boardId} />
+                <Columns boardId={boardId} isWatcher={board.isWatcher} />
             )}
 
             <Routes>

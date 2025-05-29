@@ -5,10 +5,10 @@ import { TrashIcon, PlusIcon, CrossCircledIcon } from "@radix-ui/react-icons";
 import * as Dialog from '@radix-ui/react-dialog';
 import Button from '@components/Button/Button';
 import styles from './Board.module.scss';
+import { deleteBoard, updateBoard } from '@features/boards/services/boardsQuery';
 
 const BoardSettings = ({board}) => {
-    const deleteBoard = useStore((state) => state.deleteBoard);
-    const updateBoard = useStore((state) => state.updateBoard);
+    const setActiveBoardId = useStore((state) => state.setActiveBoardId);
     const [boardName, setBoardName] = useState(board.name);
     const [watcherEmail, setWatcherEmail] = useState('');
     const closeDialogRef = useRef(null);
@@ -18,7 +18,8 @@ const BoardSettings = ({board}) => {
 
     const handleDeleteBoard = async () => {
         await deleteBoard(board.id);
-        await navigate('/boards');
+        await setActiveBoardId(null);
+        navigate('/boards');
     };
 
     const handleChangeName = (e) => {
@@ -77,14 +78,14 @@ const BoardSettings = ({board}) => {
 
                 <div className="field split-field">
                     <input type="email" value={watcherEmail} onChange={handleChangeWatcherEmail} placeholder="Add email" />
-                    <Button type="button" variation="transparent" onClick={addWatcherEmail}>
+                    <Button type="button" variation="confirmation" onClick={addWatcherEmail}>
                         <PlusIcon width={18} height={18} />
                     </Button>
                 </div>
             </div>
 
             <div className={styles.buttonGroup}>
-                <Button variation="confirmation" className={styles.removeBoardButton} onClick={handleDeleteBoard}>
+                <Button variation="confirmation" type="button" className={styles.removeBoardButton} onClick={handleDeleteBoard}>
                     <TrashIcon width={18} height={18} />
                 </Button>
                 <Button type="button" variation="secondary" onClick={closeDialog}>Cancel</Button>

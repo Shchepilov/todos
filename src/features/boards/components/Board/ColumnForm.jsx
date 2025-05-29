@@ -4,8 +4,9 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { PlusIcon } from "@radix-ui/react-icons";
 import Button from "@components/Button/Button";
 
+import { addColumn } from '@features/boards/services/columnsQuery';
+
 const ColumnForm = ({ boardId }) => {
-    const addColumn = useStore((state) => state.addColumn);
     const [columnName, setColumnName] = useState("");
     const closeDialogRef = useRef(null);
     

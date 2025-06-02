@@ -1,4 +1,4 @@
-# ACT - Advanced Collaboration & Task Management
+# ACT - Achieve, complete, thrive
 https://todo-453ae.web.app/
 
 ## Overview

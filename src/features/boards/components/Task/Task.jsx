@@ -70,24 +70,17 @@ const Task = ({ task }) => {
                 </header>
             
             <div className={styles.fieldWrapper}>
-                <div className={styles.field}>
-                    <label htmlFor="column" className="label">Move to</label>
-                    <select id="column" className={styles.select} value={task.columnId} onChange={handleChangeColumn}>
-                        {columns.map(column => (
-                            <option key={column.id} value={column.id}>{column.name}</option>
-                        ))}
-                    </select>
-                </div>
+                <select id="column" className={styles.select} value={task.columnId} onChange={handleChangeColumn}>
+                    {columns.map(column => (
+                        <option key={column.id} value={column.id}>{column.name}</option>
+                    ))}
+                </select>
 
-                <div className={styles.field}>
-                    <label htmlFor="priority" className="label">Priority</label>
-
-                    <select id="priority" value={task.priority} onChange={handleChangePriority} className={styles.select}>
-                        {TASK_STATUS.map((status, index) => (
-                            <option key={index} value={status.value}>{status.name}</option>
-                        ))}
-                    </select>
-                </div>
+                <select id="priority" value={task.priority} onChange={handleChangePriority} className={styles.select}>
+                    {TASK_STATUS.map((status, index) => (
+                        <option key={index} value={status.value}>{status.name}</option>
+                    ))}
+                </select>
             </div>
 
             {!isWatcher && (

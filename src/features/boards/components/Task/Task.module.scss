@@ -99,9 +99,8 @@
 
 .fieldWrapper {
     display: grid;
-    grid-template-columns: min-content min-content;
+    justify-content: start;
     gap: 10px;
-    align-items: center;
 }
 
 .dragHandle {
@@ -114,18 +113,6 @@
     width: 30px;
     height: 35px;
     cursor: grab;
-}
-
-.field {
-    display: grid;
-    grid-template-columns: subgrid;
-    grid-column: span 2;
-    gap: 0.5rem;
-    align-items: center;
-
-    label {
-        white-space: nowrap;
-    }
 }
 
 .select {

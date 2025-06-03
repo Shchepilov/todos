@@ -1,15 +1,12 @@
-import { useStore } from "@store/store";
-import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import dropdown from '@components/Dropdown/Dropdown.module.scss';
-import { DotsVerticalIcon, DragHandleDots2Icon, TrashIcon } from "@radix-ui/react-icons";
+import { useNavigate } from 'react-router-dom';
+import { DragHandleDots2Icon, TrashIcon } from "@radix-ui/react-icons";
+import { motion } from "framer-motion";
+import { useStore } from "@store/store";
+import { deleteTask, updateTask } from '@features/boards/services/tasksQuery';
 import Button from "@components/Button/Button";
 import styles from './Task.module.scss';
-import { motion } from "framer-motion";
 import { TASK_STATUS } from "@features/boards/utils/constants";
-
-import { deleteTask, updateTask } from '@features/boards/services/tasksQuery';
 
 const Task = ({ task }) => {
     const droppedColumnId = useStore((state) => state.droppedColumnId);
@@ -88,21 +85,6 @@ const Task = ({ task }) => {
                     <TrashIcon onClick={handleDeleteTask} />
                 </Button>
             )}
-
-            {/* <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild>
-                    <Button variation="transparent" size="small">
-                        <DotsVerticalIcon width={16} height={16} />
-                    </Button>
-                </DropdownMenu.Trigger>
-
-                <DropdownMenu.Portal>
-                    <DropdownMenu.Content className={dropdown.content} align="start" sideOffset={5}>
-                        <DropdownMenu.Item className={dropdown.item} onSelect={() => console.log('Edit')}>Edit</DropdownMenu.Item>
-                        <DropdownMenu.Item className={`${dropdown.item} ${dropdown.itemDanger}`} onSelect={handleDeleteTask}>Delete</DropdownMenu.Item>
-                    </DropdownMenu.Content>
-                </DropdownMenu.Portal>
-            </DropdownMenu.Root> */}
         </motion.li>
     );
 };

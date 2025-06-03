@@ -1,18 +1,4 @@
-import {
-    collection,
-    addDoc,
-    getDocs,
-    query,
-    where,
-    orderBy,
-    updateDoc,
-    deleteDoc,
-    doc,
-    serverTimestamp,
-} from "firebase/firestore";
-import { db } from "@baseUrl/firebase";
-
-export const useTaskStore = (set, get) => ({
+export const useTaskStore = (set) => ({
     tasks: [],
     setTasks: (tasks) => set({ tasks }),
     droppedColumnId: null,

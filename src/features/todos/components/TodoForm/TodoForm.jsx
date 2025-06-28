@@ -12,8 +12,6 @@ const TodoForm = () => {
     const userId = useStore((state) => state.user.uid);
     const currentDay = useStore((state) => state.currentDay);
     const currentDate = dayjs(currentDay).format("YYYY-MM-DD");
-    const priorityRef = useRef();
-    const dueDateRef = useRef();
     const closeDialogRef = useRef(null);
     const priorityId = useId();
     const dueDateId = useId();
@@ -22,27 +20,30 @@ const TodoForm = () => {
     const [isDueDate, setIsDueDate] = useState(false);
     const [newAutoMove, setNewAutoMove] = useState(false);
     const [todoText, setTodoText] = useState("");
+    const [priority, setPriority] = useState(PRIORITY_OPTIONS[0].value);
 
-    const changeTodoText = (e) => {
-        setTodoText(e.target.value);
-    };
-    
+    const changeTodoText = (e) => setTodoText(e.target.value);
+    const handleChangePriority = (e) => setPriority(e.target.value);
+    const handleChangeDueDate = (e) => setDueDate(e.target.value);
+    const handleToggleDueDate = (e) => setIsDueDate(e.target.checked);
+    const handleNewAutoMove = (e) => setNewAutoMove(e.target.checked);
+    const handleSubmitForm = (e) => e.preventDefault();
+    const handleCloseForm = () => closeDialogRef.current?.click();
+
     const handleAddTodo = (e) => {
         e.preventDefault();
-        
-        const priority = priorityRef.current.value;
-        const dueDate = dueDateRef.current.value;
+
         const updatedDueDate = isDueDate ? dueDate : null;
 
         addTodo(userId, todoText, priority, updatedDueDate, newAutoMove, currentDate);
         setTodoText("");
         setDueDate(currentDate);
         setIsDueDate(false);
-        closeDialogRef.current?.click();
+        handleCloseForm();
     };
 
     return (
-        <form onSubmit={(e) => e.preventDefault()} className="form">
+        <form onSubmit={handleSubmitForm} className="form">
             <div className="field">
                 <input type="text" value={todoText} onChange={changeTodoText} placeholder="Add a new task"/>
             </div>
@@ -51,8 +52,7 @@ const TodoForm = () => {
                 <div className="field">
                     <label htmlFor={priorityId} className="label">Priority</label>
 
-                    <select ref={priorityRef} id={priorityId}>
-                        <option value="" disabled>Select priority</option>
+                    <select id={priorityId} value={priority} onChange={handleChangePriority}>
                         {PRIORITY_OPTIONS.map(option => (
                             <option key={option.value} value={option.value}>
                                 {option.label}
@@ -65,19 +65,19 @@ const TodoForm = () => {
                     <label htmlFor={dueDateId} className="label">Due Date</label>
                     
                     <div className="field split-field">
-                        <input type="date" id={dueDateId} disabled={!isDueDate} ref={dueDateRef} value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+                        <input type="date" id={dueDateId} disabled={!isDueDate} value={dueDate} onChange={handleChangeDueDate} />
 
-                        <Checkbox checked={isDueDate} onChange={(e) => setIsDueDate(e.target.checked)} />
+                        <Checkbox checked={isDueDate} onChange={handleToggleDueDate} />
                     </div>
                 </div>
             </div>
 
             <div className="field split-field">
-                <Checkbox checked={newAutoMove} label="Auto move" id={autoMoveId} onChange={(e) => setNewAutoMove(e.target.checked)} />
+                <Checkbox checked={newAutoMove} label="Auto move" id={autoMoveId} onChange={handleNewAutoMove} />
             </div>
 
             <div className="button-group">
-                <Button variation="secondary" onClick={() => closeDialogRef.current?.click()}>Cancel</Button>
+                <Button variation="secondary" onClick={handleCloseForm}>Cancel</Button>
                 <Button onClick={handleAddTodo} disabled={!todoText}><PlusIcon/>Add Todo</Button>
             </div>
 

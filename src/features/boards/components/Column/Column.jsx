@@ -11,21 +11,20 @@ import { updateTask } from '@features/boards/services/tasksQuery';
 import TaskForm from "./TaskForm";
 import Tasks from "../Tasks/Tasks";
 import styles from './Column.module.scss';
+import ColumnSettings from './ColumnSettings';
 
 const Column = ({ column, boardId }) => {
     const setDroppedColumnId = useStore((state) => state.setDroppedColumnId);
     const [taskFormModal, setTaskFormModal] = useState(false);
     const [isDragOver, setIsDragOver] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [columnSettingsModal, setColumnSettingsModal] = useState(false);
     const boards = useStore((state) => state.boards);
     const columns = useStore((state) => state.columns);
+
     const showTaskForm = () => setTaskFormModal(true);
     const handleDeleteColumn = () => deleteColumn(column.id);
-
-    //TODO: Implement column update functionality
-    // const handleUpdateColumn = () => {
-    //     updateColumn(column.id, { name: column.name });
-    // }
+    const showColumnSettings = () => setColumnSettingsModal(true);
 
     const isLastColumn = columns.findIndex(col => col.id === column.id) === columns.length - 1;
     const isFirstColumn = columns.findIndex(col => col.id === column.id) === 0;
@@ -103,7 +102,7 @@ const Column = ({ column, boardId }) => {
             
                             <DropdownMenu.Portal>
                                 <DropdownMenu.Content className={dropdown.content} align="start" sideOffset={5}>
-                                    <DropdownMenu.Item className={dropdown.item} onSelect={() => console.log('Edit')}>
+                                    <DropdownMenu.Item className={dropdown.item} onSelect={showColumnSettings}>
                                         <Pencil1Icon /> Edit
                                     </DropdownMenu.Item>
 
@@ -135,6 +134,10 @@ const Column = ({ column, boardId }) => {
 
             <Modal heading='+ Add Task' isDialogOpen={taskFormModal} setIsDialogOpen={setTaskFormModal}>
                 <TaskForm columnId={column.id} boardId={boardId} />
+            </Modal>
+
+            <Modal heading='Column Settings' isDialogOpen={columnSettingsModal} setIsDialogOpen={setColumnSettingsModal}>
+                <ColumnSettings column={column} />
             </Modal>
 
             <Tasks columnId={column.id} />

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useStore } from "@store/store";
-import { TrashIcon, PlusIcon, GearIcon, Pencil1Icon } from "@radix-ui/react-icons";
+import { TrashIcon, PlusIcon, GearIcon, Pencil1Icon, ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import dropdown from '@components/Dropdown/Dropdown.module.scss';
@@ -18,6 +18,7 @@ const Column = ({ column, boardId }) => {
     const [isDragOver, setIsDragOver] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const boards = useStore((state) => state.boards);
+    const columns = useStore((state) => state.columns);
     const showTaskForm = () => setTaskFormModal(true);
     const handleDeleteColumn = () => deleteColumn(column.id);
 
@@ -25,6 +26,25 @@ const Column = ({ column, boardId }) => {
     // const handleUpdateColumn = () => {
     //     updateColumn(column.id, { name: column.name });
     // }
+
+    const isLastColumn = columns.findIndex(col => col.id === column.id) === columns.length - 1;
+    const isFirstColumn = columns.findIndex(col => col.id === column.id) === 0;
+
+    const handleMoveColumnRight = () => {
+        const columnIndex = columns.findIndex(col => col.id === column.id);
+        const nextColumnId = columns[columnIndex + 1]?.id;
+
+        updateColumn(column.id, { order: columnIndex + 1 });
+        updateColumn(nextColumnId, { order: columnIndex });
+    }
+
+    const handleMoveColumnLeft = () => {
+        const columnIndex = columns.findIndex(col => col.id === column.id);
+        const prevColumnId = columns[columnIndex - 1]?.id;
+
+        updateColumn(column.id, { order: columnIndex - 1 });
+        updateColumn(prevColumnId, { order: columnIndex });
+    }
 
     const isWatcher = boards.find(board => board.id === boardId).isWatcher || false;
 
@@ -86,6 +106,18 @@ const Column = ({ column, boardId }) => {
                                     <DropdownMenu.Item className={dropdown.item} onSelect={() => console.log('Edit')}>
                                         <Pencil1Icon /> Edit
                                     </DropdownMenu.Item>
+
+                                    {!isFirstColumn && (
+                                        <DropdownMenu.Item className={dropdown.item} onSelect={handleMoveColumnLeft}>
+                                            <ArrowLeftIcon /> Move Left
+                                        </DropdownMenu.Item>
+                                    )}
+
+                                    {!isLastColumn && (
+                                        <DropdownMenu.Item className={dropdown.item} onSelect={handleMoveColumnRight}>
+                                            Move Right <ArrowRightIcon />
+                                        </DropdownMenu.Item>
+                                    )}
                                     
                                     <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={handleDeleteColumn}>
                                         <TrashIcon /> Delete Column

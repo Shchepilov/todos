@@ -30,12 +30,20 @@ export const addColumn = async (boardId, name) => {
             columnsRef,
             where("boardId", "==", boardId)
         );
+        
         const columnsSnapshot = await getDocs(columnsQuery);
         
+        let nextOrder = 0;
+        if (!columnsSnapshot.empty) {
+            const orders = columnsSnapshot.docs.map(doc => doc.data().order);
+            const maxOrder = Math.max(...orders);
+            nextOrder = maxOrder + 1;
+        }
+
         await addDoc(columnsRef, {
             name,
             boardId,
-            order: columnsSnapshot.size,
+            order: nextOrder,
             timestamp: serverTimestamp()
         });
     } catch (error) {

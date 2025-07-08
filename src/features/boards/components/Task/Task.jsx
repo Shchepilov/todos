@@ -54,17 +54,17 @@ const Task = ({ task }) => {
             className={styles.item} 
             data-priority={task.priority}>
                 
-                <header className={styles.header}>
-                    <span role="button" className={styles.title} onClick={handleTaskDetails}>{task.title}</span>
+            <header className={styles.header}>
+                <span role="button" className={styles.title} onClick={handleTaskDetails}>{task.title}</span>
 
-                    <div draggable="true"
-                         onDragStart={handleDragStart}
-                         onDragEnd={handleDragEnd}
-                         className={styles.dragHandle}>
+                <div draggable="true"
+                     onDragStart={handleDragStart}
+                     onDragEnd={handleDragEnd}
+                     className={styles.dragHandle}>
 
-                        <DragHandleDots2Icon width={20} height={20} />
-                    </div>
-                </header>
+                    <DragHandleDots2Icon width={20} height={20} />
+                </div>
+            </header>
             
             <div className={styles.fieldWrapper}>
                 <select id="column" className={styles.select} value={task.columnId} onChange={handleChangeColumn}>

@@ -20,6 +20,15 @@ const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate
     const dateId = useId();
     const closeDialogRef = useRef(null);
 
+    const handleChangeContent = (e) => setNewContent(e.target.value);
+    const handleChangePriority = (e) => setNewPriority(e.target.value);
+    const handleChangeDate = (e) => setNewDate(e.target.value);
+    const handleChangeDueDate = (e) => setNewDueDate(e.target.value);
+    const handleIsDueDate = (e) => setIsDueDate(e.target.checked);
+    const handleChangeAutoMove = (e) => setNewAutoMove(e.target.checked);
+    const handleCloseForm = () => closeDialogRef.current?.click()
+    const handleSubmitForm = (e) => e.preventDefault();
+
     const handleUpdateTodo = (e) => {
         e.preventDefault();
 
@@ -28,18 +37,17 @@ const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate
         const updatedDueDate = isDueDate ? newDueDate : null;
 
         handleUpdate(id, newContent, newPriority, newDate, updatedDueDate, newAutoMove);
-
-        closeDialogRef.current?.click();
+        handleCloseForm();
     };
 
     return (
-        <form className="form" onSubmit={(e) => e.preventDefault()}>
+        <form className="form" onSubmit={handleSubmitForm}>
             <div className="row">
                 <div className="field">
                     <input
                         type="text"
                         value={newContent}
-                        onChange={(e) => setNewContent(e.target.value)}
+                        onChange={handleChangeContent}
                         placeholder="Add a new todo"
                     />
                 </div>
@@ -48,7 +56,7 @@ const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate
             <div className="row">
                 <div className="field">
                     <label htmlFor={priorityId} className="label">Priority</label>
-                    <select value={newPriority} id={priorityId} onChange={(e) => setNewPriority(e.target.value)}>
+                    <select value={newPriority} id={priorityId} onChange={handleChangePriority}>
                         {PRIORITY_OPTIONS.map(option => (
                             <option key={option.value} value={option.value}>
                                 {option.label}
@@ -61,27 +69,27 @@ const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate
             <div className="row">
                 <div className="field">
                     <label htmlFor={dateId} className="label">Date</label>
-                    <input type="date" id={dateId} value={newDate} onChange={(e) => setNewDate(e.target.value)} />
+                    <input type="date" id={dateId} value={newDate} onChange={handleChangeDate} />
                 </div>
 
                 <div className="field">
                     <label htmlFor={dueDateId} className="label">Due Date</label>
 
                     <div className="field split-field">
-                        <input type="date" id={dueDateId} disabled={!isDueDate} value={newDueDate} onChange={(e) => setNewDueDate(e.target.value)} />
-                        <Checkbox type="checkbox" checked={isDueDate} onChange={(e) => setIsDueDate(e.target.checked)} />
+                        <input type="date" id={dueDateId} disabled={!isDueDate} value={newDueDate} onChange={handleChangeDueDate} />
+                        <Checkbox type="checkbox" checked={isDueDate} onChange={handleIsDueDate} />
                     </div>    
                 </div>
             </div>
 
             <div className="row">
                 <div className="field split-field">
-                    <Checkbox type="checkbox" checked={newAutoMove} label="Auto move" onChange={(e) => setNewAutoMove(e.target.checked)} />
+                    <Checkbox type="checkbox" checked={newAutoMove} label="Auto move" onChange={handleChangeAutoMove} />
                 </div>
             </div>
 
             <div className="button-group">
-                <Button variation="secondary" onClick={() => closeDialogRef.current?.click()}>Cancel</Button>
+                <Button variation="secondary" onClick={handleCloseForm}>Cancel</Button>
                 <Button onClick={handleUpdateTodo} disabled={!newContent}>Update</Button>
             </div>
 

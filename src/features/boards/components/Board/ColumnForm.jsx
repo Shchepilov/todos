@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { useStore } from "@store/store";
 import * as Dialog from '@radix-ui/react-dialog';
 import { PlusIcon } from "@radix-ui/react-icons";
 import Button from "@components/Button/Button";

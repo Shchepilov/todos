@@ -9,7 +9,6 @@ import {
     getDocs,
     query,
     where,
-    orderBy,
 } from "firebase/firestore";
 import { db } from "@baseUrl/firebase";
 import { TODO_COLLECTION } from "@features/todos/utils/constants";

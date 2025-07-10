@@ -14,6 +14,9 @@ const TaskDetail = () => {
     const columns = useStore((state) => state.columns);
     const tasks = useStore((state) => state.tasks);
     const task = tasks.find(task => task.id === taskId);
+    const boards = useStore((state) => state.boards);
+    const activeBoard = boards?.find(board => board.id === boardId);
+    const isWatcher = activeBoard?.isWatcher || false;
     const [descriptionValue, setDescriptionValue] = useState(task.description);
     const [titleValue, setTitleValue] = useState(task.title);
     
@@ -27,6 +30,7 @@ const TaskDetail = () => {
     const handleChangeDescription = (e) => setDescriptionValue(e.target.value);
     const handleUpdateDescription = (e) => updateTask(taskId, { description: e.target.value });
     const handleUpdatePriority = (e) => updateTask(taskId, { priority: e.target.value });
+    const handleChangeAssignee = (e) => updateTask(taskId, { assignee: e.target.value });
     
     const handleDeleteTask = () => {
         deleteTask(taskId);
@@ -71,10 +75,30 @@ const TaskDetail = () => {
                         <textarea rows={5} value={descriptionValue} onChange={handleChangeDescription} placeholder="Description" onBlur={handleUpdateDescription}></textarea>
                     </div>
                 </div>
+
+                {activeBoard.watchersData && activeBoard.watchersData.length > 0 && (
+                    <div className="row">
+                        <div className="field">
+                            <label className="label">Assignee</label>
+                            
+                            <select onChange={handleChangeAssignee} value={task.assignee}>
+                                <option value="">Unassigned</option>
+                                
+                                {activeBoard.watchersData.map(watcher => (
+                                    <option key={watcher.watcherEmail} value={watcher.watcherName}>
+                                        {watcher.watcherName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                )}
                 
-                <Button variation="transparent" size="small" className={styles.detailDeleteButton} aria-label="Delete task">
-                    <TrashIcon onClick={handleDeleteTask} width={18} height={18} />
-                </Button>
+                {!isWatcher && (
+                    <Button variation="confirmation" className={styles.detailDeleteButton} onClick={handleDeleteTask} aria-label="Delete task">
+                        <TrashIcon  width={18} height={18} /> Delete Task
+                    </Button>
+                )}
             </div>
         </Modal>
     );

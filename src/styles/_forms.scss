@@ -76,7 +76,9 @@ select {
 }
 
 .form {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
     gap: 16px;
 }
 
@@ -111,4 +113,5 @@ select {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
+    margin-top: auto;
 }

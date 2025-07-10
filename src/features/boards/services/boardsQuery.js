@@ -21,6 +21,7 @@ export const addBoard = async (userId, name) => {
             userId,
             name,
             watchers: [],
+            watchersData: [],
             timestamp: serverTimestamp(),
         });
         return docRef.id;

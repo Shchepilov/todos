@@ -23,6 +23,7 @@ const Task = ({ task }) => {
     const handleChangeColumn = (e) => updateTask(task.id, { columnId: e.target.value });
     const handleChangePriority = (e) => updateTask(task.id, { priority: e.target.value });
     const handleDeleteTask = () => deleteTask(task.id);
+    const handleChangeAssignee = (e) => updateTask(task.id, { assignee: e.target.value });
 
     const handleTaskDetails = () => {
         navigate(`/boards/${task.boardId}/tasks/${task.id}`);
@@ -44,6 +45,8 @@ const Task = ({ task }) => {
             taskRef.current.classList.remove(styles.dragging);
         }
     };
+
+    if (!activeBoard) return;
 
     return (
         <motion.li
@@ -78,6 +81,18 @@ const Task = ({ task }) => {
                         <option key={index} value={status.value}>{status.name}</option>
                     ))}
                 </select>
+
+                {activeBoard.watchersData && activeBoard.watchersData.length > 0 && (
+                    <select onChange={handleChangeAssignee} value={task.assignee} className={styles.select}>
+                        <option value="">Unassigned</option>
+                        
+                        {activeBoard.watchersData.map(watcher => (
+                            <option key={watcher.watcherEmail} value={watcher.watcherName}>
+                                {watcher.watcherName}
+                            </option>
+                        ))}
+                    </select>
+                )}
             </div>
 
             {!isWatcher && (

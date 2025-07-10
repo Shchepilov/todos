@@ -62,6 +62,11 @@
             margin: auto;
             animation: contentSlide 0.2s ease;
         }
+
+        &.medium {
+            max-width: 600px;
+            min-height: 400px;
+        }
     }
 }
 

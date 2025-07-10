@@ -8,10 +8,13 @@ import { TASK_STATUS } from "@features/boards/utils/constants";
 
 const TaskForm = ({ columnId, boardId }) => {
     const columns = useStore((state) => state.columns);
+    const boards = useStore((state) => state.boards);
+    const activeBoard = boards?.find(board => board.id === boardId);
     const closeDialogRef = useRef(null);
     const [taskName, setTaskName] = useState("");
     const [priorityValue, setPriorityValue] = useState(2);
     const [columnIdValue, setColumnIdValue] = useState(columnId);
+    const [taskAssignee, setTaskAssignee] = useState("");
 
     const setTaskNameValue = (e) => {
         setTaskName(e.target.value);
@@ -25,6 +28,8 @@ const TaskForm = ({ columnId, boardId }) => {
         setColumnIdValue(e.target.value);
     }
 
+    const handleChangeAssignee = (e) => setTaskAssignee(e.target.value);
+
     const closeDialog = () => closeDialogRef.current?.click();
 
     const handleAddTask = (e) => {
@@ -32,7 +37,7 @@ const TaskForm = ({ columnId, boardId }) => {
 
         if (!taskName) return;
 
-        addTask(boardId, columnIdValue, { title: taskName, priority: priorityValue, columnId: columnIdValue });
+        addTask(boardId, columnIdValue, { title: taskName, priority: priorityValue, columnId: columnIdValue, assignee: taskAssignee });
         setTaskName("");
         closeDialogRef.current?.click();
     }
@@ -63,6 +68,24 @@ const TaskForm = ({ columnId, boardId }) => {
                     </select>
                 </div>
             </div>
+
+            {activeBoard.watchersData && activeBoard.watchersData.length > 0 && (
+                <div className="row">
+                    <div className="field">
+                        <label className="label">Assignee</label>
+                        
+                        <select onChange={handleChangeAssignee} value={taskAssignee}>
+                            <option value="">Unassigned</option>
+                            
+                            {activeBoard.watchersData.map(watcher => (
+                                <option key={watcher.watcherEmail} value={watcher.watcherName}>
+                                    {watcher.watcherName}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+            )}
 
             <div className="button-group">
                 <Button type="button" variation="secondary" onClick={closeDialog}>Cancel</Button>

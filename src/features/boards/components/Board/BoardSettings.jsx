@@ -11,6 +11,7 @@ const BoardSettings = ({board}) => {
     const setActiveBoardId = useStore((state) => state.setActiveBoardId);
     const [boardName, setBoardName] = useState(board.name);
     const [watcherEmail, setWatcherEmail] = useState('');
+    const [watcherName, setWatcherName] = useState('');
     const closeDialogRef = useRef(null);
     const navigate = useNavigate();
 
@@ -35,23 +36,34 @@ const BoardSettings = ({board}) => {
         closeDialog();
     };
 
-    const addWatcherEmail = (e) => {
+    const handleAddWatcher = (e) => {
         e.preventDefault();
 
-        if (!watcherEmail) return;
+        if (!watcherEmail || !watcherName) return;
         if (board.watchers.includes(watcherEmail)) return;
 
-        updateBoard(board.id, { watchers: [...board.watchers, watcherEmail] });
+        updateBoard(board.id, { 
+            watchers: [...board.watchers, watcherEmail],
+            watchersData: [...board.watchersData, { watcherEmail, watcherName }]
+        });
+        
         setWatcherEmail('');
+        setWatcherName('');
     }
 
-    const removeWatcherEmail = (email) => {
-        const updatedWatchers = board.watchers.filter(item => item !== email);
-        updateBoard(board.id, { watchers: updatedWatchers });
+    const handleRemoveWatcher = (email) => {
+        const updatedWatchers = board.watchers.filter(watcherEmail => watcherEmail !== email);
+        console.log(updatedWatchers);
+        const updatedWatchersData = board.watchersData.filter(watcher => watcher.watcherEmail !== email);
+        updateBoard(board.id, { watchers: updatedWatchers, watchersData: updatedWatchersData });
     }
 
     const handleChangeWatcherEmail = (e) => {
         setWatcherEmail(e.target.value.trim().toLowerCase());
+    }
+
+    const handleChangeWatcherName = (e) => {
+        setWatcherName(e.target.value.trim());
     }
 
     return ( 
@@ -63,12 +75,12 @@ const BoardSettings = ({board}) => {
 
             <div className="field">
                 <label className="label">Watchers</label>
-                {board.watchers.length > 0 && (
+                {board.watchersData && board.watchersData.length > 0 && (
                     <ul className={styles.watcherList}>
-                        {board.watchers.map((item) => (
-                            <li key={item}>
-                                <span>{item}</span>
-                                <Button type="button" variation="transparent" onClick={() => removeWatcherEmail(item)}>
+                        {board.watchersData.map((user) => (
+                            <li key={user.watcherEmail}>
+                                <span>{user.watcherEmail} - {user.watcherName}</span>
+                                <Button type="button" variation="transparent" onClick={() => handleRemoveWatcher(user.watcherEmail)}>
                                     <CrossCircledIcon />
                                 </Button>
                             </li>
@@ -77,8 +89,10 @@ const BoardSettings = ({board}) => {
                 )}
 
                 <div className="field split-field">
-                    <input type="email" value={watcherEmail} onChange={handleChangeWatcherEmail} placeholder="Add email" />
-                    <Button type="button" variation="confirmation" onClick={addWatcherEmail}>
+                    <input type="email" value={watcherEmail} onChange={handleChangeWatcherEmail} placeholder="email" />
+                    <span>aka</span>
+                    <input type="text" value={watcherName} onChange={handleChangeWatcherName} placeholder="name" />
+                    <Button type="button" variation="confirmation" onClick={handleAddWatcher}>
                         <PlusIcon width={18} height={18} />
                     </Button>
                 </div>
@@ -86,13 +100,12 @@ const BoardSettings = ({board}) => {
 
             <div className={styles.buttonGroup}>
                 <Button variation="confirmation" type="button" className={styles.removeBoardButton} onClick={handleDeleteBoard}>
-                    <TrashIcon width={18} height={18} />
+                    <TrashIcon width={18} height={18} /> Delete Board
                 </Button>
                 <Button type="button" variation="secondary" onClick={closeDialog}>Cancel</Button>
                 <Button type="submit" disabled={!boardName}>Save</Button>
+                <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>
             </div>
-
-            <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>
         </form>
     );
 }

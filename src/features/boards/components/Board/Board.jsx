@@ -63,7 +63,7 @@ const Board = () => {
                 <ColumnForm boardId={boardId} />
             </Modal>
 
-            <Modal heading='Settings' isDialogOpen={boardSettingsModal} setIsDialogOpen={setBoardSettingsModal}>
+            <Modal heading='Settings' size='medium' isDialogOpen={boardSettingsModal} setIsDialogOpen={setBoardSettingsModal}>
                 <BoardSettings board={board} />
             </Modal>
 

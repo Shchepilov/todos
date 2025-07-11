@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import { useForm } from "react-hook-form"
 import { useStore } from "@store/store";
 import * as Dialog from '@radix-ui/react-dialog';
 import { PlusIcon } from "@radix-ui/react-icons";
@@ -11,68 +12,62 @@ const TaskForm = ({ columnId, boardId }) => {
     const boards = useStore((state) => state.boards);
     const activeBoard = boards?.find(board => board.id === boardId);
     const closeDialogRef = useRef(null);
-    const [taskName, setTaskName] = useState("");
-    const [priorityValue, setPriorityValue] = useState(2);
-    const [columnIdValue, setColumnIdValue] = useState(columnId);
-    const [taskAssignee, setTaskAssignee] = useState("");
-    const [taskType, setTaskType] = useState("feature");
-
-    const setTaskNameValue = (e) => {
-        setTaskName(e.target.value);
-    }
-
-    const handleChangePriority = (e) => {
-        setPriorityValue(e.target.value);
-    }
-
-    const handleChangeColumn = (e) => {
-        setColumnIdValue(e.target.value);
-    }
-
-    const handleChangeAssignee = (e) => setTaskAssignee(e.target.value);
-    const handleChangeTaskType = (e) => setTaskType(e.target.value);
+    const { register, handleSubmit, formState: { errors }, } = useForm();
 
     const closeDialog = () => closeDialogRef.current?.click();
 
-    const handleAddTask = (e) => {
-        e.preventDefault();
-
-        if (!taskName) return;
+    const handleAddTask = (data) => {
+        const { taskTitle, taskType, taskPriority, columnId, taskAssignee } = data;
 
         addTask(
             boardId, 
-            columnIdValue, 
+            columnId, 
             { 
                 type: taskType,
-                title: taskName, 
-                priority: priorityValue,
-                columnId: columnIdValue,
+                title: taskTitle, 
+                priority: taskPriority,
                 assignee: taskAssignee 
             }
         );
-        setTaskName("");
+        
         closeDialogRef.current?.click();
     }
 
     return (
-        <form onSubmit={handleAddTask} className="form">
+        <form onSubmit={handleSubmit(handleAddTask)} className="form">
             <div className="row">
                 <div className="field">
                     <label className="label">Type</label>
-                    <select value={taskType} onChange={handleChangeTaskType}>
+                    <select defaultValue={TASK_TYPES[0].value} {...register("taskType")}>
                         {TASK_TYPES.map((type, index) => (
                             <option key={index} value={type.value}>{type.name}</option>
                         ))}
                     </select>
                 </div>
             </div>
-
-            <input type="text" autoFocus onChange={setTaskNameValue} placeholder="Task title"/>
+            
+            <div className="row">
+                <div className="field">
+                    <label className="label">Title</label>
+                    <input
+                        {...register("taskTitle", { 
+                            required: "Field is required",
+                            maxLength: {
+                                value: 100,
+                                message: "Title cannot exceed 100 characters"
+                            }})
+                        } 
+                        className={errors.taskTitle && 'invalid'} 
+                        autoFocus 
+                        placeholder="Task title" />
+                    {errors.taskTitle && <span className="error">{errors.taskTitle.message}</span>}
+                </div>
+            </div>
 
             <div className="row">
                 <div className="field">
                     <label className="label">Priority</label>
-                    <select value={priorityValue} onChange={handleChangePriority}>
+                    <select defaultValue={TASK_STATUS[2].value} {...register("taskPriority")}>
                         <option disabled>Select priority</option>
                         {TASK_STATUS.map((status, index) => (
                             <option key={index} value={status.value}>{status.name}</option>
@@ -84,7 +79,7 @@ const TaskForm = ({ columnId, boardId }) => {
             <div className="row">
                 <div className="field">
                     <label className="label">Column</label>
-                    <select value={columnIdValue} onChange={handleChangeColumn}>
+                    <select defaultValue={columnId} {...register("columnId")}>
                         {columns.map(column => (
                             <option key={column.id} value={column.id}>{column.name}</option>
                         ))}
@@ -97,8 +92,8 @@ const TaskForm = ({ columnId, boardId }) => {
                     <div className="field">
                         <label className="label">Assignee</label>
                         
-                        <select onChange={handleChangeAssignee} value={taskAssignee}>
-                            <option value="">Unassigned</option>
+                        <select defaultValue="unassigned" {...register("taskAssignee")}>
+                            <option value="unassigned">Unassigned</option>
                             
                             {activeBoard.watchersData.map(watcher => (
                                 <option key={watcher.watcherEmail} value={watcher.watcherName}>
@@ -112,7 +107,7 @@ const TaskForm = ({ columnId, boardId }) => {
 
             <div className="button-group">
                 <Button type="button" variation="secondary" onClick={closeDialog}>Cancel</Button>
-                <Button type="submit" disabled={!taskName}><PlusIcon/>Add Task</Button>
+                <Button type="submit"><PlusIcon/>Add Task</Button>
             </div>
 
             <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>

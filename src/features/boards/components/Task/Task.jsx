@@ -58,6 +58,8 @@ const Task = ({ task }) => {
             data-priority={task.priority}>
                 
             <header className={styles.header}>
+                {task.type && <span className={`${styles.typeBadge} ${styles[task.type]}`}>{task.type}</span>}
+                
                 <span role="button" className={styles.title} onClick={handleTaskDetails}>{task.title}</span>
 
                 <div draggable="true"

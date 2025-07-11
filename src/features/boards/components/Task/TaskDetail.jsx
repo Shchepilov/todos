@@ -31,6 +31,7 @@ const TaskDetail = () => {
     const handleUpdateDescription = (e) => updateTask(taskId, { description: e.target.value });
     const handleUpdatePriority = (e) => updateTask(taskId, { priority: e.target.value });
     const handleChangeAssignee = (e) => updateTask(taskId, { assignee: e.target.value });
+    const handleChangeType = (e) => updateTask(taskId, { type: e.target.value });
     
     const handleDeleteTask = () => {
         deleteTask(taskId);
@@ -40,6 +41,19 @@ const TaskDetail = () => {
     return (
         <Modal heading="Task Details" align="right" isDialogOpen={true} setIsDialogOpen={closeModal}>
             <div className={`${styles.taskDetail} form`}>
+                <div className="row">
+                    <div className="field">
+                        <label className="label">Type</label>
+                        <select value={task.type} onChange={handleChangeType}>
+                            {!task.type && <option disabled>Select Type</option>}
+                            <option value="feature">Feature</option>
+                            <option value="bug">Bug</option>
+                            <option value="cr">Change Request</option>
+                        </select>
+                    </div>
+                </div>
+
+
                 <div className="row">
                     <div className="field">
                         <label className="label">Title</label>
@@ -94,11 +108,13 @@ const TaskDetail = () => {
                     </div>
                 )}
                 
-                {!isWatcher && (
-                    <Button variation="confirmation" className={styles.detailDeleteButton} onClick={handleDeleteTask} aria-label="Delete task">
-                        <TrashIcon  width={18} height={18} /> Delete Task
-                    </Button>
-                )}
+                <div className="button-group">
+                    {!isWatcher && (
+                        <Button variation="confirmation" className={styles.detailDeleteButton} onClick={handleDeleteTask} aria-label="Delete task">
+                            <TrashIcon  width={18} height={18} /> Delete Task
+                        </Button>
+                    )}
+                </div>
             </div>
         </Modal>
     );

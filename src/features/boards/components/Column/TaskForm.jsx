@@ -15,6 +15,7 @@ const TaskForm = ({ columnId, boardId }) => {
     const [priorityValue, setPriorityValue] = useState(2);
     const [columnIdValue, setColumnIdValue] = useState(columnId);
     const [taskAssignee, setTaskAssignee] = useState("");
+    const [taskType, setTaskType] = useState("feature");
 
     const setTaskNameValue = (e) => {
         setTaskName(e.target.value);
@@ -29,6 +30,7 @@ const TaskForm = ({ columnId, boardId }) => {
     }
 
     const handleChangeAssignee = (e) => setTaskAssignee(e.target.value);
+    const handleChangeTaskType = (e) => setTaskType(e.target.value);
 
     const closeDialog = () => closeDialogRef.current?.click();
 
@@ -37,13 +39,29 @@ const TaskForm = ({ columnId, boardId }) => {
 
         if (!taskName) return;
 
-        addTask(boardId, columnIdValue, { title: taskName, priority: priorityValue, columnId: columnIdValue, assignee: taskAssignee });
+        addTask(
+            boardId, 
+            columnIdValue, 
+            { 
+                type: taskType,
+                title: taskName, 
+                priority: priorityValue,
+                columnId: columnIdValue,
+                assignee: taskAssignee 
+            }
+        );
         setTaskName("");
         closeDialogRef.current?.click();
     }
 
     return (
         <form onSubmit={handleAddTask} className="form">
+            <select value={taskType} onChange={handleChangeTaskType}>
+                <option value="feature">Feature</option>
+                <option value="bug">Bug</option>
+                <option value="cr">Change Request</option>
+            </select>
+
             <input type="text" autoFocus onChange={setTaskNameValue} placeholder="Task title"/>
 
             <div className="row">

@@ -4,7 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { PlusIcon } from "@radix-ui/react-icons";
 import Button from "@components/Button/Button";
 import { addTask } from "@features/boards/services/tasksQuery";
-import { TASK_STATUS } from "@features/boards/utils/constants";
+import { TASK_STATUS, TASK_TYPES } from "@features/boards/utils/constants";
 
 const TaskForm = ({ columnId, boardId }) => {
     const columns = useStore((state) => state.columns);
@@ -56,11 +56,16 @@ const TaskForm = ({ columnId, boardId }) => {
 
     return (
         <form onSubmit={handleAddTask} className="form">
-            <select value={taskType} onChange={handleChangeTaskType}>
-                <option value="feature">Feature</option>
-                <option value="bug">Bug</option>
-                <option value="cr">Change Request</option>
-            </select>
+            <div className="row">
+                <div className="field">
+                    <label className="label">Type</label>
+                    <select value={taskType} onChange={handleChangeTaskType}>
+                        {TASK_TYPES.map((type, index) => (
+                            <option key={index} value={type.value}>{type.name}</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
 
             <input type="text" autoFocus onChange={setTaskNameValue} placeholder="Task title"/>
 

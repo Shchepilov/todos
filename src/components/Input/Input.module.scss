@@ -1,0 +1,9 @@
+@use "@styles/mixins" as *;
+
+.input {
+    @include input;
+
+    &.invalid {
+        border-color: var(--pink-80);
+    }
+}

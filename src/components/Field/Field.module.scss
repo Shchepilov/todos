@@ -1,0 +1,39 @@
+@use "@styles/functions" as *;
+@use "@styles/mixins" as *;
+
+.field {
+    display: grid;
+    gap: 8px;
+    position: relative;
+}
+
+.label {
+    display: flex;
+    font-size: rem(12);
+    margin-inline: 2px;
+}
+
+.required::after {
+    content: "*";
+    color: var(--pink-80);
+    margin-left: 2px;
+    line-height: 1;
+}
+
+.error {
+    color: var(--pink-100);
+    position: absolute;
+    bottom: -20px;
+    right: 2px;
+    font-size: rem(12);
+    animation: show 0.2s ease;
+}
+
+@keyframes show {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

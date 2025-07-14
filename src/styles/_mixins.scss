@@ -1,3 +1,5 @@
+@use "@styles/functions" as *;
+
 $mobile-width: 767px;
 $tablet-width-portrait: 768px;
 $tablet-width-landscape: 1024px;
@@ -48,6 +50,31 @@ $desktop-width: 1025px;
 @mixin mobile-only {
     @media (max-width: #{$mobile-width}) {
         @content;
+    }
+}
+
+@mixin input {
+    font-size: rem(14);
+    width: 100%;
+    height: 48px;
+    padding: 16px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 4px; 
+    color: var(--input-color);
+    transition: all 0.2s ease;
+
+    &:hover {
+        border-color: var(--input-border-hover);
+    }
+    
+    &:focus {
+        outline: none;
+        border-color: var(--input-border-focus);
+    }
+
+    &:disabled {
+        opacity: 0.5;
     }
 }
 

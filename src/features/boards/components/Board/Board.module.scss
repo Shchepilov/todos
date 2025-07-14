@@ -82,6 +82,13 @@
     margin-right: auto;
 }
 
+.settings {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
 .watcherList {
     display: grid;
     width: fit-content;

@@ -1,10 +1,12 @@
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from "react-hook-form"
 import { DragHandleDots2Icon, TrashIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 import { useStore } from "@store/store";
 import { deleteTask, updateTask } from '@features/boards/services/tasksQuery';
 import Button from "@components/Button/Button";
+import Select from "@components/Select/Select";
 import styles from './Task.module.scss';
 import { TASK_STATUS } from "@features/boards/utils/constants";
 
@@ -46,6 +48,8 @@ const Task = ({ task }) => {
         }
     };
 
+    const { register } = useForm();
+
     if (!activeBoard) return;
 
     return (
@@ -72,28 +76,32 @@ const Task = ({ task }) => {
             </header>
             
             <div className={styles.fieldWrapper}>
-                <select id="column" className={styles.select} value={task.columnId} onChange={handleChangeColumn}>
-                    {columns.map(column => (
-                        <option key={column.id} value={column.id}>{column.name}</option>
-                    ))}
-                </select>
+                <Select register={register}
+                        className={styles.select}
+                        name="columnId"
+                        items={columns}
+                        valueKey="id"
+                        onChange={handleChangeColumn}
+                        defaultValue={task.columnId} />
 
-                <select id="priority" value={task.priority} onChange={handleChangePriority} className={styles.select}>
-                    {TASK_STATUS.map((status, index) => (
-                        <option key={index} value={status.value}>{status.name}</option>
-                    ))}
-                </select>
+                <Select register={register}
+                        className={styles.select} 
+                        name="taskPriority"
+                        items={TASK_STATUS}
+                        onChange={handleChangePriority}
+                        defaultValue={task.priority} />
 
                 {activeBoard.watchersData && activeBoard.watchersData.length > 0 && (
-                    <select onChange={handleChangeAssignee} value={task.assignee} className={styles.select}>
-                        <option value="">Unassigned</option>
-                        
-                        {activeBoard.watchersData.map(watcher => (
-                            <option key={watcher.watcherEmail} value={watcher.watcherName}>
-                                {watcher.watcherName}
-                            </option>
-                        ))}
-                    </select>
+                    <Select register={register}
+                            className={styles.select}
+                            name="taskAssignee" 
+                            items={activeBoard.watchersData} 
+                            nameKey="watcherName" 
+                            valueKey="watcherName" 
+                            onChange={handleChangeAssignee}
+                            defaultValue={task.assignee}>
+                        <option value="unassigned">Unassigned</option>
+                    </Select>
                 )}
             </div>
 

@@ -1,8 +1,11 @@
 import styles from './Select.module.scss';
 
-const Select = ({ items, register, name, defaultValue, nameKey = 'name', valueKey = 'value', children }) => {
+const Select = ({ items, register, name, defaultValue, nameKey = 'name', valueKey = 'value', onChange, className, children }) => {
     return ( 
-        <select defaultValue={defaultValue} {...register(name)} className={styles.select}>
+        <select defaultValue={defaultValue} 
+                {...register(name)} 
+                onChange={onChange}
+                className={`${styles.select} ${className || ''}`}>
             {children}
             {items.map((item, index) => (
                 <option key={index} value={item[valueKey]}>{item[nameKey]}</option>

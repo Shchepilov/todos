@@ -2,8 +2,12 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form"
 import { useStore } from "@store/store";
 import * as Dialog from '@radix-ui/react-dialog';
+import * as Form from '@radix-ui/react-form';
 import { PlusIcon } from "@radix-ui/react-icons";
 import Button from "@components/Button/Button";
+import Input from "@components/Input/Input";
+import Select from "@components/Select/Select";
+import Field from "@components/Field/Field";
 import { addTask } from "@features/boards/services/tasksQuery";
 import { TASK_STATUS, TASK_TYPES } from "@features/boards/utils/constants";
 
@@ -17,8 +21,8 @@ const TaskForm = ({ columnId, boardId }) => {
     const closeDialog = () => closeDialogRef.current?.click();
 
     const handleAddTask = (data) => {
-        const { taskTitle, taskType, taskPriority, columnId, taskAssignee } = data;
-
+        const { taskTitle, taskType, taskPriority, columnId, taskAssignee, taskDescription } = data;
+        console.log(data);
         addTask(
             boardId, 
             columnId, 
@@ -26,6 +30,7 @@ const TaskForm = ({ columnId, boardId }) => {
                 type: taskType,
                 title: taskTitle, 
                 priority: taskPriority,
+                description: taskDescription,
                 assignee: taskAssignee 
             }
         );
@@ -34,84 +39,62 @@ const TaskForm = ({ columnId, boardId }) => {
     }
 
     return (
-        <form onSubmit={handleSubmit(handleAddTask)} className="form">
-            <div className="row">
-                <div className="field">
-                    <label className="label">Type</label>
-                    <select defaultValue={TASK_TYPES[0].value} {...register("taskType")}>
-                        {TASK_TYPES.map((type, index) => (
-                            <option key={index} value={type.value}>{type.name}</option>
-                        ))}
-                    </select>
-                </div>
-            </div>
-            
-            <div className="row">
-                <div className="field">
-                    <label className="label">Title</label>
-                    <input
-                        {...register("taskTitle", { 
-                            required: "Field is required",
-                            maxLength: {
-                                value: 100,
-                                message: "Title cannot exceed 100 characters"
-                            }})
-                        } 
-                        className={errors.taskTitle && 'invalid'} 
-                        autoFocus 
-                        placeholder="Task title" />
-                    {errors.taskTitle && <span className="error">{errors.taskTitle.message}</span>}
-                </div>
-            </div>
+        <Form.Root onSubmit={handleSubmit(handleAddTask)} className="form">
+            <Field name="taskType" label="Type" errors={errors}>
+                <Select register={register} name="taskType" items={TASK_TYPES} defaultValue={TASK_TYPES[0].value} />
+            </Field>
 
-            <div className="row">
-                <div className="field">
-                    <label className="label">Priority</label>
-                    <select defaultValue={TASK_STATUS[2].value} {...register("taskPriority")}>
-                        <option disabled>Select priority</option>
-                        {TASK_STATUS.map((status, index) => (
-                            <option key={index} value={status.value}>{status.name}</option>
-                        ))}
-                    </select>    
-                </div>
-            </div>
+            <Field name="taskTitle" label="Title" errors={errors}>
+                <Input
+                    register={register}
+                    name="taskTitle"
+                    label="Title"
+                    placeholder="Task title"
+                    autoFocus
+                    errors={errors}
+                    required="Field is required"
+                    maxLength={{
+                        value: 100,
+                        message: "Title cannot exceed 100 characters"
+                    }}
+                />
+            </Field>
 
-            <div className="row">
-                <div className="field">
-                    <label className="label">Column</label>
-                    <select defaultValue={columnId} {...register("columnId")}>
-                        {columns.map(column => (
-                            <option key={column.id} value={column.id}>{column.name}</option>
-                        ))}
-                    </select>
-                </div>
-            </div>
+            <Field name="taskPriority" label="Priority" errors={errors}>
+                <Select register={register} name="taskPriority" items={TASK_STATUS} defaultValue={TASK_STATUS[2].value} />
+            </Field>
+
+            <Field name="columnId" label="Column" errors={errors}>
+                <Select register={register} name="columnId" items={columns} valueKey="id" defaultValue={columnId} />
+            </Field>
 
             {activeBoard.watchersData && activeBoard.watchersData.length > 0 && (
-                <div className="row">
-                    <div className="field">
-                        <label className="label">Assignee</label>
-                        
-                        <select defaultValue="unassigned" {...register("taskAssignee")}>
-                            <option value="unassigned">Unassigned</option>
-                            
-                            {activeBoard.watchersData.map(watcher => (
-                                <option key={watcher.watcherEmail} value={watcher.watcherName}>
-                                    {watcher.watcherName}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
+                <Field name="taskAssignee" label="Assignee" errors={errors}>
+                    <Select register={register} name="taskAssignee" items={activeBoard.watchersData} nameKey="watcherName" valueKey="watcherName" defaultValue="unassigned">
+                        <option value="unassigned">Unassigned</option>
+                    </Select>
+                </Field>
             )}
+
+            <Field name="taskDescription" label="Description" errors={errors}>
+                <textarea 
+                    rows={5} 
+                    {...register("taskDescription", { 
+                        maxLength: {
+                            value: 200,
+                            message: "Title cannot exceed 200 characters"
+                        }})
+                    }
+                    placeholder="Task description" />
+            </Field>
 
             <div className="button-group">
                 <Button type="button" variation="secondary" onClick={closeDialog}>Cancel</Button>
-                <Button type="submit"><PlusIcon/>Add Task</Button>
+                <Button type="submit"><PlusIcon />Add Task</Button>
             </div>
 
             <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>
-        </form>
+        </Form.Root>
     );
 };
 

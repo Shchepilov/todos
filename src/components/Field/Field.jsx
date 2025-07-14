@@ -4,7 +4,7 @@ import styles from './Field.module.scss';
 const Field = ({ name, label, errors, required, children }) => {
     return (
         <Form.Field className={styles.field}>
-            <Form.Label className={`${styles.label} ${required ? styles.required : ''}`}>{label}</Form.Label>
+            {label && <Form.Label className={`${styles.label} ${required ? styles.required : ''}`}>{label}</Form.Label>}
             <Form.Control asChild>
                 {children}
             </Form.Control>

@@ -72,17 +72,37 @@
 }
 
 .header {
-    display: grid;
-    grid-auto-flow: column;
-    align-items: start;
-    justify-content: space-between;
-    gap: 10px;
+    margin-right: 20px;
+    overflow: hidden;
+}
+
+.typeBadge {
+    float: left;
+    margin-right: 5px;
+    padding: 2px 6px;
+    font-size: rem(12);
+    font-weight: 500;
+    color: var(--white-warm);
+    border-radius: 3px;
+    text-transform: capitalize;
+
+    &.feature {
+        background-color: #1279ff;
+    }
+    &.bug {
+        background-color: red;
+    }
+    &.cr {
+        background-color: var(--violet-80);
+        text-transform: uppercase;
+    }
 }
 
 .title {
     font-size: rem(14);
     font-weight: 300;
-    padding-right: 24px;
+    line-height: 19px;
+    vertical-align: top;
     cursor: pointer;
 
     &:hover {
@@ -131,10 +151,6 @@
 
 .taskDetail {
     display: grid;
-}
-
-.detailDeleteButton {
-    justify-self: start;
 }
 
 @keyframes appear {

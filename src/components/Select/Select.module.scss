@@ -1,0 +1,10 @@
+@use "@styles/mixins" as *;
+
+.select {
+    @include input;
+
+    appearance: none;
+    background: var(--select-arrow) no-repeat right 1rem center / 1.2em;
+    background-color: var(--input-bg);
+    padding: 15px 16px;
+}

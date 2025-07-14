@@ -10,3 +10,9 @@ export const TASK_STATUS = [
     { name: 'Critical', value: 5 },
     { name: 'Blocker', value: 6 }
 ]
+
+export const TASK_TYPES = [
+    { name: 'Feature', value: 'feature' },
+    { name: 'Bug', value: 'bug' },
+    { name: 'Change Request', value: 'cr' }
+];

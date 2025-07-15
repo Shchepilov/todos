@@ -96,6 +96,9 @@
         background-color: var(--violet-80);
         text-transform: uppercase;
     }
+    &.improve {
+        background-color: var(--green);
+    }
 }
 
 .title {

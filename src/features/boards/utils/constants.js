@@ -14,5 +14,6 @@ export const TASK_STATUS = [
 export const TASK_TYPES = [
     { name: 'Feature', value: 'feature' },
     { name: 'Bug', value: 'bug' },
-    { name: 'Change Request', value: 'cr' }
+    { name: 'Change Request', value: 'cr' },
+    { name: 'Improvement', value: 'improve' }
 ];

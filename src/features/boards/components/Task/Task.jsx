@@ -82,14 +82,14 @@ const Task = ({ task }) => {
                         items={columns}
                         valueKey="id"
                         onChange={handleChangeColumn}
-                        defaultValue={task.columnId} />
+                        value={task.columnId} />
 
                 <Select register={register}
                         className={styles.select} 
                         name="taskPriority"
                         items={TASK_STATUS}
                         onChange={handleChangePriority}
-                        defaultValue={task.priority} />
+                        value={task.priority} />
 
                 {activeBoard.watchersData && activeBoard.watchersData.length > 0 && (
                     <Select register={register}
@@ -99,7 +99,7 @@ const Task = ({ task }) => {
                             nameKey="watcherName" 
                             valueKey="watcherName" 
                             onChange={handleChangeAssignee}
-                            defaultValue={task.assignee}>
+                            value={task.assignee}>
                         <option value="unassigned">Unassigned</option>
                     </Select>
                 )}

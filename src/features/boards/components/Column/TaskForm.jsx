@@ -22,7 +22,7 @@ const TaskForm = ({ columnId, boardId }) => {
 
     const handleAddTask = (data) => {
         const { taskTitle, taskType, taskPriority, columnId, taskAssignee, taskDescription } = data;
-        console.log(data);
+        
         addTask(
             boardId, 
             columnId, 

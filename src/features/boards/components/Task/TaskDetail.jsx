@@ -27,15 +27,15 @@ const TaskDetail = () => {
     };
     
     const handleUpdateTask = (data) => {
-        const { taskType, taskTitle, taskPriority, taskAssignee, taskDescription } = data;
+        const { taskType, taskTitle, taskPriority, taskAssignee, taskDescription, columnId } = data;
 
         updateTask(taskId, {
+            assignee: taskAssignee,
             type: taskType,
             title: taskTitle,
             priority: taskPriority,
-            assignee: taskAssignee,
             description: taskDescription,
-            columnId: task.columnId
+            columnId: columnId
         });
 
         closeModal();
@@ -82,7 +82,12 @@ const TaskDetail = () => {
 
                 {activeBoard.watchersData && activeBoard.watchersData.length > 0 && (
                     <Field name="taskAssignee" label="Assignee" errors={errors}>
-                        <Select register={register} name="taskAssignee" items={activeBoard.watchersData} nameKey="watcherName" valueKey="watcherName" defaultValue={task.assignee}>
+                        <Select register={register} 
+                                name="taskAssignee" 
+                                items={activeBoard.watchersData} 
+                                nameKey="watcherName" 
+                                valueKey="watcherName"
+                                defaultValue={task.assignee}>
                             <option value="unassigned">Unassigned</option>
                         </Select>
                     </Field>

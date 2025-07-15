@@ -20,7 +20,7 @@ export const addTodo = async (userId, content, priority, dueDate, autoMove, date
         await addDoc(collection(db, TODO_COLLECTION), {
             userId,
             content,
-            priority: priority || "low",
+            priority,
             date: date,
             dueDate,
             done: false,

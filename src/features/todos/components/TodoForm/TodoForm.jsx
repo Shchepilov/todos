@@ -1,88 +1,98 @@
-import { useState, useRef, useId } from "react";
+import { useState, useRef } from "react";
 import { useStore } from "@store/store";
+import { useForm } from "react-hook-form"
 import * as Dialog from '@radix-ui/react-dialog';
+import * as Form from '@radix-ui/react-form';
 import { PlusIcon } from "@radix-ui/react-icons";
 import Checkbox from "@components/Checkbox/Checkbox";
+import Input from "@components/Input/Input";
+import Select from "@components/Select/Select";
+import Field from "@components/Field/Field";
 import Button from "@components/Button/Button";
 import { addTodo } from "@features/todos/services/todosQuery";
 import { PRIORITY_OPTIONS } from "@features/todos/utils/constants";
 import dayjs from "dayjs";
 
 const TodoForm = () => {
+    const { register, handleSubmit, formState: { errors }, } = useForm();
     const userId = useStore((state) => state.user.uid);
     const currentDay = useStore((state) => state.currentDay);
     const currentDate = dayjs(currentDay).format("YYYY-MM-DD");
     const closeDialogRef = useRef(null);
-    const priorityId = useId();
-    const dueDateId = useId();
-    const autoMoveId = useId();
-    const [dueDate, setDueDate] = useState(currentDate);
     const [isDueDate, setIsDueDate] = useState(false);
     const [newAutoMove, setNewAutoMove] = useState(false);
-    const [todoText, setTodoText] = useState("");
-    const [priority, setPriority] = useState(PRIORITY_OPTIONS[0].value);
 
-    const changeTodoText = (e) => setTodoText(e.target.value);
-    const handleChangePriority = (e) => setPriority(e.target.value);
-    const handleChangeDueDate = (e) => setDueDate(e.target.value);
-    const handleToggleDueDate = (e) => setIsDueDate(e.target.checked);
     const handleNewAutoMove = (e) => setNewAutoMove(e.target.checked);
-    const handleSubmitForm = (e) => e.preventDefault();
     const handleCloseForm = () => closeDialogRef.current?.click();
+    const handleToggleDueDate = (e) => setIsDueDate(e.target.checked);
 
-    const handleAddTodo = (e) => {
-        e.preventDefault();
+    const handleAddTodo = (data) => {
+        const { todoTitle, todoPriority, todoDueDate } = data;
 
-        const updatedDueDate = isDueDate ? dueDate : null;
+        const updatedDueDate = isDueDate ? todoDueDate : null;
 
-        addTodo(userId, todoText, priority, updatedDueDate, newAutoMove, currentDate);
-        setTodoText("");
-        setDueDate(currentDate);
-        setIsDueDate(false);
+        addTodo(userId, todoTitle, todoPriority, updatedDueDate, newAutoMove, currentDate);
+        
         handleCloseForm();
     };
 
     return (
-        <form onSubmit={handleSubmitForm} className="form">
-            <div className="field">
-                <input type="text" value={todoText} onChange={changeTodoText} placeholder="Add a new task"/>
-            </div>
+        <Form.Root onSubmit={handleSubmit(handleAddTodo)} className="form">
+            <Field name="todoTitle" label="Title" errors={errors}>
+                <Input
+                    register={register}
+                    name="todoTitle"
+                    label="Title"
+                    placeholder="Title"
+                    autoFocus
+                    errors={errors}
+                    required="Field is required"
+                    maxLength={{
+                        value: 40,
+                        message: "Title cannot exceed 40 characters"
+                    }}
+                />
+            </Field>
 
             <div className="row">
-                <div className="field">
-                    <label htmlFor={priorityId} className="label">Priority</label>
+                <Field name="todoPriority" label="Priority" errors={errors}>
+                    <Select
+                        register={register}
+                        name="todoPriority"
+                        nameKey="label"
+                        items={PRIORITY_OPTIONS}
+                        defaultValue={PRIORITY_OPTIONS[0].value}
+                    />
+                </Field>
 
-                    <select id={priorityId} value={priority} onChange={handleChangePriority}>
-                        {PRIORITY_OPTIONS.map(option => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                <div className="field">
-                    <label htmlFor={dueDateId} className="label">Due Date</label>
+                <div className="field split-field">
+                    <Field name="todoDueDate" label="Due Date" errors={errors}>
+                        <Input
+                            type="date"
+                            register={register}
+                            name="todoDueDate"
+                            defaultValue={currentDate}
+                            errors={errors}
+                            disabled={!isDueDate}
+                        />
+                    </Field>
                     
-                    <div className="field split-field">
-                        <input type="date" id={dueDateId} disabled={!isDueDate} value={dueDate} onChange={handleChangeDueDate} />
-
-                        <Checkbox checked={isDueDate} onChange={handleToggleDueDate} />
-                    </div>
+                    <Checkbox checked={isDueDate} onChange={handleToggleDueDate}
+                    />
                 </div>
             </div>
 
-            <div className="field split-field">
-                <Checkbox checked={newAutoMove} label="Auto move" id={autoMoveId} onChange={handleNewAutoMove} />
-            </div>
+            <Checkbox checked={newAutoMove} 
+                      label="Auto move"
+                      onChange={handleNewAutoMove} />
 
             <div className="button-group">
                 <Button variation="secondary" onClick={handleCloseForm}>Cancel</Button>
-                <Button onClick={handleAddTodo} disabled={!todoText}><PlusIcon/>Add Todo</Button>
+                <Button type="submit"><PlusIcon/>Add Todo</Button>
             </div>
 
             <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>
-        </form>
+        </Form.Root>
     );
 };
 

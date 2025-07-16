@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form"
 import * as Form from '@radix-ui/react-form';
 import { TrashIcon } from "@radix-ui/react-icons";
 import Modal from "@components/Modal/Modal";
-import styles from './Task.module.scss';
 import Input from "@components/Input/Input";
 import Select from "@components/Select/Select";
 import Field from "@components/Field/Field";

@@ -4,9 +4,9 @@ import { PlusIcon, GearIcon } from "@radix-ui/react-icons";
 import { useStore } from "@store/store";
 import Button from '@components/Button/Button';
 import Modal from "@components/Modal/Modal";
-import ColumnForm from './ColumnForm';
-import Columns from '../Columns/Columns';
-import TaskDetail from '../Task/TaskDetail';
+import ColumnForm from '@features/boards/components/Column/ColumnForm';
+import Columns from '@features/boards/components/Columns/Columns';
+import TaskDetail from '@features/boards/components/Task/TaskDetail';
 import BoardSettings from './BoardSettings';
 import styles from './Board.module.scss';
 

@@ -8,8 +8,8 @@ import Modal from "@components/Modal/Modal";
 import Button from '@components/Button/Button';
 import { deleteColumn, updateColumn } from '@features/boards/services/columnsQuery';
 import { updateTask } from '@features/boards/services/tasksQuery';
-import TaskForm from "./TaskForm";
-import Tasks from "../Tasks/Tasks";
+import TaskForm from "@features/boards/components/Task/TaskForm";
+import Tasks from "@features/boards/components/Tasks/Tasks";
 import styles from './Column.module.scss';
 import ColumnSettings from './ColumnSettings';
 

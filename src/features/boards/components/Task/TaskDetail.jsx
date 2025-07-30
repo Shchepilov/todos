@@ -2,7 +2,7 @@ import { useStore } from "@store/store";
 import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form"
 import * as Form from '@radix-ui/react-form';
-import { TrashIcon } from "@radix-ui/react-icons";
+import { ReaderIcon, TrashIcon } from "@radix-ui/react-icons";
 import Modal from "@components/Modal/Modal";
 import Input from "@components/Input/Input";
 import Select from "@components/Select/Select";
@@ -143,14 +143,16 @@ const TaskDetail = () => {
                 <LogsForm task={task} userName={userName} loggedTime={task.loggedTime} />
             </section>
 
-            <div className="button-group">
+            <Row justify="between" > 
                 {!isWatcher && (
                     <Button type="button" variation="confirmation" onClick={handleDeleteTask}>
-                        <TrashIcon  width={18} height={18} /> Delete Task
+                        <TrashIcon  width={18} height={18} /> Delete
                     </Button>
                 )}
-                <Button type="submit" form="taskDetailForm">Save</Button>
-            </div>
+                <Button type="submit" form="taskDetailForm">
+                   <ReaderIcon /> Save
+                </Button>
+            </Row>
         </Modal>
     );
 };

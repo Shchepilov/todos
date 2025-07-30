@@ -1,12 +1,12 @@
 import { calculateProgress, calculateRemainingTime } from "@features/boards/utils/helpers";
 import styles from './ProgressBar.module.scss';
 
-const ProgressBar = ({ estimation, loggedTime }) => {
+const ProgressBar = ({ estimation, loggedTime, className = '' }) => {
     const progress = calculateProgress(estimation, loggedTime);
     const remainingTime = calculateRemainingTime(estimation, loggedTime);
     
     return (
-        <div className={styles.progressWrapper}>
+        <div className={`${styles.progressWrapper} ${className}`}>
             {estimation && <span className={styles.estimationTime}>estimation {estimation}</span>}
 
             <div className={styles.progressBar}>

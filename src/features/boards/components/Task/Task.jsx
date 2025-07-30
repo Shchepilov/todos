@@ -4,12 +4,12 @@ import { useForm } from "react-hook-form"
 import { DragHandleDots2Icon, TrashIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 import { useStore } from "@store/store";
-import { deleteTask, updateTask } from '@features/boards/services/tasksQuery';
 import Button from "@components/Button/Button";
 import Select from "@components/Select/Select";
-import styles from './Task.module.scss';
-import { TASK_STATUS } from "@features/boards/utils/constants";
+import { deleteTask, updateTask } from '@features/boards/services/tasksQuery';
 import ProgressBar from "@features/boards/components/ProgressBar/ProgressBar";
+import { TASK_STATUS } from "@features/boards/utils/constants";
+import styles from './Task.module.scss';
 
 const Task = ({ task }) => {
     const droppedColumnId = useStore((state) => state.droppedColumnId);
@@ -75,7 +75,9 @@ const Task = ({ task }) => {
                     <DragHandleDots2Icon width={20} height={20} />
                 </div>
 
-                {(task.estimation && task.loggedTime) &&  <ProgressBar estimation={task.estimation} loggedTime={task.loggedTime} />}
+                {(task.estimation && task.loggedTime) &&  (
+                    <ProgressBar estimation={task.estimation} loggedTime={task.loggedTime} className={styles.taskProgressBar} />
+                )}
             </header>
             
             <div className={styles.fieldWrapper}>

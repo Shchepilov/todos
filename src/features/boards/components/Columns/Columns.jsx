@@ -1,5 +1,5 @@
 import { useStore } from "@store/store";
-import Column from '../Column/Column';
+import Column from '@features/boards/components/Column/Column';
 import styles from './Columns.module.scss';
 
 const Columns = ({boardId}) => {

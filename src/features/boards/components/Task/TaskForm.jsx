@@ -15,13 +15,14 @@ const TaskForm = ({ columnId, boardId }) => {
     const columns = useStore((state) => state.columns);
     const boards = useStore((state) => state.boards);
     const activeBoard = boards?.find(board => board.id === boardId);
+    const ownerName = activeBoard.owner.name;
     const closeDialogRef = useRef(null);
-    const { register, handleSubmit, formState: { errors }, } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
     const closeDialog = () => closeDialogRef.current?.click();
 
     const handleAddTask = (data) => {
-        const { taskTitle, taskType, taskPriority, columnId, taskAssignee, taskDescription } = data;
+        const { taskTitle, taskType, taskPriority, columnId, taskAssignee, taskDescription, taskEstimation } = data;
         
         addTask(
             boardId, 
@@ -30,8 +31,11 @@ const TaskForm = ({ columnId, boardId }) => {
                 type: taskType,
                 title: taskTitle, 
                 priority: taskPriority,
-                description: taskDescription,
-                assignee: taskAssignee 
+                description: taskDescription || '',
+                assignee: taskAssignee || 'unassigned',
+                estimation: taskEstimation || null,
+                loggedTime: null,
+                workLogsList: []
             }
         );
         
@@ -40,6 +44,23 @@ const TaskForm = ({ columnId, boardId }) => {
 
     return (
         <Form.Root onSubmit={handleSubmit(handleAddTask)} className="form">
+            <Field name="taskEstimation" label="Estimate (3d 2h 30m)" errors={errors}>
+                <Input
+                    register={register}
+                    name="taskEstimation"
+                    placeholder="0d 0h 0m"
+                    errors={errors}
+                    pattern={{
+                        value: /^(\d+d\s?)?(\d+h\s?)?(\d+m)?$/,
+                        message: "Please use format like: 3d 2h 30m (days, hours, minutes)"
+                    }}
+                    maxLength={{
+                        value: 15,
+                        message: "Estimation cannot exceed 15 characters"
+                    }}
+                />
+            </Field>
+
             <Field name="taskType" label="Type" errors={errors}>
                 <Select register={register} name="taskType" items={TASK_TYPES} defaultValue={TASK_TYPES[0].value} />
             </Field>
@@ -48,7 +69,6 @@ const TaskForm = ({ columnId, boardId }) => {
                 <Input
                     register={register}
                     name="taskTitle"
-                    label="Title"
                     placeholder="Task title"
                     autoFocus
                     errors={errors}
@@ -72,6 +92,7 @@ const TaskForm = ({ columnId, boardId }) => {
                 <Field name="taskAssignee" label="Assignee" errors={errors}>
                     <Select register={register} name="taskAssignee" items={activeBoard.watchersData} nameKey="watcherName" valueKey="watcherName" defaultValue="unassigned">
                         <option value="unassigned">Unassigned</option>
+                        <option value={ownerName}>{ownerName}</option>
                     </Select>
                 </Field>
             )}

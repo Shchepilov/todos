@@ -15,11 +15,12 @@ import { BOARDS_COLLECTION } from "@features/boards/utils/constants";
 import { deleteAllColumns } from "@features/boards/services/columnsQuery";
 import { deleteAllBoardTasks } from "@features/boards/services/tasksQuery";
 
-export const addBoard = async (userId, name) => {
+export const addBoard = async (userId, name, owner) => {
     try {
         const docRef = await addDoc(collection(db, BOARDS_COLLECTION), {
             userId,
             name,
+            owner,
             watchers: [],
             watchersData: [],
             timestamp: serverTimestamp(),

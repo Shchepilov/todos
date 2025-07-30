@@ -9,6 +9,7 @@ import Button from "@components/Button/Button";
 import Select from "@components/Select/Select";
 import styles from './Task.module.scss';
 import { TASK_STATUS } from "@features/boards/utils/constants";
+import ProgressBar from "@features/boards/components/ProgressBar/ProgressBar";
 
 const Task = ({ task }) => {
     const droppedColumnId = useStore((state) => state.droppedColumnId);
@@ -73,6 +74,8 @@ const Task = ({ task }) => {
 
                     <DragHandleDots2Icon width={20} height={20} />
                 </div>
+
+                {(task.estimation && task.loggedTime) &&  <ProgressBar estimation={task.estimation} loggedTime={task.loggedTime} />}
             </header>
             
             <div className={styles.fieldWrapper}>
@@ -101,6 +104,7 @@ const Task = ({ task }) => {
                             onChange={handleChangeAssignee}
                             value={task.assignee}>
                         <option value="unassigned">Unassigned</option>
+                        <option value={activeBoard.owner.name}>{activeBoard.owner.name}</option>
                     </Select>
                 )}
             </div>

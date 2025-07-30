@@ -152,8 +152,52 @@
     right: 2px;
 }
 
-.taskDetail {
+/* Task Detail */
+.logSection {
     display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--black-warm-70);
+    border-radius: 5px;
+}
+
+.logsList {
+    display: grid;
+    width: fit-content;
+    gap: 3px;
+    padding: 7px 10px;
+    border-left: 2px solid var(--black-warm-20);
+
+    li {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        font-weight: 300;
+    }
+}
+
+.logItem {
+    display: flex;
+    gap: 5px;
+    align-items: flex-end;
+}
+
+.logItemDate {
+    font-size: rem(12);
+}
+
+.logItemTime {
+    font-weight: 500;
+}
+
+.loggedTime {
+    font-size: rem(14);
+}
+
+button.addLogButton {
+    flex: 0;
+    border-radius: 5px;
+    margin-bottom: 2px;
 }
 
 @keyframes appear {

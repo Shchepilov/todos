@@ -35,37 +35,38 @@
     position: fixed;
     display: flex;
     inset: 0;
+    margin: auto;
     flex-direction: column;
     gap: 16px;
     height: fit-content;
+    max-height: 100dvh;
+    overflow-y: auto;
     background: var(--modal-bg);
     padding: 16px;
     animation: showCenter 0.2s ease;
     z-index: 6;
-
-    
     
     @include desktop-only {
+        max-height: 85dvh;
         width: 90%;
         max-width: 400px;
-
-        &.center {
-            inset: 0;
-            margin: auto;
-        }
 
         &.right {
             right: 20px;
             top: 0;
             left: auto;
             bottom: 0;
-            margin: auto;
             animation: contentSlide 0.2s ease;
         }
 
         &.medium {
             max-width: 600px;
             min-height: 400px;
+        }
+
+        &.large {
+            max-width: 900px;
+            min-height: 500px;
         }
     }
 }

@@ -19,10 +19,11 @@ const BoardForm = () => {
 
     const closeDialog = () => closeDialogRef.current?.click();
 
-    const handleAddBoard = (data) => {
+    const handleAddBoard = async (data) => {
         const { boardName } = data;
 
-        addBoard(user.uid, boardName);
+        const newBoardId = await addBoard(user.uid, boardName, { email: user.providerData[0].email , name: user.providerData[0].displayName });
+
         closeDialog();
 
         if (newBoardId) {

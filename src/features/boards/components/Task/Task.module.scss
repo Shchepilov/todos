@@ -3,11 +3,13 @@
 :root {
     --task-bg: #fff;
     --task-border-color: var(--black-warm-10);
+    --logs-bg: var(--black-warm-3);
 }
 
 [data-theme="dark"] {
     --task-bg: var(--black-warm-90);
     --task-border-color: var(--task-bg);
+    --logs-bg: var(--black-warm-70);
 }
 
 .item {
@@ -73,7 +75,6 @@
 
 .header {
     margin-right: 20px;
-    overflow: hidden;
 }
 
 .typeBadge {
@@ -152,12 +153,16 @@
     right: 2px;
 }
 
+.taskProgressBar {
+    margin: 5px -15px 0 0;
+}
+
 /* Task Detail */
 .logSection {
     display: grid;
     gap: 1rem;
     padding: 1rem;
-    background: var(--black-warm-70);
+    background: var(--logs-bg);
     border-radius: 5px;
 }
 

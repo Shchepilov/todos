@@ -7,12 +7,14 @@ import Modal from "@components/Modal/Modal";
 import ColumnForm from '@features/boards/components/Column/ColumnForm';
 import Columns from '@features/boards/components/Columns/Columns';
 import TaskDetail from '@features/boards/components/Task/TaskDetail';
+import { updateBoard } from '@features/boards/services/boardsQuery';
 import BoardSettings from './BoardSettings';
+import useBoardData from '@features/boards/hooks/useBoardData';
 import styles from './Board.module.scss';
 
-import useBoardData from '@features/boards/hooks/useBoardData';
 
 const Board = () => {
+    const user = useStore((state) => state.user);   
     const boards = useStore((state) => state.boards);
     const columns = useStore((state) => state.columns);
     const setActiveBoardId = useStore((state) => state.setActiveBoardId);
@@ -41,13 +43,23 @@ const Board = () => {
         setBoardSettingsModal(true);
     }
 
+    const handleLeaveBoard = () => {
+        const updatedWatchers = board.watchers.filter(email => email !== user.providerData[0].email);
+        const updatedWatchersData = board.watchersData.filter(watcher => watcher.watcherEmail !== user.providerData[0].email);
+        updateBoard(board.id, { watchers: updatedWatchers, watchersData: updatedWatchersData });
+    }
+
     return ( 
         <main className={styles.board}>
             <header className={styles.header}>
                 <div className={styles.titleWrapper}>
-                    <h2 className={styles.title}>{board.name} {board.isWatcher && <span> (watcher)</span>}</h2>
+                    <h2 className={styles.title}>{board.name}</h2>
 
-                    {!board.isWatcher && (
+                    {board.isWatcher ? (
+                        <Button variation="transparent" className={styles.leaveBoardButton} onClick={handleLeaveBoard}>
+                            Leave board
+                        </Button>
+                    ) : (
                         <Button variation="transparent" onClick={showBoardSettings}>
                             <GearIcon className={columnsLoading ? styles.loading : ''} />
                         </Button>

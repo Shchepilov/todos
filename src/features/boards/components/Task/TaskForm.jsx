@@ -52,7 +52,7 @@ const TaskForm = ({ columnId, boardId }) => {
                     errors={errors}
                     pattern={{
                         value: /^(\d+d\s?)?(\d+h\s?)?(\d+m)?$/,
-                        message: "Please use format like: 3d 2h 30m (days, hours, minutes)"
+                        message: "Please use format: 3d 2h 30m"
                     }}
                     maxLength={{
                         value: 15,

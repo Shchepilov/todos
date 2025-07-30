@@ -68,7 +68,7 @@ const Boards = () => {
         const pathSegments = location.pathname.split('/');
         const currentBoardId = pathSegments[pathSegments.length - 1];
         
-        if (currentBoardId &&  boards.some(board => board.id === currentBoardId) && activeBoardId !== currentBoardId) {
+        if (currentBoardId && boards.some(board => board.id === currentBoardId) && activeBoardId !== currentBoardId) {
             setActiveBoardId(currentBoardId);
         }
     }, [location, boards]);

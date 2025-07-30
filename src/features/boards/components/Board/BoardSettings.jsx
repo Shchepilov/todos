@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import Input from "@components/Input/Input";
 import Field from "@components/Field/Field";
 import Button from '@components/Button/Button';
+import Row from "@components/Row/Row";
 import styles from './Board.module.scss';
 import { deleteBoard, updateBoard } from '@features/boards/services/boardsQuery';
 
@@ -16,7 +17,7 @@ const BoardSettings = ({board}) => {
     const closeDialogRef = useRef(null);
     const navigate = useNavigate();
 
-    const { register, handleSubmit, formState: { errors }, } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const { register: registerWatcher, handleSubmit: handleSubmitWatcher, formState: { errors: watcherErrors }, reset: resetWatcher } = useForm();
 
     const closeDialog = () => closeDialogRef.current?.click();
@@ -28,16 +29,16 @@ const BoardSettings = ({board}) => {
     };    
 
     const handleUpdateBoard = (data) => {
-        const { boardName } = data;
+        const { boardName, ownerName } = data;
 
-        updateBoard(board.id, { name: boardName });
+        updateBoard(board.id, { name: boardName, owner: { name: ownerName, email: board.owner.email } });
         closeDialog();
     };
 
     const handleAddWatcher = (data) => {
         const { watcherEmail, watcherName } = data;
-        
-        if (board.watchers.includes(watcherEmail)) return;
+
+        if (board.watchers.includes(watcherEmail) || board.owner === watcherEmail) return;
 
         updateBoard(board.id, { 
             watchers: [...board.watchers, watcherEmail],
@@ -73,8 +74,35 @@ const BoardSettings = ({board}) => {
                             }}
                         />
                     </Field>
+                    <Row equal>
+                        <Field name="ownerEmail" label="Owner Email" errors={errors}>
+                            <Input
+                                register={register}
+                                defaultValue={board.owner.email}
+                                name="ownerEmail"
+                                placeholder="Email"
+                                disabled
+                                errors={errors}
+                            />
+                        </Field>
+
+                        <Field name="ownerName" label="Owner Name" errors={errors}>
+                            <Input
+                                register={register}
+                                defaultValue={board.owner.name}
+                                name="ownerName"
+                                placeholder="Name"
+                                errors={errors}
+                                required="Field is required"
+                                maxLength={{
+                                    value: 30,
+                                    message: "Name cannot exceed 30 characters"
+                                }}
+                            />
+                        </Field>
+                    </Row>
                 </Form.Root>
-                            
+
                 <Form.Root onSubmit={handleSubmitWatcher(handleAddWatcher)} className="form">
                     <label className="label">Watchers</label>
 
@@ -91,7 +119,7 @@ const BoardSettings = ({board}) => {
                         </ul>    
                     )}
 
-                    <div className="field split-field">
+                    <Row align="center">
                         <Field name="watcherEmail" errors={watcherErrors}>
                             <Input
                                 register={registerWatcher}
@@ -103,6 +131,7 @@ const BoardSettings = ({board}) => {
                                     value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                                     message: "Invalid email format"
                                 }}
+                                validate={value => value !== board.owner.email || "Already used as board owner"}
                             />
                         </Field>
                         <span>aka</span>
@@ -119,7 +148,7 @@ const BoardSettings = ({board}) => {
                         <Button type="submit" variation="confirmation">
                             <PlusIcon width={18} height={18} />
                         </Button>
-                    </div>
+                    </Row>
                 </Form.Root>
             </div>
 

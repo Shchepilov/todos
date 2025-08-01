@@ -23,6 +23,15 @@
     z-index: 5;
 }
 
+.wrapper {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 6;
+}
+
 .title {
     display: flex;
     align-items: center;
@@ -32,10 +41,8 @@
 }
 
 .content {
-    position: fixed;
+    position: relative;
     display: flex;
-    inset: 0;
-    margin: auto;
     flex-direction: column;
     gap: 16px;
     height: fit-content;

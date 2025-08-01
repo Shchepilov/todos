@@ -21,7 +21,7 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
 
     useEffect(() => {
         setContent(note.content);
-        setSelectedColor(note.color);
+        setSelectedColor(selectedColor);
         setSymbols(note.content ? note.content.length : 0);
         setEditMode(note.edit);
     }, [note]);

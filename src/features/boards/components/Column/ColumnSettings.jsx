@@ -23,7 +23,7 @@ const ColumnSettings = ({column}) => {
 
     return ( 
         <Form.Root onSubmit={handleSubmit(handleUpdateColumn)} className="form">
-            <Field name="columnTitle" label="Column title" errors={errors}>
+            <Field name="columnTitle" label="Column title" required errors={errors}>
                 <Input
                     register={register}
                     defaultValue={column.name}

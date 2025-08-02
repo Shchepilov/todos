@@ -17,7 +17,7 @@
     gap: 10px;
     background: var(--task-bg);
     border: 1px solid var(--task-border-color);
-    padding: 10px 7px 10px 20px;
+    padding: 10px 10px 10px 20px;
     border-radius: 5px;
     position: relative;
     animation: appear 0.2s ease;
@@ -74,6 +74,8 @@
 }
 
 .header {
+    display: flex;
+    align-items: center;
     margin-right: 20px;
 }
 
@@ -103,11 +105,13 @@
 }
 
 .title {
-    font-size: rem(14);
+    font-size: rem(15);
     font-weight: 300;
-    line-height: 19px;
-    vertical-align: top;
     cursor: pointer;
+
+    &.prefix {
+        font-size: rem(13);
+    }
 
     &:hover {
         text-decoration: underline;
@@ -151,10 +155,6 @@
     position: absolute;
     bottom: 5px;
     right: 2px;
-}
-
-.taskProgressBar {
-    margin: 5px -15px 0 0;
 }
 
 /* Task Detail */

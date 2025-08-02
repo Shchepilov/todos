@@ -10,10 +10,12 @@ import {
     writeBatch,
     doc,
     serverTimestamp,
+    getDoc,
+    increment,
 } from "firebase/firestore";
 import { db } from "@baseUrl/firebase";
 
-import { TASKS_COLLECTION } from "@features/boards/utils/constants";
+import { TASKS_COLLECTION, BOARDS_COLLECTION } from "@features/boards/utils/constants";
 
 export const tasksQuery = (boardId) => {
     return query(
@@ -32,12 +34,31 @@ export const addTask = async (boardId, columnId, taskData) => {
         );
         const tasksSnapshot = await getDocs(tasksQuery);
 
+        // Get current board data to access the counter and prefix
+        const boardRef = doc(db, BOARDS_COLLECTION, boardId);
+        const boardDoc = await getDoc(boardRef);
+        
+        if (!boardDoc.exists()) {
+            throw new Error("Board not found");
+        }
+        
+        const boardData = boardDoc.data();
+        const currentCounter = boardData.taskCounter || 0;
+        const newTaskNumber = currentCounter + 1;
+        
+        // Create the task with the task number
         await addDoc(tasksRef, {
             ...taskData,
             boardId,
             columnId,
+            number: newTaskNumber,
             order: tasksSnapshot.size,
             timestamp: serverTimestamp()
+        });
+        
+        // Increment the board's task counter
+        await updateDoc(boardRef, {
+            taskCounter: increment(1)
         });
     } catch (error) {
         throw new Error(error.message);

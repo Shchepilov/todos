@@ -7,13 +7,13 @@ const ProgressBar = ({ estimation, loggedTime, className = '' }) => {
     
     return (
         <div className={`${styles.progressWrapper} ${className}`}>
-            {estimation && <span className={styles.estimationTime}>estimation {estimation}</span>}
+            {estimation && <span className={styles.estimationTime}>Original estimate: {estimation}</span>}
 
             <div className={styles.progressBar}>
                 <div className={styles.progressFill} style={{ width: `${progress.toFixed(2)}%` }}/>
             </div>
 
-            <span className={styles.loggedTime}>logged {loggedTime}</span>
+            <span className={styles.loggedTime}>Spent time: {loggedTime}</span>
 
             <span className={styles.remainingTime}>{remainingTime}</span>
         </div>

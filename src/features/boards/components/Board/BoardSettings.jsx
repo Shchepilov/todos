@@ -59,34 +59,45 @@ const BoardSettings = ({board}) => {
         <>
             <div className={styles.settings}>
                 <Form.Root onSubmit={handleSubmit(handleUpdateBoard)} className="form" id="boardSettingForm">
-                    <Field name="boardName" label="Board Name" errors={errors}>
-                        <Input
-                            register={register}
-                            defaultValue={board.name}
-                            name="boardName"
-                            placeholder="Board Name"
-                            autoFocus
-                            errors={errors}
-                            required="Field is required"
-                            maxLength={{
-                                value: 20,
-                                message: "Title cannot exceed 20 characters"
-                            }}
-                        />
-                    </Field>
+                    <Row equal>
+                        <Field name="boardName" required label="Board Name" errors={errors}>
+                            <Input
+                                register={register}
+                                defaultValue={board.name}
+                                name="boardName"
+                                placeholder="Board Name"
+                                autoFocus
+                                errors={errors}
+                                required="Field is required"
+                                maxLength={{
+                                    value: 20,
+                                    message: "Title cannot exceed 20 characters"
+                                }}
+                            />
+                        </Field>
+                        <Field name="boardPrefix" label="Prefix" errors={errors} className={styles.boardPrefix}>
+                            <Input
+                                register={register}
+                                defaultValue={board.prefix}
+                                name="boardPrefix"
+                                disabled
+                                errors={errors}
+                            />
+                        </Field>
+                    </Row>
+                    
                     <Row equal>
                         <Field name="ownerEmail" label="Owner Email" errors={errors}>
                             <Input
                                 register={register}
                                 defaultValue={board.owner.email}
                                 name="ownerEmail"
-                                placeholder="Email"
                                 disabled
                                 errors={errors}
                             />
                         </Field>
 
-                        <Field name="ownerName" label="Owner Name" errors={errors}>
+                        <Field name="ownerName" label="Owner Name" required errors={errors}>
                             <Input
                                 register={register}
                                 defaultValue={board.owner.name}

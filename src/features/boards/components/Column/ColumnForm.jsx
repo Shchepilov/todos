@@ -24,7 +24,7 @@ const ColumnForm = ({ boardId }) => {
 
     return (
         <Form.Root onSubmit={handleSubmit(handleAddColumn)} className="form">
-            <Field name="columnName" label="Column Name" errors={errors}>
+            <Field name="columnName" label="Column Name" required errors={errors}>
                 <Input
                     register={register}
                     name="columnName"

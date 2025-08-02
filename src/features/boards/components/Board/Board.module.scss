@@ -110,6 +110,10 @@
     }
 }
 
+.boardPrefix {
+    max-width: 90px;
+}
+
 @keyframes rotation {
     from {
         rotate: 0;

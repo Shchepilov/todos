@@ -12,7 +12,6 @@ import BoardSettings from './BoardSettings';
 import useBoardData from '@features/boards/hooks/useBoardData';
 import styles from './Board.module.scss';
 
-
 const Board = () => {
     const user = useStore((state) => state.user);   
     const boards = useStore((state) => state.boards);

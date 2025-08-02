@@ -16,9 +16,11 @@ export const parseTimeData = (str) => {
         }
     });
 
+    // Convert days to hours using 8-hour workdays
+    const totalHours = (days * 8) + hours;
+
     return dayjs.duration({
-        days: days,
-        hours: hours,
+        hours: totalHours,
         minutes: minutes
     });
 };
@@ -43,8 +45,8 @@ export const calculateRemainingTime = (estimation, loggedTime) => {
     if (remaining.asMilliseconds() < 0) {
         const overTime = Math.abs(remaining.asMilliseconds());
         const overDuration = dayjs.duration(overTime);
-        const days = Math.floor(overDuration.asDays());
-        const hours = Math.floor(overDuration.asHours() % 24);
+        const days = Math.floor(overDuration.asHours() / 8); // 8 hours = 1 day
+        const hours = Math.floor(overDuration.asHours() % 8);
         const minutes = Math.floor(overDuration.asMinutes() % 60);
 
         let result = [];
@@ -55,8 +57,8 @@ export const calculateRemainingTime = (estimation, loggedTime) => {
         return `over estimation ${result.join(' ')}`;
     }
     
-    const days = Math.floor(remaining.asDays());
-    const hours = Math.floor(remaining.asHours() % 24);
+    const days = Math.floor(remaining.asHours() / 8); // 8 hours = 1 day
+    const hours = Math.floor(remaining.asHours() % 8);
     const minutes = Math.floor(remaining.asMinutes() % 60);
     
     let result = [];
@@ -72,8 +74,8 @@ export const addLoggedTime = (loggedTime, newLoggedTime) => {
     const newDuration = parseTimeData(newLoggedTime);
     const updatedDuration = totalDuration.add(newDuration);
     
-    const days = Math.floor(updatedDuration.asDays());
-    const hours = Math.floor(updatedDuration.asHours() % 24);
+    const days = Math.floor(updatedDuration.asHours() / 8); // 8 hours = 1 day
+    const hours = Math.floor(updatedDuration.asHours() % 8);
     const minutes = Math.floor(updatedDuration.asMinutes() % 60);
     
     let result = [];

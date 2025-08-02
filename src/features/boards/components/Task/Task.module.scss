@@ -152,9 +152,17 @@
 }
 
 .deleteButton {
-    position: absolute;
-    bottom: 5px;
-    right: 2px;
+    margin-inline: auto -5px;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+
+    .select {
+        border: none;
+        background-image: none;
+    }
 }
 
 /* Task Detail */

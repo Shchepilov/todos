@@ -65,7 +65,7 @@ const TaskForm = ({ columnId, boardId }) => {
                 <Select register={register} name="taskType" items={TASK_TYPES} defaultValue={TASK_TYPES[0].value} />
             </Field>
 
-            <Field name="taskTitle" label="Title" errors={errors}>
+            <Field name="taskTitle" label="Title" required errors={errors}>
                 <Input
                     register={register}
                     name="taskTitle"

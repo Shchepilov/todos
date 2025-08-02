@@ -57,13 +57,13 @@ const TaskDetail = () => {
     }
 
     return (
-        <Modal heading="Task Details" size="medium" isDialogOpen={true} setIsDialogOpen={closeModal}>
+        <Modal heading={`${activeBoard.prefix} - ${task.number}`} size="medium" isDialogOpen={true} setIsDialogOpen={closeModal}>
             <Form.Root onSubmit={handleSubmit(handleUpdateTask)} className="form" id="taskDetailForm">
                 <Field name="taskType" label="Type" errors={errors}>
                     <Select register={register} name="taskType" items={TASK_TYPES} defaultValue={task.type} />
                 </Field>
 
-                <Field name="taskTitle" label="Title" errors={errors}>
+                <Field name="taskTitle" label="Title" required errors={errors}>
                     <Input
                         register={register}
                         defaultValue={task.title}

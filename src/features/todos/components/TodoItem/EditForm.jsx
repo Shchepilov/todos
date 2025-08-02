@@ -35,7 +35,7 @@ const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate
 
     return (
         <Form.Root onSubmit={handleSubmit(handleUpdateTodo)} className="form">
-            <Field name="todoTitle" label="Title" errors={errors}>
+            <Field name="todoTitle" label="Title" required errors={errors}>
                 <Input
                     register={register}
                     name="todoTitle"

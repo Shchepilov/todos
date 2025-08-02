@@ -1,9 +1,9 @@
 import * as Form from '@radix-ui/react-form';
 import styles from './Field.module.scss';
 
-const Field = ({ name, label, errors, required, children }) => {
+const Field = ({ name, label, errors, required, className='', children }) => {
     return (
-        <Form.Field className={styles.field}>
+        <Form.Field className={`${styles.field} ${className}`}>
             {label && <Form.Label className={`${styles.label} ${required ? styles.required : ''}`}>{label}</Form.Label>}
             <Form.Control asChild>
                 {children}

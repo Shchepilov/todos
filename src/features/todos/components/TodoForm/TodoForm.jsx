@@ -38,7 +38,7 @@ const TodoForm = () => {
 
     return (
         <Form.Root onSubmit={handleSubmit(handleAddTodo)} className="form">
-            <Field name="todoTitle" label="Title" errors={errors}>
+            <Field name="todoTitle" label="Title" required errors={errors}>
                 <Input
                     register={register}
                     name="todoTitle"

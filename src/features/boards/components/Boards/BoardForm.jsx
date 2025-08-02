@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useStore } from "@store/store";
 import { useNavigate } from "react-router-dom";
 import * as Dialog from '@radix-ui/react-dialog';
@@ -9,7 +9,8 @@ import Button from "@components/Button/Button";
 import Input from "@components/Input/Input";
 import Field from "@components/Field/Field";
 import { addBoard } from "@features/boards/services/boardsQuery";
-
+import Row from "@components/Row/Row";
+import styles from './Boards.module.scss';
 const BoardForm = () => {
     const { register, handleSubmit, formState: { errors }, } = useForm();
     const user = useStore((state) => state.user);
@@ -20,9 +21,17 @@ const BoardForm = () => {
     const closeDialog = () => closeDialogRef.current?.click();
 
     const handleAddBoard = async (data) => {
-        const { boardName } = data;
+        const { boardName, boardPrefix } = data;
 
-        const newBoardId = await addBoard(user.uid, boardName, { email: user.providerData[0].email , name: user.providerData[0].displayName });
+        const newBoardId = await addBoard(
+            user.uid, 
+            boardName, 
+            boardPrefix,
+            { 
+                email: user.providerData[0].email,
+                name: user.providerData[0].displayName 
+            }
+        );
 
         closeDialog();
 
@@ -31,22 +40,48 @@ const BoardForm = () => {
         }
     };
 
+    const handlePrefixChange = (e) => {
+        const value = e.target.value.toUpperCase().slice(0, 5);
+        e.target.value = value;
+    };
+
     return (
         <Form.Root onSubmit={handleSubmit(handleAddBoard)} className="form" id="boardSettingForm">
-            <Field name="boardName" label="Board Name" errors={errors}>
-                <Input
-                    register={register}
-                    name="boardName"
-                    placeholder="Board Name"
-                    autoFocus
-                    errors={errors}
-                    required="Field is required"
-                    maxLength={{
-                        value: 20,
-                        message: "Title cannot exceed 20 characters"
-                    }}
-                />
-            </Field>
+            <Row equal>
+                <Field name="boardName" label="Name" required errors={errors}>
+                    <Input
+                        register={register}
+                        name="boardName"
+                        placeholder="Name"
+                        autoFocus
+                        errors={errors}
+                        required="Field is required"
+                        maxLength={{
+                            value: 20,
+                            message: "Title cannot exceed 20 characters"
+                        }}
+                    />
+                </Field>
+
+                <Field name="boardPrefix" label="Prefix" required errors={errors} className={styles.boardPrefix}>
+                    <Input
+                        register={register}
+                        name="boardPrefix"
+                        onChange={handlePrefixChange}
+                        placeholder="Prefix"
+                        errors={errors}
+                        required="Field is required"
+                        pattern={{
+                            value: /^[A-Z]{1,5}$/,
+                            message: "Only letters"
+                        }}
+                        maxLength={{
+                            value: 5,
+                            message: "Max 5 characters"
+                        }}
+                    />
+                </Field>
+            </Row>
 
             <div className="button-group">
                 <Button type="button" variation="secondary" onClick={closeDialog}>Cancel</Button>

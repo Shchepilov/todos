@@ -8,6 +8,7 @@ import Button from "@components/Button/Button";
 import Select from "@components/Select/Select";
 import { deleteTask, updateTask } from '@features/boards/services/tasksQuery';
 import ProgressBar from "@features/boards/components/ProgressBar/ProgressBar";
+import TypeBadge from "@features/boards/components/Task/TypeBadge";
 import { TASK_STATUS } from "@features/boards/utils/constants";
 import styles from './Task.module.scss';
 
@@ -63,9 +64,9 @@ const Task = ({ task }) => {
             data-priority={task.priority}>
                 
             <header className={styles.header}>
-                {task.type && <span className={`${styles.typeBadge} ${styles[task.type]}`}>{task.type}</span>}
-                
-                <span role="button" className={styles.title} onClick={handleTaskDetails}>{task.title}</span>
+                <TypeBadge type={task.type} />
+
+                <span role="button" onClick={handleTaskDetails} className={`${styles.prefix} ${styles.title}`}>{activeBoard.prefix} - {task.number}</span>
 
                 <div draggable="true"
                      onDragStart={handleDragStart}
@@ -74,11 +75,13 @@ const Task = ({ task }) => {
 
                     <DragHandleDots2Icon width={20} height={20} />
                 </div>
-
-                {(task.estimation && task.loggedTime) &&  (
-                    <ProgressBar estimation={task.estimation} loggedTime={task.loggedTime} className={styles.taskProgressBar} />
-                )}
             </header>
+
+            <span role="button" className={styles.title} onClick={handleTaskDetails}>{task.title}</span>
+
+            {(task.estimation && task.loggedTime) &&  (
+                <ProgressBar estimation={task.estimation} loggedTime={task.loggedTime} />
+            )}
             
             <div className={styles.fieldWrapper}>
                 <Select register={register}

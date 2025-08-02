@@ -34,6 +34,10 @@
     transition: all 0.2s ease;
 }
 
+.boardPrefix {
+    max-width: 90px;
+}
+
 .navWrapper {
     display: flex;
     overflow-x: auto;

@@ -8,6 +8,7 @@ import {
     deleteDoc,
     doc,
     serverTimestamp,
+    increment,
 } from "firebase/firestore";
 import { db } from "@baseUrl/firebase";
 
@@ -15,14 +16,16 @@ import { BOARDS_COLLECTION } from "@features/boards/utils/constants";
 import { deleteAllColumns } from "@features/boards/services/columnsQuery";
 import { deleteAllBoardTasks } from "@features/boards/services/tasksQuery";
 
-export const addBoard = async (userId, name, owner) => {
+export const addBoard = async (userId, name, prefix, owner) => {
     try {
         const docRef = await addDoc(collection(db, BOARDS_COLLECTION), {
             userId,
             name,
+            prefix,
             owner,
             watchers: [],
             watchersData: [],
+            taskCounter: 0,
             timestamp: serverTimestamp(),
         });
         return docRef.id;

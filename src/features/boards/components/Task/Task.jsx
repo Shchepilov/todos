@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form"
-import { DragHandleDots2Icon, TrashIcon } from "@radix-ui/react-icons";
+import { DragHandleDots2Icon, PersonIcon, TrashIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 import { useStore } from "@store/store";
 import Button from "@components/Button/Button";
@@ -11,6 +11,7 @@ import ProgressBar from "@features/boards/components/ProgressBar/ProgressBar";
 import TypeBadge from "@features/boards/components/Task/TypeBadge";
 import { TASK_STATUS } from "@features/boards/utils/constants";
 import styles from './Task.module.scss';
+import Row from "@components/Row/Row";
 
 const Task = ({ task }) => {
     const droppedColumnId = useStore((state) => state.droppedColumnId);
@@ -66,7 +67,7 @@ const Task = ({ task }) => {
             <header className={styles.header}>
                 <TypeBadge type={task.type} />
 
-                <span role="button" onClick={handleTaskDetails} className={`${styles.prefix} ${styles.title}`}>{activeBoard.prefix} - {task.number}</span>
+                <span role="button" onClick={handleTaskDetails} className={`${styles.prefix} ${styles.title}`}>{activeBoard.prefix}-{task.number}</span>
 
                 <div draggable="true"
                      onDragStart={handleDragStart}
@@ -83,7 +84,13 @@ const Task = ({ task }) => {
                 <ProgressBar estimation={task.estimation} loggedTime={task.loggedTime} />
             )}
             
-            <div className={styles.fieldWrapper}>
+            <Row gap='small'>
+                <Select register={register}
+                        className={styles.select} 
+                        name="taskPriority"
+                        items={TASK_STATUS}
+                        onChange={handleChangePriority}
+                        value={task.priority} />
                 <Select register={register}
                         className={styles.select}
                         name="columnId"
@@ -91,34 +98,35 @@ const Task = ({ task }) => {
                         valueKey="id"
                         onChange={handleChangeColumn}
                         value={task.columnId} />
+            </Row>
 
-                <Select register={register}
-                        className={styles.select} 
-                        name="taskPriority"
-                        items={TASK_STATUS}
-                        onChange={handleChangePriority}
-                        value={task.priority} />
-
+            
+            <footer className={styles.footer}>
                 {activeBoard.watchersData && activeBoard.watchersData.length > 0 && (
-                    <Select register={register}
-                            className={styles.select}
-                            name="taskAssignee" 
-                            items={activeBoard.watchersData} 
-                            nameKey="watcherName" 
-                            valueKey="watcherName" 
-                            onChange={handleChangeAssignee}
-                            value={task.assignee}>
-                        <option value="unassigned">Unassigned</option>
-                        <option value={activeBoard.owner.name}>{activeBoard.owner.name}</option>
-                    </Select>
+                    <>
+                        <PersonIcon width={18} height={18} />
+                        
+                        <Select register={register}
+                                id="taskAssignee"
+                                className={styles.select}
+                                name="taskAssignee" 
+                                items={activeBoard.watchersData} 
+                                nameKey="watcherName" 
+                                valueKey="watcherName" 
+                                onChange={handleChangeAssignee}
+                                value={task.assignee}>
+                            <option value="unassigned">Unassigned</option>
+                            <option value={activeBoard.owner.name}>{activeBoard.owner.name}</option>
+                        </Select>
+                    </>
                 )}
-            </div>
 
-            {!isWatcher && (
-                <Button variation="transparent" className={styles.deleteButton} size="small" aria-label="Delete task">
-                    <TrashIcon onClick={handleDeleteTask} />
-                </Button>
-            )}
+                {!isWatcher && (
+                    <Button variation="transparent" className={styles.deleteButton} size="small" aria-label="Delete task">
+                        <TrashIcon onClick={handleDeleteTask} />
+                    </Button>
+                )}
+            </footer>
         </motion.li>
     );
 };

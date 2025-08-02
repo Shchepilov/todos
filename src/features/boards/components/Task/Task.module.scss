@@ -162,6 +162,12 @@
     .select {
         border: none;
         background-image: none;
+        padding: 3px 5px;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 }
 

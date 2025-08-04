@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useStore } from "@store/store";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import dayjs from 'dayjs';
@@ -12,18 +13,23 @@ const TodoCalendar = () => {
     const setCurrentDay = useStore((state) => state.setCurrentDay);
     const allTodos = useStore((state) => state.allTodos);
     const uniqueDates = [...new Set(allTodos.map((item) => item.date))];
-    
+    const currentDate = dayjs(new Date()).format('YYYY-MM-DD');
+
+    useEffect(() => {
+        setCurrentDay(currentDate);
+    }, [currentDate]);
+
     const getTileClassName = ({ date, view }) => {
-      if (view === 'month') {
-        const dateString = dayjs(date).format('YYYY-MM-DD');
+        if (view === 'month') {
+            const dateString = dayjs(date).format('YYYY-MM-DD');
 
-        const todosForDate = allTodos.filter(todo => todo.date === dateString);
-        const allTodosDone = todosForDate.length > 0 && todosForDate.every(todo => todo.done);
-        
-        if (allTodosDone) return 'has-todos all-done';
+            const todosForDate = allTodos.filter(todo => todo.date === dateString);
+            const allTodosDone = todosForDate.length > 0 && todosForDate.every(todo => todo.done);
 
-        if (uniqueDates.includes(dateString)) return `has-todos`;
-      }
+            if (allTodosDone) return 'has-todos all-done';
+
+            if (uniqueDates.includes(dateString)) return `has-todos`;
+        }
     };
 
     const handleDayClick = (value) => {

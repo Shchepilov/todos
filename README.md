@@ -39,6 +39,11 @@ ACT is a comprehensive task and collaboration management application built with 
 - **Real-time Collaboration** for shared boards
 - **Task Details Modal** with full CRUD operations
 - **Board Settings** with watcher management
+- **Time Tracking System** with estimation and logged time
+- **Progress Visualization** with progress bars and remaining time
+- **8-Hour Workday System** (1 day = 8 hours for business calculations)
+- **Time Format Support** (days, hours, minutes - e.g., "2d 4h 30m")
+- **Over-estimation Tracking** with clear visual indicators
 
 ## 🛠️ Technology Stack
 
@@ -63,7 +68,6 @@ ACT is a comprehensive task and collaboration management application built with 
 
 ### UI/UX Libraries
 - **Radix UI** - Headless UI components
-- **drag-drop-touch** - Touch device drag support
 
 ## 📁 Project Structure
 

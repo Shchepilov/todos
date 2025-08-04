@@ -8,8 +8,8 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import Button from "@components/Button/Button";
 import Input from "@components/Input/Input";
 import Field from "@components/Field/Field";
-import { addBoard } from "@features/boards/services/boardsQuery";
 import Row from "@components/Row/Row";
+import { addBoard } from "@features/boards/services/boardsQuery";
 import styles from './Boards.module.scss';
 const BoardForm = () => {
     const { register, handleSubmit, formState: { errors }, } = useForm();
@@ -83,10 +83,10 @@ const BoardForm = () => {
                 </Field>
             </Row>
 
-            <div className="button-group">
+            <Row equal>
                 <Button type="button" variation="secondary" onClick={closeDialog}>Cancel</Button>
                 <Button type="submit"><PlusIcon/>Add Board</Button>
-            </div>
+            </Row>
 
             <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>
         </Form.Root>

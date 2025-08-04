@@ -2,11 +2,11 @@ import { useId } from 'react';
 import styles from './Checkbox.module.scss';
 import { CheckIcon } from '@radix-ui/react-icons';
 
-const Checkbox = ({ label, checked = false, onChange, disabled = false }) => {
+const Checkbox = ({ label, checked = false, onChange, disabled = false, className = '' }) => {
     const fieldId = useId();
 
     return (
-        <div className={styles.wrapper}>
+        <div className={`${styles.wrapper} ${className}`}>
             <input
                 type="checkbox"
                 id={fieldId}

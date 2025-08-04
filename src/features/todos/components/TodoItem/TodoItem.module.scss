@@ -25,11 +25,6 @@
     &:before {
         content: '';
         position: absolute;
-        // top: 0;
-        // left: 0;
-        // bottom: 0;
-        // width: 10px;
-
         top: 7px;
         left: 8px;
         bottom: 7px;
@@ -59,6 +54,10 @@
             background-color: var(--green-80);
         }
     }
+}
+
+.splitCheckbox {
+    margin-bottom: 15px;
 }
 
 .loading:before {

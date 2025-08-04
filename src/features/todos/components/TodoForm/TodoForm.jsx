@@ -9,9 +9,11 @@ import Input from "@components/Input/Input";
 import Select from "@components/Select/Select";
 import Field from "@components/Field/Field";
 import Button from "@components/Button/Button";
+import Row from "@components/Row/Row";
 import { addTodo } from "@features/todos/services/todosQuery";
 import { PRIORITY_OPTIONS } from "@features/todos/utils/constants";
 import dayjs from "dayjs";
+import styles from "../TodoItem/TodoItem.module.scss";
 
 const TodoForm = () => {
     const { register, handleSubmit, formState: { errors }, } = useForm();
@@ -54,7 +56,7 @@ const TodoForm = () => {
                 />
             </Field>
 
-            <div className="row">
+            <Row equal>
                 <Field name="todoPriority" label="Priority" errors={errors}>
                     <Select
                         register={register}
@@ -65,7 +67,7 @@ const TodoForm = () => {
                     />
                 </Field>
 
-                <div className="field split-field">
+                <Row gap="small" align="bottom">
                     <Field name="todoDueDate" label="Due Date" errors={errors}>
                         <Input
                             type="date"
@@ -77,19 +79,16 @@ const TodoForm = () => {
                         />
                     </Field>
                     
-                    <Checkbox checked={isDueDate} onChange={handleToggleDueDate}
-                    />
-                </div>
-            </div>
+                    <Checkbox checked={isDueDate} onChange={handleToggleDueDate} className={styles.splitCheckbox}/>
+                </Row>
+            </Row>
 
-            <Checkbox checked={newAutoMove} 
-                      label="Auto move"
-                      onChange={handleNewAutoMove} />
+            <Checkbox checked={newAutoMove} label="Auto move" onChange={handleNewAutoMove} />
 
-            <div className="button-group">
+            <Row equal>
                 <Button variation="secondary" onClick={handleCloseForm}>Cancel</Button>
                 <Button type="submit"><PlusIcon/>Add Todo</Button>
-            </div>
+            </Row>
 
             <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>
         </Form.Root>

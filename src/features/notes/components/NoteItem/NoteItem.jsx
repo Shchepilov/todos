@@ -4,6 +4,7 @@ import { TrashIcon, Pencil1Icon, PaperPlaneIcon, CheckIcon } from "@radix-ui/rea
 import Button from "@components/Button/Button";
 import Loader from "@components/Loader/Loader";
 import Modal from "@components/Modal/Modal";
+import Row from "@components/Row/Row";
 import { COLOR_OPTIONS, MAX_NOTE_LENGTH } from "@features/notes/utils/constants";
 import { AnimatePresence, motion } from "framer-motion";
 import styles from "./NoteItem.module.scss";
@@ -179,10 +180,10 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
 
             <Modal heading='Delete Note' isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
                 <p>Do you really want to see this note?</p>
-                <div className="button-group">
+                <Row equal>
                     <Button variation="secondary" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
                     <Button onClick={handleDelete}>Delete</Button>
-                </div>
+                </Row>
             </Modal>
         </motion.li>
     );

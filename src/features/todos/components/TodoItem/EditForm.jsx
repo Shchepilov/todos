@@ -7,29 +7,40 @@ import { useStore } from "@store/store";
 import Checkbox from "@components/Checkbox/Checkbox";
 import Input from "@components/Input/Input";
 import Select from "@components/Select/Select";
+import Row from "@components/Row/Row";
 import Field from "@components/Field/Field";
 import Button from "@components/Button/Button";
+import { updateTodo } from "@features/todos/services/todosQuery";
 import { PRIORITY_OPTIONS } from "@features/todos/utils/constants";
+import styles from "./TodoItem.module.scss";
 
-const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate }) => {
-    const { register, handleSubmit, formState: { errors }, } = useForm();
+const EditForm = ({ todo }) => {
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { content, priority, id, date, dueDate, autoMove } = todo;
 
     const currentDay = useStore((state) => state.currentDay);
     const currentDate = dayjs(currentDay).format("YYYY-MM-DD");
     const [isDueDate, setIsDueDate] = useState(!!dueDate);
     const [newAutoMove, setNewAutoMove] = useState(autoMove);
-    
+           
     const closeDialogRef = useRef(null);
 
     const handleIsDueDate = (e) => setIsDueDate(e.target.checked);
     const handleChangeAutoMove = (e) => setNewAutoMove(e.target.checked);
     const handleCloseForm = () => closeDialogRef.current?.click()
 
-    const handleUpdateTodo = (data) => {
+    const handleUpdateTodo = async (data) => {
         const { todoTitle, todoPriority, todoDueDate, todoDate } = data;
         const updatedDueDate = isDueDate ? todoDueDate : null;
-        
-        handleUpdate(id, todoTitle, todoPriority, todoDate, updatedDueDate, newAutoMove);
+
+        updateTodo(id, { 
+            content: todoTitle,
+            priority: todoPriority,
+            date: todoDate,
+            dueDate: updatedDueDate,
+            autoMove: newAutoMove
+        });
+
         handleCloseForm();
     };
 
@@ -62,7 +73,7 @@ const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate
                 />
             </Field>
 
-            <div className="row">
+            <Row equal>
                 <Field name="todoDate" label="Date" errors={errors}>
                     <Input
                         type="date"
@@ -72,7 +83,7 @@ const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate
                         errors={errors}/>
                 </Field>
 
-                <div className="field split-field">
+                <Row gap="small" align="bottom">
                     <Field name="todoDueDate" label="Due Date" errors={errors}>
                         <Input
                             type="date"
@@ -84,20 +95,16 @@ const EditForm = ({ id, content, priority, date, dueDate, autoMove, handleUpdate
                         />
                     </Field>
                     
-                    <Checkbox checked={isDueDate} onChange={handleIsDueDate}/>
-                </div>
-            </div>
+                    <Checkbox checked={isDueDate} className={styles.splitCheckbox} onChange={handleIsDueDate}/>
+                </Row>
+            </Row>
 
-            <div className="row">
-                <div className="field split-field">
-                    <Checkbox type="checkbox" checked={newAutoMove} label="Auto move" onChange={handleChangeAutoMove} />
-                </div>
-            </div>
+            <Checkbox type="checkbox" checked={newAutoMove} label="Auto move" onChange={handleChangeAutoMove} />
 
-            <div className="button-group">
+            <Row equal>
                 <Button variation="secondary" onClick={handleCloseForm}>Cancel</Button>
                 <Button type="submit">Update</Button>
-            </div>
+            </Row>
 
             <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>
         </Form.Root>

@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import Input from "@components/Input/Input";
 import Field from "@components/Field/Field";
 import Button from '@components/Button/Button';
+import Row from '@components/Row/Row';
 import { updateColumn } from '@features/boards/services/columnsQuery';
 
 const ColumnSettings = ({column}) => {
@@ -39,10 +40,10 @@ const ColumnSettings = ({column}) => {
                 />
             </Field>
 
-            <div className="button-group">
+            <Row equal>
                 <Button type="button" variation="secondary" onClick={closeDialog}>Cancel</Button>
                 <Button type="submit">Save</Button>
-            </div>
+            </Row>
 
             <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>
         </Form.Root>

@@ -23,12 +23,6 @@ const TodoItem = ({ todo }) => {
     const dueDateFormatted = dayjs(todo.dueDate).format("MMM D");
     const classes = isLoading ? styles.item + " " + styles.loading : styles.item;
 
-    const handleUpdate = async (id, content, priority, date, dueDate, autoMove) => {
-        setIsLoading(true);
-        await updateTodo(id, { content, priority, date, dueDate, autoMove });
-        setIsLoading(false);
-    };
-
     const handleStatusChange = async () => {
         setIsLoading(true);
         await updateTodo(todo.id, { done: !todo.done });
@@ -116,15 +110,7 @@ const TodoItem = ({ todo }) => {
             </DropdownMenu.Root>
 
             <Modal heading='Edit Todo' isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
-                <EditForm
-                    content={todo.content}
-                    priority={todo.priority}
-                    id={todo.id}
-                    date={todo.date}
-                    dueDate={todo.dueDate}
-                    autoMove={todo.autoMove}
-                    handleUpdate={handleUpdate}
-                />
+                <EditForm todo={todo} />
             </Modal>
         </motion.li>
     );

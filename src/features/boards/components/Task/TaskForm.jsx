@@ -8,6 +8,7 @@ import Button from "@components/Button/Button";
 import Input from "@components/Input/Input";
 import Select from "@components/Select/Select";
 import Field from "@components/Field/Field";
+import Row from "@components/Row/Row";
 import { addTask } from "@features/boards/services/tasksQuery";
 import { TASK_STATUS, TASK_TYPES } from "@features/boards/utils/constants";
 
@@ -109,10 +110,10 @@ const TaskForm = ({ columnId, boardId }) => {
                     placeholder="Task description" />
             </Field>
 
-            <div className="button-group">
+            <Row equal>
                 <Button type="button" variation="secondary" onClick={closeDialog}>Cancel</Button>
                 <Button type="submit"><PlusIcon />Add Task</Button>
-            </div>
+            </Row>
 
             <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>
         </Form.Root>

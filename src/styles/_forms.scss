@@ -37,11 +37,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         display: none;
     }
 }
+
 textarea { 
     @include input;
-}
 
-textarea {
     height: auto;
     resize: none;
 }
@@ -52,37 +51,8 @@ textarea {
     gap: 16px;
 }
 
-.row {
-    display: grid;
-    gap: 16px;
-
-    @include tablet-up {
-        grid-template-columns: repeat(auto-fit, minmax(10px, 1fr));
-        align-items: end;
-    }
-}
-
 .label {
     display: flex;
     font-size: rem(12);
     margin-inline: 2px;
-}
-
-.field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.split-field {
-    flex-direction: row;
-    align-items: center;
-}
-
-.button-group {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: auto;
-    padding-top: 1rem;
 }

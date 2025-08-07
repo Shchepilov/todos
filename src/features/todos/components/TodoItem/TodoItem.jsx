@@ -2,6 +2,7 @@ import { useState, memo } from "react";
 import { useStore } from "@store/store";
 import { TrashIcon, CalendarIcon, DotsVerticalIcon, Pencil1Icon, ReloadIcon, ClockIcon } from "@radix-ui/react-icons";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { useIntl, FormattedMessage } from 'react-intl';
 import EditForm from "./EditForm";
 import Modal from "@components/Modal/Modal";
 import styles from "./TodoItem.module.scss";
@@ -12,6 +13,7 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 
 const TodoItem = ({ todo }) => {
+    const intl = useIntl();
     const [isLoading, setIsLoading] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const currentDay = useStore((state) => state.currentDay);
@@ -22,12 +24,6 @@ const TodoItem = ({ todo }) => {
     const timestampFormatted = todo.timestamp ? dayjs(new Date(todo.timestamp.seconds * 1000)).format("MMM D, YYYY") : null;
     const dueDateFormatted = dayjs(todo.dueDate).format("MMM D");
     const classes = isLoading ? styles.item + " " + styles.loading : styles.item;
-
-    const handleUpdate = async (id, content, priority, date, dueDate, autoMove) => {
-        setIsLoading(true);
-        await updateTodo(id, { content, priority, date, dueDate, autoMove });
-        setIsLoading(false);
-    };
 
     const handleStatusChange = async () => {
         setIsLoading(true);
@@ -80,7 +76,7 @@ const TodoItem = ({ todo }) => {
                     {todo.autoMove && (
                         <span className={styles.badge}>
                             <ReloadIcon className={styles.icon} />
-                            <span>Automove</span>
+                            <span><FormattedMessage id="todos.automove" /></span>
                         </span>
                     )}
                 </div>
@@ -96,35 +92,27 @@ const TodoItem = ({ todo }) => {
                 <DropdownMenu.Portal>
                     <DropdownMenu.Content className={dropdown.content} align="end">
                         <DropdownMenu.Item className={dropdown.item} disabled>
-                            Created at: {timestampFormatted}
+                            <FormattedMessage id="todos.createdAt" values={{ date: timestampFormatted }} />
                         </DropdownMenu.Item>
                         <DropdownMenu.Separator className={dropdown.separator} />
 
                         <DropdownMenu.Item className={dropdown.item} onSelect={() => setIsDialogOpen(true)}>
-                            <Pencil1Icon /> Edit
+                            <Pencil1Icon /> <FormattedMessage id="common.edit" />
                         </DropdownMenu.Item>
 
                         <DropdownMenu.Item className={dropdown.item} onSelect={handleMoveToNextDay}>
-                            <CalendarIcon /> Move to next day
+                            <CalendarIcon /> <FormattedMessage id="todos.moveToNextDay" />
                         </DropdownMenu.Item>
 
                         <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={handleDeleteTodo}>
-                            <TrashIcon /> Delete
+                            <TrashIcon /> <FormattedMessage id="common.delete" />
                         </DropdownMenu.Item>
                     </DropdownMenu.Content>
                 </DropdownMenu.Portal>
             </DropdownMenu.Root>
 
-            <Modal heading='Edit Todo' isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
-                <EditForm
-                    content={todo.content}
-                    priority={todo.priority}
-                    id={todo.id}
-                    date={todo.date}
-                    dueDate={todo.dueDate}
-                    autoMove={todo.autoMove}
-                    handleUpdate={handleUpdate}
-                />
+            <Modal heading={intl.formatMessage({ id: 'todos.editTodo' })} isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
+                <EditForm todo={todo} />
             </Modal>
         </motion.li>
     );

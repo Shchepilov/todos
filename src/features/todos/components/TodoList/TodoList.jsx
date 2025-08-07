@@ -2,6 +2,7 @@ import { useState } from "react";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { AnimatePresence } from "framer-motion";
 import { useStore } from "@store/store";
+import { useIntl, FormattedMessage } from 'react-intl';
 import TodoForm from "../TodoForm/TodoForm";
 import TodoItem from "../TodoItem/TodoItem";
 import Loader from "@components/Loader/Loader";
@@ -11,6 +12,7 @@ import useTodos from "@features/todos/hooks/useTodos";
 import styles from "./TodoList.module.scss";
 
 const TodoList = () => {
+    const intl = useIntl();
     const { loading, error } = useTodos();
     const todos = useStore((state) => state.todos);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -40,11 +42,11 @@ const TodoList = () => {
                     <Button variation="icon" size="large" className={styles.addButton} onClick={() => setIsDialogOpen(true)}>
                         <PlusIcon />
                     </Button>
-                    <p>Add new todo</p>
+                    <p><FormattedMessage id="todos.addTodo" /></p>
                 </div>
             )}
 
-            <Modal heading='+ New Todo' isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
+            <Modal heading={intl.formatMessage({ id: 'todos.addTodo' })} isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
                 <TodoForm />
             </Modal>
         </div>

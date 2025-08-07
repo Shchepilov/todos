@@ -1,0 +1,42 @@
+const common = {
+    en: {
+        'common.cancel': 'Cancel',
+        'common.save': 'Save',
+        'common.delete': 'Delete',
+        'common.edit': 'Edit',
+        'common.add': 'Add',
+        'common.close': 'Close',
+        'common.yes': 'Yes',
+        'common.no': 'No',
+        'common.loading': 'Loading...',
+        'common.error': 'An error occurred',
+        'common.required': 'This field is required',
+        'common.title': 'Title',
+        'common.description': 'Description',
+        'common.created': 'Created',
+        'common.today': 'Today',
+        'common.clear': 'Clear',
+        'common.settings': 'Settings',
+    },
+    uk: {
+        'common.cancel': 'Скасувати',
+        'common.save': 'Зберегти',
+        'common.delete': 'Видалити',
+        'common.edit': 'Редагувати',
+        'common.add': 'Додати',
+        'common.close': 'Закрити',
+        'common.yes': 'Так',
+        'common.no': 'Ні',
+        'common.loading': 'Завантаження...',
+        'common.error': 'Сталася помилка',
+        'common.required': 'Це поле обов\'язкове',
+        'common.title': 'Назва',
+        'common.description': 'Опис',
+        'common.created': 'Створено',
+        'common.today': 'Сьогодні',
+        'common.clear': 'Очистити',
+        'common.settings': 'Налаштування',
+    }
+};
+
+export default common;

@@ -8,11 +8,15 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import Button from "@components/Button/Button";
 import Input from "@components/Input/Input";
 import Field from "@components/Field/Field";
-import { addBoard } from "@features/boards/services/boardsQuery";
 import Row from "@components/Row/Row";
+import { addBoard } from "@features/boards/services/boardsQuery";
 import styles from './Boards.module.scss';
+import { useIntl, FormattedMessage } from 'react-intl';
+
 const BoardForm = () => {
     const { register, handleSubmit, formState: { errors }, } = useForm();
+
+    const intl = useIntl();
     const user = useStore((state) => state.user);
     const closeDialogRef = useRef(null);
     
@@ -48,45 +52,51 @@ const BoardForm = () => {
     return (
         <Form.Root onSubmit={handleSubmit(handleAddBoard)} className="form" id="boardSettingForm">
             <Row equal>
-                <Field name="boardName" label="Name" required errors={errors}>
+                <Field name="boardName" label={intl.formatMessage({ id: "boards.boardName" })} required errors={errors}>
                     <Input
                         register={register}
                         name="boardName"
-                        placeholder="Name"
+                        placeholder={intl.formatMessage({ id: "boards.boardName" })}
                         autoFocus
                         errors={errors}
-                        required="Field is required"
+                        required={intl.formatMessage({ id: "common.required" })}
                         maxLength={{
                             value: 20,
-                            message: "Title cannot exceed 20 characters"
+                            message: intl.formatMessage({ id: "boards.validation.boardNameMaxLength" }, { length: 20 })
                         }}
                     />
                 </Field>
 
-                <Field name="boardPrefix" label="Prefix" required errors={errors} className={styles.boardPrefix}>
+                <Field name="boardPrefix" label={intl.formatMessage({ id: "boards.boardPrefix" })} required errors={errors} className={styles.boardPrefix}>
                     <Input
                         register={register}
                         name="boardPrefix"
                         onChange={handlePrefixChange}
-                        placeholder="Prefix"
+                        placeholder={intl.formatMessage({ id: "boards.boardPrefix" })}
                         errors={errors}
-                        required="Field is required"
+                        required={intl.formatMessage({ id: "boards.validation.boardPrefixRequired" })}
                         pattern={{
                             value: /^[A-Z]{1,5}$/,
-                            message: "Only letters"
+                            message: intl.formatMessage({ id: "boards.validation.boardPrefixPattern" })
                         }}
                         maxLength={{
                             value: 5,
-                            message: "Max 5 characters"
+                            message: intl.formatMessage({ id: "boards.validation.boardPrefixMaxLength" }, { length: 5 })
                         }}
                     />
                 </Field>
             </Row>
 
-            <div className="button-group">
-                <Button type="button" variation="secondary" onClick={closeDialog}>Cancel</Button>
-                <Button type="submit"><PlusIcon/>Add Board</Button>
-            </div>
+            <Row equal>
+                <Button type="button" variation="secondary" onClick={closeDialog}>
+                    <FormattedMessage id="common.cancel" />
+                </Button>
+                
+                <Button type="submit">
+                    <PlusIcon/>
+                    <FormattedMessage id="common.add" />
+                </Button>
+            </Row>
 
             <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>
         </Form.Root>

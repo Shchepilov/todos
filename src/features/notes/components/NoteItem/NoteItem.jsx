@@ -1,15 +1,18 @@
 import { useState, useRef, useEffect, memo } from "react";
 import { deleteNote, updateNote } from "@features/notes/services/notesQuery";
 import { TrashIcon, Pencil1Icon, PaperPlaneIcon, CheckIcon } from "@radix-ui/react-icons";
+import { useIntl, FormattedMessage } from 'react-intl';
 import Button from "@components/Button/Button";
 import Loader from "@components/Loader/Loader";
 import Modal from "@components/Modal/Modal";
+import Row from "@components/Row/Row";
 import { COLOR_OPTIONS, MAX_NOTE_LENGTH } from "@features/notes/utils/constants";
 import { AnimatePresence, motion } from "framer-motion";
 import styles from "./NoteItem.module.scss";
 import useNoteItem from "@features/notes/hooks/useNoteItem";
 
 const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
+    const intl = useIntl();
     const {noteItemLoading, noteItemError} = useNoteItem(note.id);
     const [isEditMode, setEditMode] = useState(note.edit);
     const [content, setContent] = useState(note.content);
@@ -172,17 +175,21 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}>
-                            {symbols} / 400
+                            <FormattedMessage id="notes.characterCount" values={{ current: symbols, max: 400 }} />
                     </motion.div>
                 )}
             </div>
 
-            <Modal heading='Delete Note' isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
-                <p>Do you really want to see this note?</p>
-                <div className="button-group">
-                    <Button variation="secondary" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
-                    <Button onClick={handleDelete}>Delete</Button>
-                </div>
+            <Modal heading={intl.formatMessage({ id: 'notes.deleteNote' })} isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
+                <p><FormattedMessage id="notes.deleteConfirm" /></p>
+                <Row equal>
+                    <Button variation="secondary" onClick={() => setIsDialogOpen(false)}>
+                        <FormattedMessage id="common.cancel" />
+                    </Button>
+                    <Button onClick={handleDelete}>
+                        <FormattedMessage id="common.delete" />
+                    </Button>
+                </Row>
             </Modal>
         </motion.li>
     );

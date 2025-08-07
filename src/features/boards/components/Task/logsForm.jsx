@@ -3,6 +3,7 @@ import { CrossCircledIcon, LapTimerIcon } from "@radix-ui/react-icons";
 import dayjs from 'dayjs';
 import * as Form from '@radix-ui/react-form';
 import { useForm } from "react-hook-form"
+import { useIntl } from 'react-intl';
 import Input from "@components/Input/Input";
 import Field from "@components/Field/Field";
 import { addLoggedTime } from "@features/boards/utils/helpers";
@@ -12,6 +13,7 @@ import Row from "@components/Row/Row";
 import styles from './Task.module.scss';
 
 const LogsForm = ({ task, userName, loggedTime }) => {
+    const intl = useIntl();
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const currentDay = useStore((state) => state.currentDay);
     const currentDate = dayjs(currentDay).format("YYYY-MM-DD");
@@ -68,30 +70,30 @@ const LogsForm = ({ task, userName, loggedTime }) => {
 
             <Form.Root onSubmit={handleSubmit(handleUpdateLogs)} className="form">
                 <Row equal align="end">
-                    <Field name="logDate" label="Log Date" errors={errors}>
+                    <Field name="logDate" label={intl.formatMessage({ id: 'boards.logDate' })} errors={errors}>
                         <Input
                             register={register}
-                            required="Field is required"
+                            required={intl.formatMessage({ id: 'common.required' })}
                             name="logDate"
                             type="date"
                             defaultValue={currentDate}
                             errors={errors}
                         />
                     </Field>
-                    <Field name="logTime" label="Log time (3d 2h 30m)" errors={errors}>
+                    <Field name="logTime" label={intl.formatMessage({ id: 'boards.logTimeLabel' })} errors={errors}>
                         <Input
                             register={register}
                             name="logTime"
                             placeholder="0d 0h 0m"
                             errors={errors}
-                            required="Field is required"
+                            required={intl.formatMessage({ id: 'common.required' })}
                             pattern={{
                                 value: /^(\d+d\s?)?(\d+h\s?)?(\d+m)?$/,
-                                message: "Please use format: 3d 2h 30m"
+                                message: intl.formatMessage({ id: 'boards.validation.estimationFormat' })
                             }}
                             maxLength={{
                                 value: 15,
-                                message: "Estimation cannot exceed 15 characters"
+                                message: intl.formatMessage({ id: 'boards.validation.estimationMaxLength' }, { length: 15 })
                             }}
                         />
                     </Field>

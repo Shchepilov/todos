@@ -5,6 +5,7 @@ import { TrashIcon, PlusIcon, CrossCircledIcon } from "@radix-ui/react-icons";
 import * as Dialog from '@radix-ui/react-dialog';
 import * as Form from '@radix-ui/react-form';
 import { useForm } from 'react-hook-form';
+import { useIntl } from 'react-intl';
 import Input from "@components/Input/Input";
 import Field from "@components/Field/Field";
 import Button from '@components/Button/Button';
@@ -13,6 +14,7 @@ import styles from './Board.module.scss';
 import { deleteBoard, updateBoard } from '@features/boards/services/boardsQuery';
 
 const BoardSettings = ({board}) => {
+    const intl = useIntl();
     const setActiveBoardId = useStore((state) => state.setActiveBoardId);
     const closeDialogRef = useRef(null);
     const navigate = useNavigate();
@@ -60,22 +62,22 @@ const BoardSettings = ({board}) => {
             <div className={styles.settings}>
                 <Form.Root onSubmit={handleSubmit(handleUpdateBoard)} className="form" id="boardSettingForm">
                     <Row equal>
-                        <Field name="boardName" required label="Board Name" errors={errors}>
+                        <Field name="boardName" required label={intl.formatMessage({ id: 'boards.boardName' })} errors={errors}>
                             <Input
                                 register={register}
                                 defaultValue={board.name}
                                 name="boardName"
-                                placeholder="Board Name"
+                                placeholder={intl.formatMessage({ id: 'boards.boardName' })}
                                 autoFocus
                                 errors={errors}
-                                required="Field is required"
+                                required={intl.formatMessage({ id: 'common.required' })}
                                 maxLength={{
                                     value: 20,
-                                    message: "Title cannot exceed 20 characters"
+                                    message: intl.formatMessage({ id: 'boards.validation.boardNameMaxLength' }, { length: 20 })
                                 }}
                             />
                         </Field>
-                        <Field name="boardPrefix" label="Prefix" errors={errors} className={styles.boardPrefix}>
+                        <Field name="boardPrefix" label={intl.formatMessage({ id: 'boards.boardPrefix' })} errors={errors} className={styles.boardPrefix}>
                             <Input
                                 register={register}
                                 defaultValue={board.prefix}
@@ -87,7 +89,7 @@ const BoardSettings = ({board}) => {
                     </Row>
                     
                     <Row equal>
-                        <Field name="ownerEmail" label="Owner Email" errors={errors}>
+                        <Field name="ownerEmail" label={intl.formatMessage({ id: 'boards.ownerEmail' })} errors={errors}>
                             <Input
                                 register={register}
                                 defaultValue={board.owner.email}
@@ -97,17 +99,17 @@ const BoardSettings = ({board}) => {
                             />
                         </Field>
 
-                        <Field name="ownerName" label="Owner Name" required errors={errors}>
+                        <Field name="ownerName" label={intl.formatMessage({ id: 'boards.ownerName' })} required errors={errors}>
                             <Input
                                 register={register}
                                 defaultValue={board.owner.name}
                                 name="ownerName"
-                                placeholder="Name"
+                                placeholder={intl.formatMessage({ id: 'boards.ownerName' })}
                                 errors={errors}
-                                required="Field is required"
+                                required={intl.formatMessage({ id: 'common.required' })}
                                 maxLength={{
                                     value: 30,
-                                    message: "Name cannot exceed 30 characters"
+                                    message: intl.formatMessage({ id: 'boards.validation.boardNameMaxLength' }, { length: 30 })
                                 }}
                             />
                         </Field>
@@ -115,7 +117,7 @@ const BoardSettings = ({board}) => {
                 </Form.Root>
 
                 <Form.Root onSubmit={handleSubmitWatcher(handleAddWatcher)} className="form">
-                    <label className="label">Watchers</label>
+                    <label className="label">{intl.formatMessage({ id: 'boards.watchers' })}</label>
 
                     {board.watchersData && board.watchersData.length > 0 && (
                         <ul className={styles.watcherList}>
@@ -135,14 +137,14 @@ const BoardSettings = ({board}) => {
                             <Input
                                 register={registerWatcher}
                                 name="watcherEmail"
-                                placeholder="Email"
+                                placeholder={intl.formatMessage({ id: 'boards.watcherEmail' })}
                                 errors={watcherErrors}
-                                required="Email is required"
+                                required={intl.formatMessage({ id: 'boards.validation.emailRequired' })}
                                 pattern={{
                                     value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                                    message: "Invalid email format"
+                                    message: intl.formatMessage({ id: 'boards.validation.invalidEmail' })
                                 }}
-                                validate={value => value !== board.owner.email || "Already used as board owner"}
+                                validate={value => value !== board.owner.email || intl.formatMessage({ id: 'boards.validation.alreadyOwner' })}
                             />
                         </Field>
                         <span>aka</span>
@@ -150,9 +152,9 @@ const BoardSettings = ({board}) => {
                             <Input
                                 register={registerWatcher}
                                 name="watcherName"
-                                placeholder="Name"
+                                placeholder={intl.formatMessage({ id: 'boards.watcherName' })}
                                 errors={watcherErrors}
-                                required="Name is required"
+                                required={intl.formatMessage({ id: 'boards.validation.nameRequired' })}
                             />
                         </Field>
 
@@ -165,10 +167,10 @@ const BoardSettings = ({board}) => {
 
             <div className={styles.buttonGroup}>
                 <Button variation="confirmation" type="button" className={styles.removeBoardButton} onClick={handleDeleteBoard}>
-                    <TrashIcon width={18} height={18} /> Delete Board
+                    <TrashIcon width={18} height={18} /> {intl.formatMessage({ id: 'boards.deleteBoard' })}
                 </Button>
-                <Button type="button" variation="secondary" onClick={closeDialog}>Cancel</Button>
-                <Button type="submit" form="boardSettingForm">Save</Button>
+                <Button type="button" variation="secondary" onClick={closeDialog}>{intl.formatMessage({ id: 'common.cancel' })}</Button>
+                <Button type="submit" form="boardSettingForm">{intl.formatMessage({ id: 'common.save' })}</Button>
                 <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>
             </div>
         </>

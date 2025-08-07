@@ -8,8 +8,10 @@ import Button from '@components/Button/Button';
 import Modal from "@components/Modal/Modal";
 import { PlusIcon } from '@radix-ui/react-icons';
 import useBoards from '@features/boards/hooks/useBoards';
+import { useIntl } from 'react-intl';
 
 const Boards = () => {
+    const intl = useIntl();
     const [boardFormModal, setBoardFormModal] = useState(false);
     const [sliderStyle, setSliderStyle] = useState({});
     const activeBoardId = useStore((state) => state.activeBoardId);
@@ -106,7 +108,7 @@ const Boards = () => {
                 <Route path="/:boardId/*" element={<Board />} />
             </Routes>
 
-            <Modal heading='+ Add Board' isDialogOpen={boardFormModal} setIsDialogOpen={setBoardFormModal}>
+            <Modal heading={intl.formatMessage({ id: "boards.addBoard" })} isDialogOpen={boardFormModal} setIsDialogOpen={setBoardFormModal}>
                 <BoardForm />
             </Modal>
         </div>

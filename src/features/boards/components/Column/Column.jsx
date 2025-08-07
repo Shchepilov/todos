@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useStore } from "@store/store";
 import { TrashIcon, PlusIcon, GearIcon, Pencil1Icon, ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
+import { useIntl, FormattedMessage } from 'react-intl';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import dropdown from '@components/Dropdown/Dropdown.module.scss';
 import Modal from "@components/Modal/Modal";
@@ -14,6 +15,7 @@ import styles from './Column.module.scss';
 import ColumnSettings from './ColumnSettings';
 
 const Column = ({ column, boardId }) => {
+    const intl = useIntl();
     const setDroppedColumnId = useStore((state) => state.setDroppedColumnId);
     const [taskFormModal, setTaskFormModal] = useState(false);
     const [isDragOver, setIsDragOver] = useState(false);
@@ -103,23 +105,27 @@ const Column = ({ column, boardId }) => {
                             <DropdownMenu.Portal>
                                 <DropdownMenu.Content className={dropdown.content} align="start" sideOffset={5}>
                                     <DropdownMenu.Item className={dropdown.item} onSelect={showColumnSettings}>
-                                        <Pencil1Icon /> Edit
+                                        <Pencil1Icon />
+                                        <FormattedMessage id="column.edit" />
                                     </DropdownMenu.Item>
 
                                     {!isFirstColumn && (
                                         <DropdownMenu.Item className={dropdown.item} onSelect={handleMoveColumnLeft}>
-                                            <ArrowLeftIcon /> Move Left
+                                            <ArrowLeftIcon />
+                                            <FormattedMessage id="column.moveLeft" />
                                         </DropdownMenu.Item>
                                     )}
 
                                     {!isLastColumn && (
                                         <DropdownMenu.Item className={dropdown.item} onSelect={handleMoveColumnRight}>
-                                            Move Right <ArrowRightIcon />
+                                            <FormattedMessage id="column.moveRight" />
+                                            <ArrowRightIcon />
                                         </DropdownMenu.Item>
                                     )}
                                     
                                     <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={handleDeleteColumn}>
-                                        <TrashIcon /> Delete Column
+                                        <TrashIcon />
+                                        <FormattedMessage id="column.delete" />
                                     </DropdownMenu.Item>
                                 </DropdownMenu.Content>
                             </DropdownMenu.Portal>
@@ -132,11 +138,11 @@ const Column = ({ column, boardId }) => {
                 </Button>
             </div>
 
-            <Modal heading='+ Add Task' isDialogOpen={taskFormModal} setIsDialogOpen={setTaskFormModal}>
+            <Modal heading={intl.formatMessage({ id: 'boards.addTask' })} isDialogOpen={taskFormModal} setIsDialogOpen={setTaskFormModal}>
                 <TaskForm columnId={column.id} boardId={boardId} />
             </Modal>
 
-            <Modal heading='Column Settings' isDialogOpen={columnSettingsModal} setIsDialogOpen={setColumnSettingsModal}>
+            <Modal heading={intl.formatMessage({ id: 'column.settings' })} isDialogOpen={columnSettingsModal} setIsDialogOpen={setColumnSettingsModal}>
                 <ColumnSettings column={column} />
             </Modal>
 

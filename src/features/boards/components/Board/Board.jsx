@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Routes, Route } from 'react-router-dom';
 import { PlusIcon, GearIcon } from "@radix-ui/react-icons";
+import { useIntl, FormattedMessage } from 'react-intl';
 import { useStore } from "@store/store";
 import Button from '@components/Button/Button';
 import Modal from "@components/Modal/Modal";
@@ -13,6 +14,7 @@ import useBoardData from '@features/boards/hooks/useBoardData';
 import styles from './Board.module.scss';
 
 const Board = () => {
+    const intl = useIntl();
     const user = useStore((state) => state.user);   
     const boards = useStore((state) => state.boards);
     const columns = useStore((state) => state.columns);
@@ -56,7 +58,7 @@ const Board = () => {
 
                     {board.isWatcher ? (
                         <Button variation="transparent" className={styles.leaveBoardButton} onClick={handleLeaveBoard}>
-                            Leave board
+                            <FormattedMessage id="boards.leaveBoard" />
                         </Button>
                     ) : (
                         <Button variation="transparent" onClick={showBoardSettings}>
@@ -66,21 +68,22 @@ const Board = () => {
                 </div>
 
                 <Button size='small' className={styles.addColumnButton} onClick={showColumnForm}>
-                    <PlusIcon width={16} height={16}/> Column
+                    <PlusIcon width={16} height={16}/>
+                    <FormattedMessage id="boards.addColumn" />
                 </Button>
             </header>
 
-            <Modal heading='+ Add Column' isDialogOpen={columnFormModal} setIsDialogOpen={setColumnFormModal}>
+            <Modal heading={intl.formatMessage({ id: 'column.add' })} isDialogOpen={columnFormModal} setIsDialogOpen={setColumnFormModal}>
                 <ColumnForm boardId={boardId} />
             </Modal>
 
-            <Modal heading='Settings' size='medium' isDialogOpen={boardSettingsModal} setIsDialogOpen={setBoardSettingsModal}>
+            <Modal heading={intl.formatMessage({ id: 'common.settings' })} size='medium' isDialogOpen={boardSettingsModal} setIsDialogOpen={setBoardSettingsModal}>
                 <BoardSettings board={board} />
             </Modal>
 
             {columns.length === 0 ? (
                 <div className={styles.noColumns}>
-                    <p>No Columns</p>
+                    <p><FormattedMessage id="boards.noColumns" /></p>
                 </div>
             ) : (
                 <Columns boardId={boardId} isWatcher={board.isWatcher} />

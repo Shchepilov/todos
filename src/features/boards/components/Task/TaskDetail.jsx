@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form"
 import * as Form from '@radix-ui/react-form';
 import { ReaderIcon, TrashIcon } from "@radix-ui/react-icons";
+import { useIntl, FormattedMessage } from 'react-intl';
 import Modal from "@components/Modal/Modal";
 import Input from "@components/Input/Input";
 import Select from "@components/Select/Select";
@@ -16,6 +17,7 @@ import { updateTask, deleteTask } from '@features/boards/services/tasksQuery';
 import { TASK_STATUS, TASK_TYPES } from '@features/boards/utils/constants';
 
 const TaskDetail = () => {
+    const intl = useIntl();
     const { boardId, taskId } = useParams();
     const navigate = useNavigate();
     const columns = useStore((state) => state.columns);
@@ -59,64 +61,65 @@ const TaskDetail = () => {
     return (
         <Modal heading={`${activeBoard.prefix} - ${task.number}`} size="medium" isDialogOpen={true} setIsDialogOpen={closeModal}>
             <Form.Root onSubmit={handleSubmit(handleUpdateTask)} className="form" id="taskDetailForm">
-                <Field name="taskType" label="Type" errors={errors}>
+                    
+                <Field name="taskType" label={intl.formatMessage({ id: 'boards.taskType' })} errors={errors}>
                     <Select register={register} name="taskType" items={TASK_TYPES} defaultValue={task.type} />
                 </Field>
 
-                <Field name="taskTitle" label="Title" required errors={errors}>
+                <Field name="taskTitle" label={intl.formatMessage({ id: 'boards.taskTitle' })} required errors={errors}>
                     <Input
                         register={register}
                         defaultValue={task.title}
                         name="taskTitle"
-                        placeholder="Task title"
+                        placeholder={intl.formatMessage({ id: 'boards.taskTitle' })}
                         autoFocus
                         errors={errors}
-                        required="Field is required"
+                        required={intl.formatMessage({ id: 'boards.validation.titleRequired' })}
                         maxLength={{
                             value: 100,
-                            message: "Title cannot exceed 100 characters"
+                            message: intl.formatMessage({ id: 'boards.validation.titleMaxLength' }, { length: 100 })
                         }}
                     />
                 </Field>
 
                 <Row equal>
-                    <Field name="taskPriority" label="Priority" errors={errors}>
+                    <Field name="taskPriority" label={intl.formatMessage({ id: 'boards.taskPriority' })} errors={errors}>
                         <Select register={register} name="taskPriority" items={TASK_STATUS} defaultValue={task.priority} />
                     </Field>
 
-                    <Field name="columnId" label="Column" errors={errors}>
+                    <Field name="columnId" label={intl.formatMessage({ id: 'boards.taskColumn' })} errors={errors}>
                         <Select register={register} name="columnId" items={columns} valueKey="id" defaultValue={task.columnId} />
                     </Field>
                 </Row>
                 
                 {activeBoard.watchersData && activeBoard.watchersData.length > 0 && (
-                    <Field name="taskAssignee" label="Assignee" errors={errors}>
+                    <Field name="taskAssignee" label={intl.formatMessage({ id: 'boards.taskAssignee' })} errors={errors}>
                         <Select register={register} 
                                 name="taskAssignee" 
                                 items={activeBoard.watchersData} 
                                 nameKey="watcherName" 
                                 valueKey="watcherName"
                                 defaultValue={task.assignee}>
-                            <option value="unassigned">Unassigned</option>
+                            <option value="unassigned">{intl.formatMessage({ id: 'boards.unassigned' })}</option>
                             <option value={activeBoard.owner.name}>{activeBoard.owner.name}</option>
                         </Select>
                     </Field>
                 )}
 
-                <Field name="taskDescription" label="Description" errors={errors}>
+                <Field name="taskDescription" label={intl.formatMessage({ id: 'boards.taskDescription' })} errors={errors}>
                     <textarea 
                         defaultValue={task.description}
                         rows={5} 
                         {...register("taskDescription", { 
                             maxLength: {
                                 value: 200,
-                                message: "Title cannot exceed 200 characters"
+                                message: intl.formatMessage({ id: 'boards.validation.descriptionMaxLength' }, { length: 200 })
                             }})
                         }
-                        placeholder="Task description" />
+                        placeholder={intl.formatMessage({ id: 'boards.taskDescription' })} />
                 </Field>
 
-                <Field name="taskEstimation" label="Estimate (3d 2h 30m)" errors={errors}>
+                <Field name="taskEstimation" label={intl.formatMessage({ id: 'boards.taskEstimation' })} errors={errors}>
                     <Input
                         register={register}
                         name="taskEstimation"
@@ -125,11 +128,11 @@ const TaskDetail = () => {
                         errors={errors}
                         pattern={{
                             value: /^(\d+d\s?)?(\d+h\s?)?(\d+m)?$/,
-                            message: "Please use format: 3d 2h 30m"
+                            message: intl.formatMessage({ id: 'boards.validation.estimationFormat' })
                         }}
                         maxLength={{
                             value: 15,
-                            message: "Max 15 characters"
+                            message: intl.formatMessage({ id: 'boards.validation.estimationMaxLength' }, { length: 15 })
                         }}
                     />
                 </Field>
@@ -138,7 +141,11 @@ const TaskDetail = () => {
             <section className={styles.logSection}>
                 {(task.estimation && task.loggedTime) ? (
                     <ProgressBar estimation={task.estimation} loggedTime={task.loggedTime} />
-                ) : (task.loggedTime && <p className={styles.loggedTime}>logged: {task.loggedTime}</p>)}
+                ) : (task.loggedTime && (
+                    <p className={styles.loggedTime}>
+                        <FormattedMessage id="boards.logged" />: {task.loggedTime}
+                    </p>
+                ))}
 
                 <LogsForm task={task} userName={userName} loggedTime={task.loggedTime} />
             </section>
@@ -146,11 +153,13 @@ const TaskDetail = () => {
             <Row justify="between" > 
                 {!isWatcher && (
                     <Button type="button" variation="confirmation" onClick={handleDeleteTask}>
-                        <TrashIcon  width={18} height={18} /> Delete
+                        <TrashIcon width={18} height={18} /> 
+                        <FormattedMessage id="boards.delete" />
                     </Button>
                 )}
                 <Button type="submit" form="taskDetailForm">
-                   <ReaderIcon /> Save
+                   <ReaderIcon /> 
+                   <FormattedMessage id="boards.save" />
                 </Button>
             </Row>
         </Modal>

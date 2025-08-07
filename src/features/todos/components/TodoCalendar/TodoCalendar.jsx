@@ -12,6 +12,7 @@ const TodoCalendar = () => {
     const currentDay = useStore((state) => state.currentDay);
     const setCurrentDay = useStore((state) => state.setCurrentDay);
     const allTodos = useStore((state) => state.allTodos);
+    const locale = useStore((state) => state.locale);
     const uniqueDates = [...new Set(allTodos.map((item) => item.date))];
     const currentDate = dayjs(new Date()).format('YYYY-MM-DD');
 
@@ -44,7 +45,7 @@ const TodoCalendar = () => {
             tileClassName={getTileClassName}
             next2Label={null}
             prev2Label={null}
-            locale="en"
+            locale={locale}
             prevLabel={<ChevronLeftIcon />}
             nextLabel={<ChevronRightIcon />}
         />

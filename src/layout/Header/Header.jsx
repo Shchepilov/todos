@@ -5,13 +5,14 @@ import { useStore } from "@store/store";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { Switch } from "radix-ui";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
-import { removeAllUserTodos } from "@features/todos/services/todosQuery";
 import logo from '@assets/logo.png';
 import "@styles/global.scss";
 import switcherStyles from'@components/Switcher/Switch.module.scss';
 import dropdown from '@components/Dropdown/Dropdown.module.scss';
 import styles from './Header.module.scss';
+import ukraineFlag from '@assets/svg/ukraine-flag.svg';
 
+import { FormattedMessage } from 'react-intl';
 
 const Header = () => {
     const [sliderStyle, setSliderStyle] = useState({});
@@ -22,6 +23,8 @@ const Header = () => {
     const signOut = useStore((state) => state.signOut);
     const toggleTheme = useStore((state) => state.toggleTheme);
     const isDarkTheme = useStore((state) => state.theme === 'dark');
+    const locale = useStore((state) => state.locale);
+    const setLocale = useStore((state) => state.setLocale);
     
     useEffect(() => {
         const activeLink = navRef.current.querySelector(`.${styles.active}`);
@@ -33,7 +36,7 @@ const Header = () => {
                 setSliderStyle({ left: offsetLeft, width: offsetWidth });
             });  
         }
-    }, [location]);
+    }, [location, locale]);
 
     return (
         <>
@@ -44,9 +47,9 @@ const Header = () => {
 
                 <nav ref={navRef} className={styles.nav}>
                     <span className={styles.slider} data-page={pageLink} style={{ ...sliderStyle }}/>
-                    <NavLink to="/todos" className={({isActive}) => (isActive ? styles.active : null)}>Todos</NavLink>
-                    <NavLink to="/notes" className={({isActive}) => (isActive ? styles.active : null)}>Notes</NavLink>
-                    <NavLink to="/boards" className={({isActive}) => (isActive ? styles.active : null)}>Boards</NavLink>
+                    <NavLink to="/todos" className={({isActive}) => (isActive ? styles.active : null)}><FormattedMessage id="nav.todos" /></NavLink>
+                    <NavLink to="/notes" className={({isActive}) => (isActive ? styles.active : null)}><FormattedMessage id="nav.notes" /></NavLink>
+                    <NavLink to="/boards" className={({isActive}) => (isActive ? styles.active : null)}><FormattedMessage id="nav.boards" /></NavLink>
                 </nav>
 
                 <div className={styles.user}>
@@ -67,21 +70,22 @@ const Header = () => {
                                 <DropdownMenu.Separator className={dropdown.separator} />
 
                                 <DropdownMenu.Item className={dropdown.item} onSelect={(e) => e.preventDefault()}>
-                                    Light
+                                    <FormattedMessage id="header.theme.light" />
                                     <Switch.Root className={switcherStyles.wrapper} onCheckedChange={toggleTheme} checked={isDarkTheme}>
                                         <SunIcon className={switcherStyles.icon}/>
                                         <Switch.Thumb className={switcherStyles.switcher} />
                                         <MoonIcon className={switcherStyles.icon}/>
                                     </Switch.Root>
-                                    Dark
+                                    <FormattedMessage id="header.theme.dark" />
                                 </DropdownMenu.Item>
 
-                                <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={() => removeAllUserTodos(user.uid)}>
-                                    Clear All Todos
+                                <DropdownMenu.Item className={dropdown.item} onSelect={setLocale}>
+                                    <FormattedMessage id={`header.language.${locale}`} />
+                                    { locale === 'en' && <img src={ukraineFlag} className={styles.flag} alt="Ukrainian Flag" /> }
                                 </DropdownMenu.Item>
 
                                 <DropdownMenu.Item className={dropdown.item} onSelect={signOut}>
-                                    Sign Out
+                                    <FormattedMessage id="header.signOut" />
                                 </DropdownMenu.Item>
                             </DropdownMenu.Content>
                         </DropdownMenu.Portal>

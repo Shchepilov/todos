@@ -1,11 +1,15 @@
 import { useStore } from "@store/store";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+import { FormattedMessage } from 'react-intl';
 import dayjs from "dayjs";
 import styles from "./DayNavigation.module.scss";
 
 const DayNavigation = () => {
     const currentDay = useStore((state) => state.currentDay);
     const setCurrentDay = useStore((state) => state.setCurrentDay);
+    const locale = useStore((state) => state.locale);
+
+    dayjs.locale(locale);
 
     const handlePrevDay = () => {
         setCurrentDay(dayjs(currentDay).subtract(1, 'day'));
@@ -23,7 +27,9 @@ const DayNavigation = () => {
                 <ChevronLeftIcon />    
             </button>
             
-            <div className={styles.title}>{dayjs(currentDay).format('D MMMM')}{isToday && <span>(Today)</span>}</div>
+            <div className={styles.title}>
+                {dayjs(currentDay).format('D MMMM')}
+                {isToday && <span>(<FormattedMessage id="common.today" />)</span>}</div>
 
             <button className={styles.button} onClick={handleNextDay}>
                 <ChevronRightIcon />

@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { Dialog } from "radix-ui";
 import { useForm } from "react-hook-form"
 import * as Form from '@radix-ui/react-form';
+import { useIntl, FormattedMessage } from 'react-intl';
 import dayjs from "dayjs";
 import { useStore } from "@store/store";
 import Checkbox from "@components/Checkbox/Checkbox";
@@ -15,6 +16,7 @@ import { PRIORITY_OPTIONS } from "@features/todos/utils/constants";
 import styles from "./TodoItem.module.scss";
 
 const EditForm = ({ todo }) => {
+    const intl = useIntl();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { content, priority, id, date, dueDate, autoMove } = todo;
 
@@ -46,24 +48,24 @@ const EditForm = ({ todo }) => {
 
     return (
         <Form.Root onSubmit={handleSubmit(handleUpdateTodo)} className="form">
-            <Field name="todoTitle" label="Title" required errors={errors}>
+            <Field name="todoTitle" label={intl.formatMessage({ id: 'todos.title' })} required errors={errors}>
                 <Input
                     register={register}
                     name="todoTitle"
-                    label="Title"
-                    placeholder="Title"
+                    label={intl.formatMessage({ id: 'todos.title' })}
+                    placeholder={intl.formatMessage({ id: 'todos.title' })}
                     autoFocus
                     errors={errors}
-                    required="Field is required"
+                    required={intl.formatMessage({ id: 'todos.validation.titleRequired' })}
                     defaultValue={content}
                     maxLength={{
                         value: 40,
-                        message: "Title cannot exceed 40 characters"
+                        message: intl.formatMessage({ id: 'todos.validation.titleMaxLength' }, { length: 40 })
                     }}
                 />
             </Field>
 
-            <Field name="todoPriority" label="Priority" errors={errors}>
+            <Field name="todoPriority" label={intl.formatMessage({ id: 'todos.priority' })} errors={errors}>
                 <Select
                     register={register}
                     name="todoPriority"
@@ -74,7 +76,7 @@ const EditForm = ({ todo }) => {
             </Field>
 
             <Row equal>
-                <Field name="todoDate" label="Date" errors={errors}>
+                <Field name="todoDate" label={intl.formatMessage({ id: 'common.created' })} errors={errors}>
                     <Input
                         type="date"
                         register={register}
@@ -84,7 +86,7 @@ const EditForm = ({ todo }) => {
                 </Field>
 
                 <Row gap="small" align="bottom">
-                    <Field name="todoDueDate" label="Due Date" errors={errors}>
+                    <Field name="todoDueDate" label={intl.formatMessage({ id: 'todos.dueDate' })} errors={errors}>
                         <Input
                             type="date"
                             register={register}
@@ -99,11 +101,15 @@ const EditForm = ({ todo }) => {
                 </Row>
             </Row>
 
-            <Checkbox type="checkbox" checked={newAutoMove} label="Auto move" onChange={handleChangeAutoMove} />
+            <Checkbox type="checkbox" checked={newAutoMove} label={intl.formatMessage({ id: 'todos.autoMove' })} onChange={handleChangeAutoMove} />
 
             <Row equal>
-                <Button variation="secondary" onClick={handleCloseForm}>Cancel</Button>
-                <Button type="submit">Update</Button>
+                <Button variation="secondary" onClick={handleCloseForm}>
+                    <FormattedMessage id="common.cancel" />
+                </Button>
+                <Button type="submit">
+                    <FormattedMessage id="common.save" />
+                </Button>
             </Row>
 
             <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>

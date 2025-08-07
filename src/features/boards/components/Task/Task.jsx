@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form"
 import { DragHandleDots2Icon, PersonIcon, TrashIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
+import { useIntl, FormattedMessage } from 'react-intl';
 import { useStore } from "@store/store";
 import Button from "@components/Button/Button";
 import Select from "@components/Select/Select";
@@ -14,6 +15,7 @@ import styles from './Task.module.scss';
 import Row from "@components/Row/Row";
 
 const Task = ({ task }) => {
+    const intl = useIntl();
     const droppedColumnId = useStore((state) => state.droppedColumnId);
     const setDroppedColumnId = useStore((state) => state.setDroppedColumnId);
     const columns = useStore((state) => state.columns);
@@ -115,14 +117,20 @@ const Task = ({ task }) => {
                                 valueKey="watcherName" 
                                 onChange={handleChangeAssignee}
                                 value={task.assignee}>
-                            <option value="unassigned">Unassigned</option>
+                            <option value="unassigned">
+                                <FormattedMessage id="boards.unassigned" />
+                            </option>
                             <option value={activeBoard.owner.name}>{activeBoard.owner.name}</option>
                         </Select>
                     </>
                 )}
 
                 {!isWatcher && (
-                    <Button variation="transparent" className={styles.deleteButton} size="small" aria-label="Delete task">
+                    <Button 
+                        variation="transparent" 
+                        className={styles.deleteButton} 
+                        size="small" 
+                        aria-label={intl.formatMessage({ id: 'boards.deleteTaskAriaLabel' })}>
                         <TrashIcon onClick={handleDeleteTask} />
                     </Button>
                 )}

@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as Form from '@radix-ui/react-form';
 import { useForm } from 'react-hook-form';
+import { useIntl, FormattedMessage } from 'react-intl';
 import Input from "@components/Input/Input";
 import Field from "@components/Field/Field";
 import Button from '@components/Button/Button';
@@ -9,6 +10,7 @@ import Row from '@components/Row/Row';
 import { updateColumn } from '@features/boards/services/columnsQuery';
 
 const ColumnSettings = ({column}) => {
+    const intl = useIntl();
     const closeDialogRef = useRef(null);
     
     const closeDialog = () => closeDialogRef.current?.click();
@@ -24,25 +26,29 @@ const ColumnSettings = ({column}) => {
 
     return ( 
         <Form.Root onSubmit={handleSubmit(handleUpdateColumn)} className="form">
-            <Field name="columnTitle" label="Column title" required errors={errors}>
+            <Field name="columnTitle" label={intl.formatMessage({ id: 'column.title' })} required errors={errors}>
                 <Input
                     register={register}
                     defaultValue={column.name}
                     name="columnTitle"
-                    placeholder="Column title"
+                    placeholder={intl.formatMessage({ id: 'column.title' })}
                     autoFocus
                     errors={errors}
-                    required="Field is required"
+                    required={intl.formatMessage({ id: 'boards.validation.titleRequired' })}
                     maxLength={{
                         value: 20,
-                        message: "Title cannot exceed 20 characters"
+                        message: intl.formatMessage({ id: 'boards.validation.titleMaxLength' }, { length: 20 })
                     }}
                 />
             </Field>
 
             <Row equal>
-                <Button type="button" variation="secondary" onClick={closeDialog}>Cancel</Button>
-                <Button type="submit">Save</Button>
+                <Button type="button" variation="secondary" onClick={closeDialog}>
+                    <FormattedMessage id="common.cancel" />
+                </Button>
+                <Button type="submit">
+                    <FormattedMessage id="common.save" />
+                </Button>
             </Row>
 
             <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>

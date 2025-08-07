@@ -19,21 +19,12 @@ const App = () => {
         document.body.setAttribute("data-theme", theme);
     },[theme]);
 
-    // Ensure we have valid messages and locale
-    const validLocale = (locale === "en" || locale === "uk") ? locale : "en";
-    const currentMessages = messages[validLocale] || messages.en;
-
     return (
         <div className={styles.app}>
-            <IntlProvider 
-                messages={currentMessages} 
-                locale={validLocale}
-                defaultLocale="en"
-                onError={(err) => {
-                    if (process.env.NODE_ENV === 'development') {
-                        console.warn('react-intl error:', err);
-                    }
-                }}
+            <IntlProvider
+                messages={messages[locale]}
+                locale={locale}
+                defaultLocale={locale}
             >
                 {user ? <AuthenticatedApp /> : <Auth />}
             </IntlProvider>

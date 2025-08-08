@@ -21,7 +21,11 @@ const App = () => {
 
     return (
         <div className={styles.app}>
-            <IntlProvider messages={messages[locale]} locale={locale}>
+            <IntlProvider
+                messages={messages[locale]}
+                locale={locale}
+                defaultLocale={locale}
+            >
                 {user ? <AuthenticatedApp /> : <Auth />}
             </IntlProvider>
         </div>

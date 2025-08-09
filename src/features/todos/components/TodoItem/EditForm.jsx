@@ -48,15 +48,15 @@ const EditForm = ({ todo }) => {
 
     return (
         <Form.Root onSubmit={handleSubmit(handleUpdateTodo)} className="form">
-            <Field name="todoTitle" label={intl.formatMessage({ id: 'todos.title' })} required errors={errors}>
+            <Field name="todoTitle" label={intl.formatMessage({ id: 'common.title' })} required errors={errors}>
                 <Input
                     register={register}
                     name="todoTitle"
-                    label={intl.formatMessage({ id: 'todos.title' })}
-                    placeholder={intl.formatMessage({ id: 'todos.title' })}
+                    label={intl.formatMessage({ id: 'common.title' })}
+                    placeholder={intl.formatMessage({ id: 'common.title' })}
                     autoFocus
                     errors={errors}
-                    required={intl.formatMessage({ id: 'todos.validation.titleRequired' })}
+                    required={intl.formatMessage({ id: 'common.validation.titleRequired' })}
                     defaultValue={content}
                     maxLength={{
                         value: 40,
@@ -65,7 +65,7 @@ const EditForm = ({ todo }) => {
                 />
             </Field>
 
-            <Field name="todoPriority" label={intl.formatMessage({ id: 'todos.priority' })} errors={errors}>
+            <Field name="todoPriority" label={intl.formatMessage({ id: 'common.priority' })} errors={errors}>
                 <Select
                     register={register}
                     name="todoPriority"

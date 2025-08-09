@@ -9,6 +9,14 @@ const common = {
         'common.created': 'Created',
         'common.today': 'Today',
         'common.settings': 'Settings',
+        'common.title': 'Title',
+        'common.name': 'Name',
+        'common.priority': 'Priority',
+        'common.description': 'Description',
+        'common.email': 'Email',
+        'common.validation.titleRequired': 'Title is required',
+        'common.validation.nameRequired': 'Name is required',
+        'common.validation.emailRequired': 'Email is required',
     },
     uk: {
         'common.cancel': 'Скасувати',
@@ -20,6 +28,14 @@ const common = {
         'common.created': 'Створено',
         'common.today': 'Сьогодні',
         'common.settings': 'Налаштування',
+        'common.title': 'Назва',
+        'common.name': 'Ім\'я',
+        'common.priority': 'Пріоритет',
+        'common.description': 'Опис',
+        'common.email': 'Email',
+        'common.validation.titleRequired': 'Назва обов\'язкова',
+        'common.validation.nameRequired': 'Ім\'я обов\'язкове',
+        'common.validation.emailRequired': 'Email обов\'язковий',
     }
 };
 

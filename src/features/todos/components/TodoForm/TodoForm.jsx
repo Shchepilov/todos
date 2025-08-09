@@ -42,15 +42,15 @@ const TodoForm = () => {
 
     return (
         <Form.Root onSubmit={handleSubmit(handleAddTodo)} className="form">
-            <Field name="todoTitle" label={intl.formatMessage({ id: 'todos.title' })} required errors={errors}>
+            <Field name="todoTitle" label={intl.formatMessage({ id: 'common.title' })} required errors={errors}>
                 <Input
                     register={register}
                     name="todoTitle"
-                    label={intl.formatMessage({ id: 'todos.title' })}
-                    placeholder={intl.formatMessage({ id: 'todos.title' })}
+                    label={intl.formatMessage({ id: 'common.title' })}
+                    placeholder={intl.formatMessage({ id: 'common.title' })}
                     autoFocus
                     errors={errors}
-                    required={intl.formatMessage({ id: 'todos.validation.titleRequired' })}
+                    required={intl.formatMessage({ id: 'common.validation.titleRequired' })}
                     maxLength={{
                         value: 40,
                         message: intl.formatMessage({ id: 'todos.validation.titleMaxLength' }, { length: 40 })
@@ -59,7 +59,7 @@ const TodoForm = () => {
             </Field>
 
             <Row equal>
-                <Field name="todoPriority" label={intl.formatMessage({ id: 'todos.priority' })} errors={errors}>
+                <Field name="todoPriority" label={intl.formatMessage({ id: 'common.priority' })} errors={errors}>
                     <Select
                         register={register}
                         name="todoPriority"

@@ -26,15 +26,15 @@ const ColumnSettings = ({column}) => {
 
     return ( 
         <Form.Root onSubmit={handleSubmit(handleUpdateColumn)} className="form">
-            <Field name="columnTitle" label={intl.formatMessage({ id: 'column.title' })} required errors={errors}>
+            <Field name="columnTitle" label={intl.formatMessage({ id: 'common.title' })} required errors={errors}>
                 <Input
                     register={register}
                     defaultValue={column.name}
                     name="columnTitle"
-                    placeholder={intl.formatMessage({ id: 'column.title' })}
+                    placeholder={intl.formatMessage({ id: 'common.title' })}
                     autoFocus
                     errors={errors}
-                    required={intl.formatMessage({ id: 'boards.validation.titleRequired' })}
+                    required={intl.formatMessage({ id: 'common.validation.titleRequired' })}
                     maxLength={{
                         value: 20,
                         message: intl.formatMessage({ id: 'boards.validation.titleMaxLength' }, { length: 20 })

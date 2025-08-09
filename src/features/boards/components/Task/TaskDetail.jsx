@@ -74,7 +74,7 @@ const TaskDetail = () => {
                         placeholder={intl.formatMessage({ id: 'boards.taskTitle' })}
                         autoFocus
                         errors={errors}
-                        required={intl.formatMessage({ id: 'boards.validation.titleRequired' })}
+                        required={intl.formatMessage({ id: 'common.validation.titleRequired' })}
                         maxLength={{
                             value: 100,
                             message: intl.formatMessage({ id: 'boards.validation.titleMaxLength' }, { length: 100 })
@@ -83,7 +83,7 @@ const TaskDetail = () => {
                 </Field>
 
                 <Row equal>
-                    <Field name="taskPriority" label={intl.formatMessage({ id: 'boards.taskPriority' })} errors={errors}>
+                    <Field name="taskPriority" label={intl.formatMessage({ id: 'common.priority' })} errors={errors}>
                         <Select register={register} name="taskPriority" items={TASK_STATUS} defaultValue={task.priority} />
                     </Field>
 
@@ -154,12 +154,12 @@ const TaskDetail = () => {
                 {!isWatcher && (
                     <Button type="button" variation="confirmation" onClick={handleDeleteTask}>
                         <TrashIcon width={18} height={18} /> 
-                        <FormattedMessage id="boards.delete" />
+                        <FormattedMessage id="common.delete" />
                     </Button>
                 )}
                 <Button type="submit" form="taskDetailForm">
                    <ReaderIcon /> 
-                   <FormattedMessage id="boards.save" />
+                   <FormattedMessage id="common.save" />
                 </Button>
             </Row>
         </Modal>

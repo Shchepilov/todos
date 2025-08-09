@@ -52,11 +52,11 @@ const BoardForm = () => {
     return (
         <Form.Root onSubmit={handleSubmit(handleAddBoard)} className="form" id="boardSettingForm">
             <Row equal>
-                <Field name="boardName" label={intl.formatMessage({ id: "boards.boardName" })} required errors={errors}>
+                <Field name="boardName" label={intl.formatMessage({ id: "common.title" })} required errors={errors}>
                     <Input
                         register={register}
                         name="boardName"
-                        placeholder={intl.formatMessage({ id: "boards.boardName" })}
+                        placeholder={intl.formatMessage({ id: "common.title" })}
                         autoFocus
                         errors={errors}
                         required={intl.formatMessage({ id: "common.required" })}

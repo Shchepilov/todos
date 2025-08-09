@@ -75,7 +75,7 @@ const TaskForm = ({ columnId, boardId }) => {
                     placeholder={intl.formatMessage({ id: 'boards.taskTitle' })}
                     autoFocus
                     errors={errors}
-                    required={intl.formatMessage({ id: 'boards.validation.titleRequired' })}
+                    required={intl.formatMessage({ id: 'common.validation.titleRequired' })}
                     maxLength={{
                         value: 100,
                         message: intl.formatMessage({ id: 'boards.validation.titleMaxLength' }, { length: 100 })
@@ -83,7 +83,7 @@ const TaskForm = ({ columnId, boardId }) => {
                 />
             </Field>
 
-            <Field name="taskPriority" label={intl.formatMessage({ id: 'boards.taskPriority' })} errors={errors}>
+            <Field name="taskPriority" label={intl.formatMessage({ id: 'common.priority' })} errors={errors}>
                 <Select register={register} name="taskPriority" items={TASK_STATUS} defaultValue={TASK_STATUS[2].value} />
             </Field>
 

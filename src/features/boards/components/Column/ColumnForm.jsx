@@ -27,14 +27,14 @@ const ColumnForm = ({ boardId }) => {
 
     return (
         <Form.Root onSubmit={handleSubmit(handleAddColumn)} className="form">
-            <Field name="columnName" label={intl.formatMessage({ id: 'column.name' })} required errors={errors}>
+            <Field name="columnName" label={intl.formatMessage({ id: 'common.title' })} required errors={errors}>
                 <Input
                     register={register}
                     name="columnName"
-                    placeholder={intl.formatMessage({ id: 'column.name' })}
+                    placeholder={intl.formatMessage({ id: 'common.title' })}
                     autoFocus
                     errors={errors}
-                    required={intl.formatMessage({ id: 'boards.validation.titleRequired' })}
+                    required={intl.formatMessage({ id: 'common.validation.titleRequired' })}
                     maxLength={{
                         value: 20,
                         message: intl.formatMessage({ id: 'boards.validation.titleMaxLength' }, { length: 20 })

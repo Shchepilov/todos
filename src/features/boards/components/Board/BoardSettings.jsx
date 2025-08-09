@@ -62,12 +62,12 @@ const BoardSettings = ({board}) => {
             <div className={styles.settings}>
                 <Form.Root onSubmit={handleSubmit(handleUpdateBoard)} className="form" id="boardSettingForm">
                     <Row equal>
-                        <Field name="boardName" required label={intl.formatMessage({ id: 'boards.boardName' })} errors={errors}>
+                        <Field name="boardName" required label={intl.formatMessage({ id: 'common.title' })} errors={errors}>
                             <Input
                                 register={register}
                                 defaultValue={board.name}
                                 name="boardName"
-                                placeholder={intl.formatMessage({ id: 'boards.boardName' })}
+                                placeholder={intl.formatMessage({ id: 'common.title' })}
                                 autoFocus
                                 errors={errors}
                                 required={intl.formatMessage({ id: 'common.required' })}
@@ -137,9 +137,9 @@ const BoardSettings = ({board}) => {
                             <Input
                                 register={registerWatcher}
                                 name="watcherEmail"
-                                placeholder={intl.formatMessage({ id: 'boards.watcherEmail' })}
+                                placeholder={intl.formatMessage({ id: 'common.email' })}
                                 errors={watcherErrors}
-                                required={intl.formatMessage({ id: 'boards.validation.emailRequired' })}
+                                required={intl.formatMessage({ id: 'common.validation.emailRequired' })}
                                 pattern={{
                                     value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                                     message: intl.formatMessage({ id: 'boards.validation.invalidEmail' })
@@ -152,9 +152,9 @@ const BoardSettings = ({board}) => {
                             <Input
                                 register={registerWatcher}
                                 name="watcherName"
-                                placeholder={intl.formatMessage({ id: 'boards.watcherName' })}
+                                placeholder={intl.formatMessage({ id: 'common.name' })}
                                 errors={watcherErrors}
-                                required={intl.formatMessage({ id: 'boards.validation.nameRequired' })}
+                                required={intl.formatMessage({ id: 'common.validation.nameRequired' })}
                             />
                         </Field>
 

@@ -1,23 +1,18 @@
-import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form"
-import { DragHandleDots2Icon, PersonIcon, TrashIcon } from "@radix-ui/react-icons";
+import { DragHandleDots2Icon } from "@radix-ui/react-icons";
+import TaskCopyMenu from "./TaskCopyMenu";
 import { motion } from "framer-motion";
-import { useIntl, FormattedMessage } from 'react-intl';
 import { useStore } from "@store/store";
-import Button from "@components/Button/Button";
-import Select from "@components/Select/Select";
-import { deleteTask, updateTask } from '@features/boards/services/tasksQuery';
 import ProgressBar from "@features/boards/components/ProgressBar/ProgressBar";
 import TypeBadge from "@features/boards/components/Task/TypeBadge";
-import { TASK_STATUS } from "@features/boards/utils/constants";
+import TaskActions from "@features/boards/components/Task/TaskActions";
+import TaskAssignment from "@features/boards/components/Task/TaskAssignment";
+import TaskEditForm from "@features/boards/components/Task/TaskEditForm";
+import { useDragAndDrop } from "@features/boards/hooks/useDragAndDrop";
 import styles from './Task.module.scss';
-import Row from "@components/Row/Row";
 
 const Task = ({ task }) => {
-    const intl = useIntl();
-    const droppedColumnId = useStore((state) => state.droppedColumnId);
-    const setDroppedColumnId = useStore((state) => state.setDroppedColumnId);
     const columns = useStore((state) => state.columns);
     const activeBoardId = useStore((state) => state.activeBoardId);
     const boards = useStore((state) => state.boards);
@@ -25,35 +20,13 @@ const Task = ({ task }) => {
     const isWatcher = activeBoard?.isWatcher || false;
 
     const navigate = useNavigate();
-    const taskRef = useRef(null);
-
-    const handleChangeColumn = (e) => updateTask(task.id, { columnId: e.target.value });
-    const handleChangePriority = (e) => updateTask(task.id, { priority: e.target.value });
-    const handleDeleteTask = () => deleteTask(task.id);
-    const handleChangeAssignee = (e) => updateTask(task.id, { assignee: e.target.value });
+    const { register } = useForm();
+    const { taskRef, handleDragStart, handleDragEnd } = useDragAndDrop(task, styles);
 
     const handleTaskDetails = () => {
         navigate(`/boards/${task.boardId}/tasks/${task.id}`);
     };
 
-    const handleDragStart = (e) => {
-        setDroppedColumnId(task.columnId);
-        e.dataTransfer.setData("taskId", task.id);
-        e.dataTransfer.setData("columnId", task.columnId);
-        
-        taskRef.current.classList.add(styles.dragging);
-        const taskWidth = taskRef.current.offsetWidth;
-    
-        e.dataTransfer.setDragImage(taskRef.current, taskWidth - 15, 20);
-    };
-
-    const handleDragEnd = () => {
-        if (task.columnId === droppedColumnId) {
-            taskRef.current.classList.remove(styles.dragging);
-        }
-    };
-
-    const { register } = useForm();
 
     if (!activeBoard) return;
 
@@ -69,7 +42,10 @@ const Task = ({ task }) => {
             <header className={styles.header}>
                 <TypeBadge type={task.type} />
 
-                <span role="button" onClick={handleTaskDetails} className={`${styles.prefix} ${styles.title}`}>{activeBoard.prefix}-{task.number}</span>
+                <div className={styles.title}>
+                    <span role="button" onClick={handleTaskDetails} className={`${styles.prefix} ${styles.title}`}>{activeBoard.prefix}-{task.number}</span>
+                    <TaskCopyMenu task={task} activeBoard={activeBoard} />
+                </div>
 
                 <div draggable="true"
                      onDragStart={handleDragStart}
@@ -86,54 +62,26 @@ const Task = ({ task }) => {
                 <ProgressBar estimation={task.estimation} loggedTime={task.loggedTime} />
             )}
             
-            <Row gap='small'>
-                <Select register={register}
-                        className={styles.select} 
-                        name="taskPriority"
-                        items={TASK_STATUS}
-                        onChange={handleChangePriority}
-                        value={task.priority} />
-                <Select register={register}
-                        className={styles.select}
-                        name="columnId"
-                        items={columns}
-                        valueKey="id"
-                        onChange={handleChangeColumn}
-                        value={task.columnId} />
-            </Row>
-
+            <TaskEditForm 
+                task={task}
+                columns={columns}
+                register={register}
+                className={styles.select}
+            />
             
             <footer className={styles.footer}>
-                {activeBoard.watchersData && activeBoard.watchersData.length > 0 && (
-                    <>
-                        <PersonIcon width={18} height={18} />
-                        
-                        <Select register={register}
-                                id="taskAssignee"
-                                className={styles.select}
-                                name="taskAssignee" 
-                                items={activeBoard.watchersData} 
-                                nameKey="watcherName" 
-                                valueKey="watcherName" 
-                                onChange={handleChangeAssignee}
-                                value={task.assignee}>
-                            <option value="unassigned">
-                                <FormattedMessage id="boards.unassigned" />
-                            </option>
-                            <option value={activeBoard.owner.name}>{activeBoard.owner.name}</option>
-                        </Select>
-                    </>
-                )}
+                <TaskAssignment 
+                    task={task}
+                    activeBoard={activeBoard}
+                    register={register}
+                    className={styles.select}
+                />
 
-                {!isWatcher && (
-                    <Button 
-                        variation="transparent" 
-                        className={styles.deleteButton} 
-                        size="small" 
-                        aria-label={intl.formatMessage({ id: 'boards.deleteTaskAriaLabel' })}>
-                        <TrashIcon onClick={handleDeleteTask} />
-                    </Button>
-                )}
+                <TaskActions 
+                    task={task}
+                    isWatcher={isWatcher}
+                    className={styles.deleteButton}
+                />
             </footer>
         </motion.li>
     );

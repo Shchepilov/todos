@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form"
 import * as Form from '@radix-ui/react-form';
 import { ReaderIcon, TrashIcon } from "@radix-ui/react-icons";
+import TaskCopyMenu from "./TaskCopyMenu";
 import { useIntl, FormattedMessage } from 'react-intl';
 import Modal from "@components/Modal/Modal";
 import Input from "@components/Input/Input";
@@ -58,8 +59,14 @@ const TaskDetail = () => {
         closeModal();
     }
 
+
     return (
-        <Modal heading={`${activeBoard.prefix} - ${task.number}`} size="medium" isDialogOpen={true} setIsDialogOpen={closeModal}>
+        <Modal heading={
+            <div className={styles.modalHeader}>
+                <span>{`${activeBoard.prefix}-${task.number}`}</span>
+                <TaskCopyMenu task={task} activeBoard={activeBoard} />
+            </div>
+        } size="medium" isDialogOpen={true} setIsDialogOpen={closeModal}>
             <Form.Root onSubmit={handleSubmit(handleUpdateTask)} className="form" id="taskDetailForm">
                     
                 <Field name="taskType" label={intl.formatMessage({ id: 'boards.taskType' })} errors={errors}>

@@ -42,6 +42,8 @@ const boards = {
         'boards.watchers': 'Watchers',
         'boards.validation.invalidEmail': 'Invalid email format',
         'boards.validation.alreadyOwner': 'Already used as board owner',
+        'boards.copyLink': 'Copy Link',
+        'boards.copyCommitMessage': 'Copy Commit Message',
     },
     uk: {
         // Columns
@@ -86,6 +88,8 @@ const boards = {
         'boards.watchers': 'Спостерігачі',
         'boards.validation.invalidEmail': 'Неправильний формат email',
         'boards.validation.alreadyOwner': 'Вже використовується як власник дошки',
+        'boards.copyLink': 'Копіювати посилання',
+        'boards.copyCommitMessage': 'Копіювати commit message',
     }
 };
 

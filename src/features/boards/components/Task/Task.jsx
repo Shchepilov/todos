@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form"
 import { DragHandleDots2Icon } from "@radix-ui/react-icons";
+import TaskCopyMenu from "./TaskCopyMenu";
 import { motion } from "framer-motion";
 import { useStore } from "@store/store";
 import ProgressBar from "@features/boards/components/ProgressBar/ProgressBar";
@@ -26,6 +27,7 @@ const Task = ({ task }) => {
         navigate(`/boards/${task.boardId}/tasks/${task.id}`);
     };
 
+
     if (!activeBoard) return;
 
     return (
@@ -40,7 +42,10 @@ const Task = ({ task }) => {
             <header className={styles.header}>
                 <TypeBadge type={task.type} />
 
-                <span role="button" onClick={handleTaskDetails} className={`${styles.prefix} ${styles.title}`}>{activeBoard.prefix}-{task.number}</span>
+                <div className={styles.title}>
+                    <span role="button" onClick={handleTaskDetails} className={`${styles.prefix} ${styles.title}`}>{activeBoard.prefix}-{task.number}</span>
+                    <TaskCopyMenu task={task} activeBoard={activeBoard} />
+                </div>
 
                 <div draggable="true"
                      onDragStart={handleDragStart}

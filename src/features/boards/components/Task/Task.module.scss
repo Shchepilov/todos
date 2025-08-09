@@ -77,6 +77,13 @@
     display: flex;
     align-items: center;
     margin-right: 20px;
+    gap: 3px;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .typeBadge {
@@ -172,6 +179,17 @@
 }
 
 /* Task Detail */
+.modalHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
 .logSection {
     display: grid;
     gap: 1rem;

@@ -6,7 +6,6 @@ const header = {
         'header.theme.light': 'Light',
         'header.theme.dark': 'Dark',
         'header.signOut': 'Sign Out',
-        'header.clearAllTodos': 'Clear All Todos',
         'header.language.en': 'Українська мова',
     },
     uk: {
@@ -16,7 +15,6 @@ const header = {
         'header.theme.light': 'Світло',
         'header.theme.dark': 'Темно',
         'header.signOut': 'Вийти',
-        'header.clearAllTodos': 'Очистити всі справи',
         'header.language.uk': 'English version',
     }
 };

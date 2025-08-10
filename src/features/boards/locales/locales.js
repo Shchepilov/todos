@@ -44,6 +44,16 @@ const boards = {
         'boards.validation.alreadyOwner': 'Already used as board owner',
         'boards.copyLink': 'Copy Link',
         'boards.copyCommitMessage': 'Copy Commit Message',
+
+        // Filters
+        'boards.filter.filters': 'Filters',
+        'boards.filter.assignee': 'Assignee',
+        'boards.filter.allAssignees': 'All Assignees',
+        'boards.filter.type': 'Type',
+        'boards.filter.allTypes': 'All Types',
+        'boards.filter.priority': 'Priority',
+        'boards.filter.allPriorities': 'All Priorities',
+        'boards.filter.clear': 'Clear Filters',
     },
     uk: {
         // Columns
@@ -90,6 +100,16 @@ const boards = {
         'boards.validation.alreadyOwner': 'Вже використовується як власник дошки',
         'boards.copyLink': 'Копіювати посилання',
         'boards.copyCommitMessage': 'Копіювати commit message',
+
+        // Filters
+        'boards.filter.filters': 'Фільтри',
+        'boards.filter.assignee': 'Виконавець',
+        'boards.filter.allAssignees': 'Всі виконавці',
+        'boards.filter.type': 'Тип',
+        'boards.filter.allTypes': 'Всі типи',
+        'boards.filter.priority': 'Пріоритет',
+        'boards.filter.allPriorities': 'Всі пріоритети',
+        'boards.filter.clear': 'Очистити фільтри',
     }
 };
 

@@ -80,12 +80,6 @@
     gap: 3px;
 }
 
-.title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
 .typeBadge {
     float: left;
     margin-right: 5px;
@@ -111,14 +105,16 @@
     }
 }
 
+.titleWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .title {
-    font-size: rem(15);
+    font-size: rem(14);
     font-weight: 300;
     cursor: pointer;
-
-    &.prefix {
-        font-size: rem(13);
-    }
 
     &:hover {
         text-decoration: underline;

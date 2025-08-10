@@ -42,8 +42,8 @@ const Task = ({ task }) => {
             <header className={styles.header}>
                 <TypeBadge type={task.type} />
 
-                <div className={styles.title}>
-                    <span role="button" onClick={handleTaskDetails} className={`${styles.prefix} ${styles.title}`}>{activeBoard.prefix}-{task.number}</span>
+                <div className={styles.titleWrapper}>
+                    <span role="button" onClick={handleTaskDetails} className={styles.title}>{activeBoard.prefix}-{task.number}</span>
                     <TaskCopyMenu task={task} activeBoard={activeBoard} />
                 </div>
 

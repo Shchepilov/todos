@@ -8,6 +8,7 @@ import Modal from "@components/Modal/Modal";
 import ColumnForm from '@features/boards/components/Column/ColumnForm';
 import Columns from '@features/boards/components/Columns/Columns';
 import TaskDetail from '@features/boards/components/Task/TaskDetail';
+import TaskFilter from '@features/boards/components/TaskFilter/TaskFilter';
 import { updateBoard } from '@features/boards/services/boardsQuery';
 import BoardSettings from './BoardSettings';
 import useBoardData from '@features/boards/hooks/useBoardData';
@@ -24,6 +25,8 @@ const Board = () => {
     const { boardId } = useParams();
     const board = boards.find(board => board.id === boardId);
     const navigate = useNavigate();
+
+    const isBoardHasTasks = useStore((state) => state.tasks);
 
     const { columnsLoading, columnsError, tasksLoading, tasksError } = useBoardData(boardId);
 
@@ -65,6 +68,8 @@ const Board = () => {
                             <GearIcon className={columnsLoading ? styles.loading : ''} />
                         </Button>
                     )}
+
+                    {isBoardHasTasks.length > 0 && <TaskFilter />}
                 </div>
 
                 <Button size='small' className={styles.addColumnButton} onClick={showColumnForm}>

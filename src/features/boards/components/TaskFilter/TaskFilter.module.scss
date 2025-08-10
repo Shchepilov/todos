@@ -1,0 +1,31 @@
+.filterButton {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dropdownContent {
+    display: grid;
+    gap: 8px;
+    padding: 1rem;
+}
+
+.section {
+    display: grid;
+    gap: 6px;
+}
+
+.checkboxItem {
+    font-weight: 300;
+}
+
+.separator {
+    margin-inline: 0;
+}
+
+.clearItem {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}

@@ -80,7 +80,7 @@ const TaskFilter = () => {
             </DropdownMenu.Trigger>
 
             <DropdownMenu.Portal>
-                <DropdownMenu.Content className={`${dropdown.content} ${styles.dropdownContent}`} align="start" sideOffset={5}>
+                <DropdownMenu.Content className={`${dropdown.content} ${styles.dropdownContent}`} align="end" sideOffset={5}>
                     
                     {activeBoard.watchersData && activeBoard.watchersData.length > 0 && (
                         <>

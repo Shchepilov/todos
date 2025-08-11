@@ -1,8 +1,8 @@
 import common from './common.js';
-import header from '../layout/Header/locales.js';
-import todos from '../features/todos/locales/locales.js';
-import notes from '../features/notes/locales/locales.js';
-import boards from '../features/boards/locales/locales.js';
+import header from '@layout/Header/locales.js';
+import todos from '@features/todos/locales/locales.js';
+import notes from '@features/notes/locales/locales.js';
+import boards from '@features/boards/locales/locales.js';
 
 const messages = {
     en: {

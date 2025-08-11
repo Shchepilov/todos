@@ -68,14 +68,16 @@ const Board = () => {
                             <GearIcon className={columnsLoading ? styles.loading : ''} />
                         </Button>
                     )}
-
-                    {isBoardHasTasks.length > 0 && <TaskFilter />}
                 </div>
 
-                <Button size='small' className={styles.addColumnButton} onClick={showColumnForm}>
-                    <PlusIcon width={16} height={16}/>
-                    <FormattedMessage id="boards.addColumn" />
-                </Button>
+                <div className={styles.actions}>
+                    {isBoardHasTasks.length > 0 && <TaskFilter />}
+
+                    <Button size='small' className={styles.addColumnButton} onClick={showColumnForm}>
+                        <PlusIcon width={16} height={16}/>
+                        <FormattedMessage id="boards.addColumn" />
+                    </Button>
+                </div>
             </header>
 
             <Modal heading={intl.formatMessage({ id: 'column.add' })} isDialogOpen={columnFormModal} setIsDialogOpen={setColumnFormModal}>

@@ -69,6 +69,10 @@ const TaskFilter = () => {
     const hasActiveFilters = (filters.assignee?.length > 0) || (filters.type?.length > 0) || (filters.priority?.length > 0);
     const activeFiltersCount = (filters.assignee?.length || 0) + (filters.type?.length || 0) + (filters.priority?.length || 0);
 
+    if (!activeBoard) {
+        return null;
+    }
+
     return (
         <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
@@ -80,7 +84,7 @@ const TaskFilter = () => {
             </DropdownMenu.Trigger>
 
             <DropdownMenu.Portal>
-                <DropdownMenu.Content className={`${dropdown.content} ${styles.dropdownContent}`} align="start" sideOffset={5}>
+                <DropdownMenu.Content className={`${dropdown.content} ${styles.dropdownContent}`} align="end" sideOffset={5}>
                     
                     {activeBoard.watchersData && activeBoard.watchersData.length > 0 && (
                         <>

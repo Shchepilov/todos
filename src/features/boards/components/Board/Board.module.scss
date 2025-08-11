@@ -63,8 +63,13 @@
     gap: 7px;
 }
 
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .addColumnButton {
-    margin-left: auto;
     gap: 5px;
 }
 

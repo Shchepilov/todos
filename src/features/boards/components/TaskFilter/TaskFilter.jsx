@@ -69,6 +69,10 @@ const TaskFilter = () => {
     const hasActiveFilters = (filters.assignee?.length > 0) || (filters.type?.length > 0) || (filters.priority?.length > 0);
     const activeFiltersCount = (filters.assignee?.length || 0) + (filters.type?.length || 0) + (filters.priority?.length || 0);
 
+    if (!activeBoard) {
+        return null;
+    }
+
     return (
         <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>

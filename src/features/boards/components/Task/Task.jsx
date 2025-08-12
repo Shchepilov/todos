@@ -67,6 +67,7 @@ const Task = ({ task }) => {
                 columns={columns}
                 register={register}
                 className={styles.select}
+                activeBoard={activeBoard}
             />
             
             <footer className={styles.footer}>

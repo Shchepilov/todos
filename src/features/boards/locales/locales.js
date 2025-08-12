@@ -54,6 +54,15 @@ const boards = {
         'boards.filter.priority': 'Priority',
         'boards.filter.allPriorities': 'All Priorities',
         'boards.filter.clear': 'Clear Filters',
+
+        // Sprints
+        'boards.sprints': 'Sprints',
+        'boards.sprintName': 'Sprint Name',
+        'boards.allSprints': 'All Sprints',
+        'boards.taskSprint': 'Sprint',
+        'boards.noSprint': 'No Sprint',
+        'boards.validation.sprintNameMaxLength': 'Max {length} characters',
+        'boards.validation.sprintAlreadyExists': 'Sprint already exists',
     },
     uk: {
         // Columns
@@ -110,6 +119,15 @@ const boards = {
         'boards.filter.priority': 'Пріоритет',
         'boards.filter.allPriorities': 'Всі пріоритети',
         'boards.filter.clear': 'Очистити фільтри',
+
+        // Sprints
+        'boards.sprints': 'Спрінти',
+        'boards.sprintName': 'Назва спрінту',
+        'boards.allSprints': 'Всі спрінти',
+        'boards.taskSprint': 'Спрінт',
+        'boards.noSprint': 'Без спрінту',
+        'boards.validation.sprintNameMaxLength': 'Максимально {length} символів',
+        'boards.validation.sprintAlreadyExists': 'Спрінт вже існує',
     }
 };
 

@@ -4,6 +4,7 @@ import { PlusIcon, GearIcon } from "@radix-ui/react-icons";
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useStore } from "@store/store";
 import Button from '@components/Button/Button';
+import Select from '@components/Select/Select';
 import Modal from "@components/Modal/Modal";
 import ColumnForm from '@features/boards/components/Column/ColumnForm';
 import Columns from '@features/boards/components/Columns/Columns';
@@ -53,6 +54,11 @@ const Board = () => {
         updateBoard(board.id, { watchers: updatedWatchers, watchersData: updatedWatchersData });
     }
 
+    const handleSprintChange = (e) => {
+        const selectedSprint = e.target.value;
+        updateBoard(board.id, { activeSprint: selectedSprint});
+    }
+
     return ( 
         <main className={styles.board}>
             <header className={styles.header}>
@@ -71,6 +77,21 @@ const Board = () => {
                 </div>
 
                 <div className={styles.actions}>
+                    {board.sprints && board.sprints.length > 0 && (
+                        
+                        <Select
+                            name="sprintSelect"
+                            value={board.activeSprint || ''}
+                            className={styles.select}
+                            onChange={handleSprintChange}
+                            items={board.sprints}
+                            nameKey="name"
+                            valueKey="id">
+                            <option value=""><FormattedMessage id="boards.allSprints" /></option>
+                        </Select>
+                        
+                    )}
+                    
                     {isBoardHasTasks.length > 0 && <TaskFilter />}
 
                     <Button size='small' className={styles.addColumnButton} onClick={showColumnForm}>

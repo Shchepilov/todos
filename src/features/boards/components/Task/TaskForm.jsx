@@ -25,7 +25,7 @@ const TaskForm = ({ columnId, boardId }) => {
     const closeDialog = () => closeDialogRef.current?.click();
 
     const handleAddTask = (data) => {
-        const { taskTitle, taskType, taskPriority, columnId, taskAssignee, taskDescription, taskEstimation } = data;
+        const { taskTitle, taskType, taskPriority, columnId, taskAssignee, taskDescription, taskEstimation, taskSprint } = data;
         
         addTask(
             boardId, 
@@ -38,7 +38,8 @@ const TaskForm = ({ columnId, boardId }) => {
                 assignee: taskAssignee || 'unassigned',
                 estimation: taskEstimation || null,
                 loggedTime: null,
-                workLogsList: []
+                workLogsList: [],
+                sprint: taskSprint || null
             }
         );
         
@@ -90,6 +91,14 @@ const TaskForm = ({ columnId, boardId }) => {
             <Field name="columnId" label={intl.formatMessage({ id: 'boards.taskColumn' })} errors={errors}>
                 <Select register={register} name="columnId" items={columns} valueKey="id" defaultValue={columnId} />
             </Field>
+
+            {activeBoard.sprints && activeBoard.sprints.length > 0 && (
+                <Field name="taskSprint" label={intl.formatMessage({ id: 'boards.taskSprint' })} errors={errors}>
+                    <Select register={register} name="taskSprint" items={activeBoard.sprints} nameKey="name" valueKey="id">
+                        <option value="">{intl.formatMessage({ id: 'boards.noSprint' })}</option>
+                    </Select>
+                </Field>
+            )}
 
             {activeBoard.watchersData && activeBoard.watchersData.length > 0 && (
                 <Field name="taskAssignee" label={intl.formatMessage({ id: 'boards.taskAssignee' })} errors={errors}>

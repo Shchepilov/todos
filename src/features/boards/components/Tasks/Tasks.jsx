@@ -6,6 +6,8 @@ import styles from './Tasks.module.scss';
 const Tasks = ({ columnId }) => {
     const tasksBoard = useStore((state) => state.tasks);
     const activeBoardId = useStore((state) => state.activeBoardId);
+    const boards = useStore((state) => state.boards);
+    const activeBoard = boards?.find(board => board.id === activeBoardId);
     const filters = useStore((state) => state.taskFilters[activeBoardId]) || {
         assignee: [],
         type: [],
@@ -14,6 +16,8 @@ const Tasks = ({ columnId }) => {
     
     const filteredTasks = tasksBoard.filter((task) => {
         if (task.columnId !== columnId) return false;
+
+        if (activeBoard?.activeSprint && task.sprint !== activeBoard.activeSprint) return false;
         
         if (filters.assignee?.length > 0 && !filters.assignee.includes(task.assignee)) return false;
         

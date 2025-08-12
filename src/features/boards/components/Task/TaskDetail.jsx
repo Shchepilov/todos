@@ -39,7 +39,7 @@ const TaskDetail = () => {
     };
     
     const handleUpdateTask = (data) => {
-        const { taskType, taskTitle, taskPriority, taskAssignee, taskDescription, columnId, taskEstimation } = data;
+        const { taskType, taskTitle, taskPriority, taskAssignee, taskDescription, columnId, taskEstimation, taskSprint } = data;
 
         updateTask(task.id, {
             assignee: taskAssignee,
@@ -48,7 +48,8 @@ const TaskDetail = () => {
             priority: taskPriority,
             description: taskDescription,
             columnId: columnId,
-            estimation: taskEstimation || null
+            estimation: taskEstimation || null,
+            sprint: taskSprint || null
         });
 
         closeModal();
@@ -107,8 +108,21 @@ const TaskDetail = () => {
                                 nameKey="watcherName" 
                                 valueKey="watcherName"
                                 defaultValue={task.assignee}>
-                            <option value="unassigned">{intl.formatMessage({ id: 'boards.unassigned' })}</option>
+                            <option value="unassigned"><FormattedMessage id="boards.unassigned" /></option>
                             <option value={activeBoard.owner.name}>{activeBoard.owner.name}</option>
+                        </Select>
+                    </Field>
+                )}
+
+                {activeBoard.sprints && activeBoard.sprints.length > 0 && (
+                    <Field name="taskSprint" label={intl.formatMessage({ id: 'boards.taskSprint' })} errors={errors}>
+                        <Select register={register} 
+                                name="taskSprint" 
+                                items={activeBoard.sprints} 
+                                nameKey="name" 
+                                valueKey="id"
+                                defaultValue={task.sprint}>
+                            <option value=""><FormattedMessage id="boards.noSprint" /></option>
                         </Select>
                     </Field>
                 )}

@@ -115,6 +115,19 @@
     }
 }
 
+.fromSection {
+    display: grid;
+    gap: 8px;
+}
+
+.select {
+    padding: 4px 25px 4px 7px;
+    height: auto;
+    width: auto;
+    background-position: center right 5px;
+    text-transform: capitalize;
+}
+
 .boardPrefix {
     max-width: 90px;
 }

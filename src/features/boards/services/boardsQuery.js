@@ -25,6 +25,8 @@ export const addBoard = async (userId, name, prefix, owner) => {
             owner,
             watchers: [],
             watchersData: [],
+            sprints: [],
+            activeSprint: null,
             taskCounter: 0,
             timestamp: serverTimestamp(),
         });

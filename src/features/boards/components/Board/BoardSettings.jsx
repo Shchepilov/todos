@@ -65,7 +65,14 @@ const BoardSettings = ({board}) => {
         if (board.sprints?.some(sprint => sprint.id === sprintId)) return;
         
         updateBoard(board.id, { 
-            sprints: [...board.sprints, { id: sprintId, name: sprintName }]
+            sprints: [
+                ...board.sprints, 
+                { 
+                    id: sprintId, 
+                    name: sprintName,
+                    retrospective: {}
+                }
+            ]
         });
 
         resetSprint();

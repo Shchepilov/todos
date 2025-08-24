@@ -10,6 +10,7 @@ import ColumnForm from '@features/boards/components/Column/ColumnForm';
 import Columns from '@features/boards/components/Columns/Columns';
 import TaskDetail from '@features/boards/components/Task/TaskDetail';
 import TaskFilter from '@features/boards/components/TaskFilter/TaskFilter';
+import Retrospective from '@features/boards/components/Retrospective/Retrospective';
 import { updateBoard } from '@features/boards/services/boardsQuery';
 import BoardSettings from './BoardSettings';
 import useBoardData from '@features/boards/hooks/useBoardData';
@@ -23,6 +24,7 @@ const Board = () => {
     const setActiveBoardId = useStore((state) => state.setActiveBoardId);
     const [columnFormModal, setColumnFormModal] = useState(false);
     const [boardSettingsModal, setBoardSettingsModal] = useState(false);
+    const [retrospectiveModal, setRetrospectiveModal] = useState(false);
     const { boardId } = useParams();
     const board = boards.find(board => board.id === boardId);
     const navigate = useNavigate();
@@ -46,6 +48,10 @@ const Board = () => {
 
     const showBoardSettings = () => {
         setBoardSettingsModal(true);
+    }
+
+    const showRetrospective = () => {
+        setRetrospectiveModal(true);
     }
 
     const handleLeaveBoard = () => {
@@ -78,7 +84,6 @@ const Board = () => {
 
                 <div className={styles.actions}>
                     {board.sprints && board.sprints.length > 0 && (
-                        
                         <Select
                             name="sprintSelect"
                             value={board.activeSprint || ''}
@@ -89,9 +94,14 @@ const Board = () => {
                             valueKey="id">
                             <option value=""><FormattedMessage id="boards.allSprints" /></option>
                         </Select>
-                        
                     )}
-                    
+
+                    {board.activeSprint && (
+                        <Button size='small' className={styles.retrospectiveButton} onClick={showRetrospective}>
+                            <FormattedMessage id="boards.retrospective.heading" />
+                        </Button>
+                    )}
+
                     {isBoardHasTasks.length > 0 && <TaskFilter />}
 
                     <Button size='small' className={styles.addColumnButton} onClick={showColumnForm}>
@@ -101,6 +111,10 @@ const Board = () => {
                 </div>
             </header>
 
+            <Modal heading={intl.formatMessage({ id: 'boards.retrospective.heading' })} size='large' isDialogOpen={retrospectiveModal} setIsDialogOpen={setRetrospectiveModal}>
+                <Retrospective />
+            </Modal>
+            
             <Modal heading={intl.formatMessage({ id: 'column.add' })} isDialogOpen={columnFormModal} setIsDialogOpen={setColumnFormModal}>
                 <ColumnForm boardId={boardId} />
             </Modal>

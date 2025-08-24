@@ -17,3 +17,5 @@ export const TASK_TYPES = [
     { name: 'Change Request', value: 'cr' },
     { name: 'Improvement', value: 'improve' }
 ];
+
+export const RETROSPECTIVE_TYPES = ['good', 'bad', 'suggestions'];

@@ -1,0 +1,82 @@
+@use "@styles/functions" as *;
+
+.content {
+    flex-grow: 1;
+}
+
+.column {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 16px;
+}
+
+.title {
+    text-transform: capitalize;
+    font-weight: 300;
+}
+
+.listWrapper {
+    overflow: auto;
+    position: relative;
+}
+
+.list {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    gap: 10px;
+    align-content: start;
+}
+
+.listItem {
+    display: grid;
+    gap: 10px;
+    background: var(--task-bg);
+    border: 1px solid var(--task-border-color);
+    padding: 10px;
+    border-radius: 5px;
+    position: relative;
+    animation: appear 0.2s ease;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.voteContainer {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.voteCount {
+    font-size: rem(14);
+    min-width: rem(9);
+    text-align: center;
+}
+
+.hasVotes {
+    color: orange;
+
+    [disabled] & {
+        opacity: 0.6;
+    }
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -63,6 +63,13 @@ const boards = {
         'boards.noSprint': 'No Sprint',
         'boards.validation.sprintNameMaxLength': 'Max {length} characters',
         'boards.validation.sprintAlreadyExists': 'Sprint already exists',
+
+        // Retrospective
+        'boards.retrospective.heading': 'Retrospective',
+        'boards.retrospective.good': 'Good',
+        'boards.retrospective.bad': 'Bad',
+        'boards.retrospective.suggestions': 'Suggestions',
+        'boards.retrospective.placeholder.message': 'Message'
     },
     uk: {
         // Columns
@@ -128,6 +135,13 @@ const boards = {
         'boards.noSprint': 'Без спрінту',
         'boards.validation.sprintNameMaxLength': 'Максимально {length} символів',
         'boards.validation.sprintAlreadyExists': 'Спрінт вже існує',
+
+        // Retrospective
+        'boards.retrospective.heading': 'Ретроспектива',
+        'boards.retrospective.good': 'Добре',
+        'boards.retrospective.bad': 'Погано',
+        'boards.retrospective.suggestions': 'Пропозиції',
+        'boards.retrospective.placeholder.message': 'Відгук'
     }
 };
 

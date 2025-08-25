@@ -1,7 +1,14 @@
 @use "@styles/functions" as *;
+@use "@styles/mixins" as *;
 
 .content {
+    display: grid;
+    gap: 15px;
     flex-grow: 1;
+
+    @include desktop-only {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 .column {
@@ -18,17 +25,21 @@
 .listWrapper {
     overflow: auto;
     position: relative;
+    flex-grow: 1;
 }
 
 .list {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     display: grid;
     gap: 10px;
     align-content: start;
+
+    @include desktop-only {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0; 
+    }
 }
 
 .listItem {

@@ -83,6 +83,12 @@ const Board = () => {
                 </div>
 
                 <div className={styles.actions}>
+                    {board.activeSprint && (
+                        <Button size='small' className={styles.retrospectiveButton} onClick={showRetrospective}>
+                            <FormattedMessage id="boards.retrospective.heading" />
+                        </Button>
+                    )}
+
                     {board.sprints && board.sprints.length > 0 && (
                         <Select
                             name="sprintSelect"
@@ -96,12 +102,6 @@ const Board = () => {
                         </Select>
                     )}
 
-                    {board.activeSprint && (
-                        <Button size='small' className={styles.retrospectiveButton} onClick={showRetrospective}>
-                            <FormattedMessage id="boards.retrospective.heading" />
-                        </Button>
-                    )}
-
                     {isBoardHasTasks.length > 0 && <TaskFilter />}
 
                     <Button size='small' className={styles.addColumnButton} onClick={showColumnForm}>
@@ -111,7 +111,7 @@ const Board = () => {
                 </div>
             </header>
 
-            <Modal heading={intl.formatMessage({ id: 'boards.retrospective.heading' })} size='large' isDialogOpen={retrospectiveModal} setIsDialogOpen={setRetrospectiveModal}>
+            <Modal heading={`${intl.formatMessage({ id: 'boards.retrospective.heading' })} (${board.activeSprint})`} size='large' isDialogOpen={retrospectiveModal} setIsDialogOpen={setRetrospectiveModal}>
                 <Retrospective />
             </Modal>
             

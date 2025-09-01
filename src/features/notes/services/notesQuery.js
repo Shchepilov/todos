@@ -10,12 +10,11 @@ import {
     serverTimestamp,
 } from "firebase/firestore";
 import { db } from "@baseUrl/firebase";
-
 import { NOTE_COLLECTION } from "@features/notes/utils/constants";
 
 export const notesQuery = (userId) => {
     return query(
-        collection(db, "notes"),
+        collection(db, NOTE_COLLECTION),
         where("userId", "==", userId),
         orderBy("timestamp", "desc")
     );

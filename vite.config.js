@@ -5,15 +5,15 @@ import path from 'path'
 
 export default defineConfig({
   resolve: {
-    alias: {
-      '@components': path.resolve(__dirname, 'src/components'),
-      '@features': path.resolve(__dirname, 'src/features'),
-      '@store': path.resolve(__dirname, 'src/store'),
-      '@styles': path.resolve(__dirname, 'src/styles'),
-      '@assets': path.resolve(__dirname, 'src/assets'),
-      '@layout': path.resolve(__dirname, 'src/layout'),
-      '@baseUrl': path.resolve(__dirname, 'src/')
-    }
+      alias: {
+        '@components': path.resolve('src/components'),
+        '@features': path.resolve('src/features'),
+        '@store': path.resolve('src/store'),
+        '@styles': path.resolve('src/styles'),
+        '@assets': path.resolve('src/assets'),
+        '@layout': path.resolve('src/layout'),
+        '@baseUrl': path.resolve('src/')
+      }
   },
   plugins: [
     react(),

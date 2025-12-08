@@ -4,8 +4,8 @@ import 'drag-drop-touch';
 import 'dayjs/locale/uk';
 import { IntlProvider } from 'react-intl';
 import AuthenticatedApp from './pages/AuthenticatedApp/AuthenticatedApp';
-import Auth from './pages/Auth/Auth';
 import messages from './locale/messages.js';
+import Auth from './pages/Auth/Auth';
 import '@styles/global.scss';
 import styles from './App.module.scss';
 

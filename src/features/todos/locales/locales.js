@@ -8,6 +8,11 @@ const todos = {
         'todos.automove': 'Automove',
         'todos.createdAt': 'Created at: {date}',
         'todos.validation.titleMaxLength': 'Title cannot exceed {length} characters',
+        'googleCalendar.title': 'Google Calendar Events',
+        'googleCalendar.noEvents': 'No events for this day',
+        'googleCalendar.error': 'Unable to load calendar events',
+        'googleCalendar.apiNotEnabled': 'Google Calendar API is not enabled. Please enable it in Google Cloud Console.',
+        'googleCalendar.joinMeet': 'Join Meeting',
     },
     uk: {
         'todos.dueDate': 'Дата виконання',
@@ -18,6 +23,11 @@ const todos = {
         'todos.automove': 'Автоперенесення',
         'todos.createdAt': 'Створено: {date}',
         'todos.validation.titleMaxLength': 'Назва не може перевищувати {length} символів',
+        'googleCalendar.title': 'Події Google Календаря',
+        'googleCalendar.noEvents': 'Немає подій на цей день',
+        'googleCalendar.error': 'Не вдалося завантажити події календаря',
+        'googleCalendar.apiNotEnabled': 'Google Calendar API не активовано. Будь ласка, активуйте його в Google Cloud Console.',
+        'googleCalendar.joinMeet': 'Приєднатися до зустрічі',
     }
 };
 

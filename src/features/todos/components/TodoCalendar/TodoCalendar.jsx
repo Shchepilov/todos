@@ -3,12 +3,11 @@ import { useStore } from "@store/store";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import dayjs from 'dayjs';
 import Calendar from "react-calendar";
-import useTodos from "@features/todos/hooks/useTodos";
+import GoogleCalendar from "../GoogleCalendar/GoogleCalendar";
 import "react-calendar/dist/Calendar.css";
 import "./TodoCalendar.scss";
 
 const TodoCalendar = () => {
-    const { loading, error } = useTodos();
     const currentDay = useStore((state) => state.currentDay);
     const setCurrentDay = useStore((state) => state.setCurrentDay);
     const allTodos = useStore((state) => state.allTodos);
@@ -18,7 +17,7 @@ const TodoCalendar = () => {
 
     useEffect(() => {
         setCurrentDay(currentDate);
-    }, [currentDate]);
+    }, [currentDate, setCurrentDay]);
 
     const getTileClassName = ({ date, view }) => {
         if (view === 'month') {
@@ -39,16 +38,19 @@ const TodoCalendar = () => {
     };
 
     return (
-        <Calendar
-            value={currentDay}
-            onChange={handleDayClick}
-            tileClassName={getTileClassName}
-            next2Label={null}
-            prev2Label={null}
-            locale={locale}
-            prevLabel={<ChevronLeftIcon />}
-            nextLabel={<ChevronRightIcon />}
-        />
+        <>
+            <Calendar
+                value={currentDay}
+                onChange={handleDayClick}
+                tileClassName={getTileClassName}
+                next2Label={null}
+                prev2Label={null}
+                locale={locale}
+                prevLabel={<ChevronLeftIcon />}
+                nextLabel={<ChevronRightIcon />}
+            />
+            <GoogleCalendar /> 
+        </>
     );
 };
 

@@ -22,7 +22,12 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleAuthProvider = new GoogleAuthProvider();
 const githubAuthProvider = new GithubAuthProvider();
+
+// Додати необхідні scopes для Google Calendar
 googleAuthProvider.addScope('email');
+googleAuthProvider.addScope('profile');
+googleAuthProvider.addScope('https://www.googleapis.com/auth/calendar.readonly');
+
 githubAuthProvider.addScope('email');
 const db = getFirestore(app);
 

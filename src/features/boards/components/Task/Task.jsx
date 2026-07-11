@@ -10,10 +10,13 @@ import TaskActions from "@features/boards/components/Task/TaskActions";
 import TaskAssignment from "@features/boards/components/Task/TaskAssignment";
 import TaskEditForm from "@features/boards/components/Task/TaskEditForm";
 import { useDragAndDrop } from "@features/boards/hooks/useDragAndDrop";
+import { COLUMN_VIEW_MODE } from "@features/boards/utils/constants";
 import styles from './Task.module.scss';
 
 const Task = ({ task }) => {
     const columns = useStore((state) => state.columns);
+    const column = columns.find((col) => col.id === task.columnId);
+    const isCompact = column.viewMode === COLUMN_VIEW_MODE.COMPACT;
     const activeBoardId = useStore((state) => state.activeBoardId);
     const boards = useStore((state) => state.boards);
     const activeBoard = boards?.find(board => board.id === activeBoardId);
@@ -58,17 +61,19 @@ const Task = ({ task }) => {
 
             <span role="button" className={styles.title} onClick={handleTaskDetails}>{task.title}</span>
 
-            {(task.estimation && task.loggedTime) &&  (
+            {!isCompact && (task.estimation && task.loggedTime) &&  (
                 <ProgressBar estimation={task.estimation} loggedTime={task.loggedTime} />
             )}
-            
-            <TaskEditForm 
-                task={task}
-                columns={columns}
-                register={register}
-                className={styles.select}
-                activeBoard={activeBoard}
-            />
+
+            {!isCompact && (
+                <TaskEditForm
+                    task={task}
+                    columns={columns}
+                    register={register}
+                    className={styles.select}
+                    activeBoard={activeBoard}
+                />
+            )}
             
             <footer className={styles.footer}>
                 <TaskAssignment 

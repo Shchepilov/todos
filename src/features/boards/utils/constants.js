@@ -19,3 +19,8 @@ export const TASK_TYPES = [
 ];
 
 export const RETROSPECTIVE_TYPES = ['good', 'bad', 'suggestions'];
+
+export const COLUMN_VIEW_MODE = {
+    NORMAL: 'normal',
+    COMPACT: 'compact',
+};

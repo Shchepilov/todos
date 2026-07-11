@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useStore } from "@store/store";
-import { TrashIcon, PlusIcon, GearIcon, Pencil1Icon, ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
+import { TrashIcon, PlusIcon, GearIcon, Pencil1Icon, ArrowLeftIcon, ArrowRightIcon, HamburgerMenuIcon, RowsIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 import { useIntl, FormattedMessage } from 'react-intl';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
@@ -9,6 +9,7 @@ import Modal from "@components/Modal/Modal";
 import Button from '@components/Button/Button';
 import { deleteColumn, updateColumn } from '@features/boards/services/columnsQuery';
 import { updateTask } from '@features/boards/services/tasksQuery';
+import { COLUMN_VIEW_MODE } from "@features/boards/utils/constants";
 import TaskForm from "@features/boards/components/Task/TaskForm";
 import Tasks from "@features/boards/components/Tasks/Tasks";
 import styles from './Column.module.scss';
@@ -30,6 +31,14 @@ const Column = ({ column, boardId }) => {
 
     const isLastColumn = columns.findIndex(col => col.id === column.id) === columns.length - 1;
     const isFirstColumn = columns.findIndex(col => col.id === column.id) === 0;
+
+    const viewMode = column.viewMode || COLUMN_VIEW_MODE.NORMAL;
+
+    const handleToggleViewMode = () => {
+        const nextMode = viewMode === COLUMN_VIEW_MODE.COMPACT ? COLUMN_VIEW_MODE.NORMAL : COLUMN_VIEW_MODE.COMPACT;
+
+        updateColumn(column.id, { viewMode: nextMode });
+    };
 
     const handleMoveColumnRight = () => {
         const columnIndex = columns.findIndex(col => col.id === column.id);
@@ -107,6 +116,20 @@ const Column = ({ column, boardId }) => {
                                     <DropdownMenu.Item className={dropdown.item} onSelect={showColumnSettings}>
                                         <Pencil1Icon />
                                         <FormattedMessage id="column.edit" />
+                                    </DropdownMenu.Item>
+
+                                    <DropdownMenu.Item className={dropdown.item} onSelect={handleToggleViewMode}>
+                                        {viewMode === COLUMN_VIEW_MODE.COMPACT ? (
+                                            <>
+                                                <RowsIcon />
+                                                <FormattedMessage id="column.viewNormal" />
+                                            </>
+                                        ) : (
+                                            <>
+                                                <HamburgerMenuIcon />
+                                                <FormattedMessage id="column.viewCompact" />
+                                            </>
+                                        )}
                                     </DropdownMenu.Item>
 
                                     {!isFirstColumn && (

@@ -12,7 +12,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@baseUrl/firebase";
 
-import { COLUMNS_COLLECTION } from "@features/boards/utils/constants";
+import { COLUMNS_COLLECTION, COLUMN_VIEW_MODE } from "@features/boards/utils/constants";
 import { deleteAllColumnTasks } from "@features/boards/services/tasksQuery";
 
 export const columnsQuery = (boardId) => {
@@ -44,6 +44,7 @@ export const addColumn = async (boardId, name) => {
             name,
             boardId,
             order: nextOrder,
+            viewMode: COLUMN_VIEW_MODE.NORMAL,
             timestamp: serverTimestamp()
         });
     } catch (error) {

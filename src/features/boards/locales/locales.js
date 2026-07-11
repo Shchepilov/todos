@@ -7,6 +7,8 @@ const boards = {
         'column.moveRight': 'Move Right',
         'column.delete': 'Delete Column',
         'column.add': 'Add Column',
+        'column.viewCompact': 'Compact view',
+        'column.viewNormal': 'Normal view',
 
         // Boards
         'boards.addBoard': 'Add Board',
@@ -79,6 +81,8 @@ const boards = {
         'column.moveRight': 'Перемістити вправо',
         'column.delete': 'Видалити колонку',
         'column.add': 'Додати колонку',
+        'column.viewCompact': 'Компактний вигляд',
+        'column.viewNormal': 'Звичайний вигляд',
 
         // Boards
         'boards.addBoard': '+ Додати дошку',

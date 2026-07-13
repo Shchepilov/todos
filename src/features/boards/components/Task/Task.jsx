@@ -61,7 +61,7 @@ const Task = ({ task }) => {
 
             <span role="button" className={styles.title} onClick={handleTaskDetails}>{task.title}</span>
 
-            {!isCompact && (task.estimation && task.loggedTime) &&  (
+            {!isCompact && task.estimation && (
                 <ProgressBar estimation={task.estimation} loggedTime={task.loggedTime} />
             )}
 

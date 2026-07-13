@@ -29,7 +29,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    
     z-index: 6;
+
+    @include tablet-down {
+        align-items: flex-start;
+    }
 }
 
 .title {
@@ -46,7 +51,8 @@
     flex-direction: column;
     gap: 16px;
     height: fit-content;
-    max-height: 100dvh;
+    width: 100%;
+    max-height: 100svh;
     overflow-y: auto;
     background: var(--modal-bg);
     padding: 16px;

@@ -3,6 +3,8 @@ import duration from 'dayjs/plugin/duration';
 dayjs.extend(duration);
 
 export const parseTimeData = (str) => {
+    if (!str) return dayjs.duration(0);
+
     const parts = str.split(' ');
     let days = 0, hours = 0, minutes = 0;
     

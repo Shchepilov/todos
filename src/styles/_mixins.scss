@@ -76,6 +76,10 @@ $desktop-width: 1025px;
     &:disabled {
         opacity: 0.5;
     }
+
+    @include mobile-only {
+        font-size: rem(16);
+    }
 }
 
 @mixin placeholder {

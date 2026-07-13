@@ -160,7 +160,7 @@ const TaskDetail = () => {
             </Form.Root>
 
             <section className={styles.logSection}>
-                {(task.estimation && task.loggedTime) ? (
+                {task.estimation ? (
                     <ProgressBar estimation={task.estimation} loggedTime={task.loggedTime} />
                 ) : (task.loggedTime && (
                     <p className={styles.loggedTime}>

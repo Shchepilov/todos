@@ -46,8 +46,13 @@ const TaskForm = ({ columnId, boardId }) => {
         closeDialogRef.current?.click();
     }
 
+    const submitForm = (e) => {
+        const validateAndSubmit = handleSubmit(handleAddTask);
+        validateAndSubmit(e);
+    }
+
     return (
-        <Form.Root onSubmit={handleSubmit(handleAddTask)} className="form">
+        <Form.Root onSubmit={submitForm} className="form">
             <Field name="taskEstimation" label={intl.formatMessage({ id: 'boards.taskEstimation' })} errors={errors}>
                 <Input
                     register={register}
@@ -94,7 +99,7 @@ const TaskForm = ({ columnId, boardId }) => {
 
             {activeBoard.sprints && activeBoard.sprints.length > 0 && (
                 <Field name="taskSprint" label={intl.formatMessage({ id: 'boards.taskSprint' })} errors={errors}>
-                    <Select register={register} name="taskSprint" items={activeBoard.sprints} nameKey="name" valueKey="id">
+                    <Select register={register} name="taskSprint" items={activeBoard.sprints} nameKey="name" valueKey="id" defaultValue={activeBoard.activeSprint}>
                         <option value="">{intl.formatMessage({ id: 'boards.noSprint' })}</option>
                     </Select>
                 </Field>

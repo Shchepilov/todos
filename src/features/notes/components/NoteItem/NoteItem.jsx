@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect, memo } from "react";
+import { useState, useRef, useEffect, useCallback, memo } from "react";
+import dayjs from "dayjs";
 import { deleteNote, updateNote } from "@features/notes/services/notesQuery";
 import { TrashIcon, Pencil1Icon, PaperPlaneIcon, CheckIcon } from "@radix-ui/react-icons";
 import { useIntl, FormattedMessage } from 'react-intl';
@@ -13,43 +14,25 @@ import useNoteItem from "@features/notes/hooks/useNoteItem";
 
 const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
     const intl = useIntl();
-    const {noteItemLoading, noteItemError} = useNoteItem(note.id);
+    const { noteItemLoading } = useNoteItem(note.id);
     const [isEditMode, setEditMode] = useState(note.edit);
-    const [content, setContent] = useState(note.content);
+    const [content, setContent] = useState(note.content ?? "");
     const [selectedColor, setSelectedColor] = useState(note.color || COLOR_OPTIONS[0].value);
-    const [symbols, setSymbols] = useState(note.content ? note.content.length : 0);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const textAreaRef = useRef(null);
     const noteRef = useRef(null);
+    const noteCreatedDate = dayjs(note.timestamp.seconds * 1000).format("MMM D, YYYY");
 
-    useEffect(() => {
-        setContent(note.content);
-        setSelectedColor(selectedColor);
-        setSymbols(note.content ? note.content.length : 0);
+    const [prevNote, setPrevNote] = useState(note);
+
+    if (prevNote !== note) {
+        setPrevNote(note);
+        setContent(note.content ?? "");
+        setSelectedColor(note.color || COLOR_OPTIONS[0].value);
         setEditMode(note.edit);
-    }, [note]);
+    }
 
-    useEffect(() => {
-        if (textAreaRef.current) {
-            textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
-        }
-
-        if (!isEditMode) return;
-
-        function handleClickOutside(event) {
-            if (noteRef.current && !noteRef.current.contains(event.target)) {
-                handleUpdate();
-            }
-        }
-        
-        document.addEventListener("mousedown", handleClickOutside);
-        
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [isEditMode, content, selectedColor]);
-
-    const handleUpdate = () => {
+    const handleUpdate = useCallback(() => {
         setIsAnyNoteInEditMode(false);
 
         if (!content) {
@@ -62,31 +45,50 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
         if (content !== note.content || selectedColor !== note.color) {
             updateNote(note.id, { content, color: selectedColor, edit: false });
         }
-    };
+    }, [content, selectedColor, note, setIsAnyNoteInEditMode]);
+
+    useEffect(() => {
+        const textArea = textAreaRef.current;
+        if (textArea) {
+            textArea.style.height = "auto";
+            textArea.style.height = `${textArea.scrollHeight}px`;
+        }
+    }, [content]);
+
+    useEffect(() => {
+        if (!isEditMode) return;
+
+        const handleClickOutside = (event) => {
+            if (noteRef.current && !noteRef.current.contains(event.target)) {
+                handleUpdate();
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isEditMode, handleUpdate]);
 
     const handleChange = (e) => {
         if (e.target.value.length > MAX_NOTE_LENGTH) return;
-        setSymbols(e.target.value.length);
         setContent(e.target.value);
     };
 
     const handleEdit = () => {
         setEditMode(true);
         setIsAnyNoteInEditMode(true);
-        textAreaRef.current.focus();
 
-        if (textAreaRef.current) {
-            const length = textAreaRef.current.value.length;
-            textAreaRef.current.setSelectionRange(length, length);
+        const textArea = textAreaRef.current;
+        if (textArea) {
+            textArea.focus();
+            textArea.setSelectionRange(textArea.value.length, textArea.value.length);
         }
     };
 
     const handleDelete = () => {
         deleteNote(note.id);
-    };
-
-    const handleColorChange = (color) => {
-        setSelectedColor(color);
     };
 
     return (
@@ -121,9 +123,9 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
                                         id={`color-${color.id}`}
                                         className={styles.colorInput}
                                         checked={selectedColor === color.value}
-                                        onChange={() => handleColorChange(color.value)}
+                                        onChange={() => setSelectedColor(color.value)}
                                     />
-                                    <label 
+                                    <label
                                         htmlFor={`color-${color.id}`}
                                         className={styles.colorLabel}
                                         style={{ backgroundColor: color.value }}
@@ -141,7 +143,7 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
                 ) : (
                     <motion.div
                         key="view-mode"
-                        initial={{ opacity: 0 }} 
+                        initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.2 }}
                         className={styles.actions}>
@@ -165,20 +167,20 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
                 onChange={handleChange}
                 readOnly={!isEditMode}
                 autoFocus={isEditMode}
-                onFocus={(e) => e.preventDefault()}
             />
 
-            <div className={styles.footer}>
+            <footer className={styles.footer}>
+                <span>{noteCreatedDate}</span>
                 {isEditMode && (
-                    <motion.div 
-                        initial={{ opacity: 0 }} 
+                    <motion.div
+                        initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}>
-                            <FormattedMessage id="notes.characterCount" values={{ current: symbols, max: 400 }} />
+                            <FormattedMessage id="notes.characterCount" values={{ current: content.length, max: MAX_NOTE_LENGTH }} />
                     </motion.div>
                 )}
-            </div>
+            </footer>
 
             <Modal heading={intl.formatMessage({ id: 'notes.deleteNote' })} isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
                 <p><FormattedMessage id="notes.deleteConfirm" /></p>

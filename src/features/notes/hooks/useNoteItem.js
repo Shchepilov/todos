@@ -11,7 +11,7 @@ const useNoteItem = (id) => {
 
     useEffect(() => {
         if (noteItemSnapshot && noteItemSnapshot.exists()) {
-            const noteItem = { id: noteItemSnapshot.id, ...noteItemSnapshot.data() };
+            const noteItem = { id: noteItemSnapshot.id, ...noteItemSnapshot.data({ serverTimestamps: 'estimate' }) };
             updateNote(noteItem);
         }
     }, [noteItemSnapshot, updateNote]);

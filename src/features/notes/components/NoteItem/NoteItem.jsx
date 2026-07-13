@@ -14,14 +14,14 @@ import useNoteItem from "@features/notes/hooks/useNoteItem";
 
 const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
     const intl = useIntl();
-    const { noteItemLoading } = useNoteItem(note.id);
+    const { noteItemLoading, noteItemError } = useNoteItem(note.id);
     const [isEditMode, setEditMode] = useState(note.edit);
     const [content, setContent] = useState(note.content ?? "");
     const [selectedColor, setSelectedColor] = useState(note.color || COLOR_OPTIONS[0].value);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const textAreaRef = useRef(null);
     const noteRef = useRef(null);
-    const noteCreatedDate = dayjs(note.timestamp.seconds * 1000).format("MMM D, YYYY");
+    const noteCreatedDate = dayjs(note.timestamp?.seconds ? note.timestamp.seconds * 1000 : undefined).format("MMM D, YYYY");
 
     const [prevNote, setPrevNote] = useState(note);
 
@@ -102,6 +102,7 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
             style={{'--note-color': selectedColor }}
         >
             {noteItemLoading && <Loader className={styles.loader} />}
+            {noteItemError && <span className={styles.error}><FormattedMessage id="notes.loadError" /></span>}
 
             <div className={styles.header}>
                 <AnimatePresence mode="wait">

@@ -12,7 +12,7 @@ const useNotes = () => {
 
     useEffect(() => {
         if (notesSnapshot) {
-            const notes = notesSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            const notes = notesSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data({ serverTimestamps: 'estimate' }) }));
             setAllNotes(notes);
         }
     }, [notesSnapshot]);

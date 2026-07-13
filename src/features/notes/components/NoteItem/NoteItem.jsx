@@ -21,7 +21,7 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const textAreaRef = useRef(null);
     const noteRef = useRef(null);
-    const noteCreatedDate = dayjs(note.timestamp?.seconds ? note.timestamp.seconds * 1000 : undefined).format("MMM D, YYYY");
+    const noteCreatedDate = note.timestamp?.seconds ? dayjs(note.timestamp.seconds * 1000).format("MMM D, YYYY") : null;
 
     const [prevNote, setPrevNote] = useState(note);
 
@@ -171,7 +171,8 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
             />
 
             <footer className={styles.footer}>
-                <span>{noteCreatedDate}</span>
+                {noteCreatedDate && <span>{noteCreatedDate}</span>}
+
                 {isEditMode && (
                     <motion.div
                         initial={{ opacity: 0 }}

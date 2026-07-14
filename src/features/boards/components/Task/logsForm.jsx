@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { useIntl } from 'react-intl';
 import Input from "@components/Input/Input";
 import Field from "@components/Field/Field";
-import { addLoggedTime } from "@features/boards/utils/helpers";
+import { addLoggedTime, generateId } from "@features/boards/utils/helpers";
 import { updateTask } from '@features/boards/services/tasksQuery';
 import Button from '@components/Button/Button';
 import Row from "@components/Row/Row";
@@ -28,7 +28,7 @@ const LogsForm = ({ task, userName, loggedTime }) => {
             workLogsList: [
                 ...task.workLogsList,
                 {
-                    id: Date.now(),
+                    id: generateId(),
                     date: logDate,
                     time: logTime,
                     name: userName,

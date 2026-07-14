@@ -22,7 +22,7 @@ const Boards = () => {
     const location = useLocation();
     const boards = useStore((state) => state.boards);
 
-    const { loading, error, watchLoading, watchError } = useBoards();
+    useBoards();
 
     const showBoardForm = () => setBoardFormModal(true);
 
@@ -73,7 +73,7 @@ const Boards = () => {
         if (currentBoardId && boards.some(board => board.id === currentBoardId) && activeBoardId !== currentBoardId) {
             setActiveBoardId(currentBoardId);
         }
-    }, [location, boards]);
+    }, [location, boards, activeBoardId, setActiveBoardId]);
 
     return (  
         <div className={styles.layout}>
@@ -109,7 +109,7 @@ const Boards = () => {
             </Routes>
 
             <Modal heading={intl.formatMessage({ id: "boards.addBoard" })} isDialogOpen={boardFormModal} setIsDialogOpen={setBoardFormModal}>
-                <BoardForm />
+                <BoardForm onClose={() => setBoardFormModal(false)} />
             </Modal>
         </div>
     );

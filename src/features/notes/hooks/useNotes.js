@@ -15,7 +15,7 @@ const useNotes = () => {
             const notes = notesSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data({ serverTimestamps: 'estimate' }) }));
             setAllNotes(notes);
         }
-    }, [notesSnapshot]);
+    }, [notesSnapshot, setAllNotes]);
 
     return { loading, error };
 }

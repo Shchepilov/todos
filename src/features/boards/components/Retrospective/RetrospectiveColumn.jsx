@@ -9,6 +9,7 @@ import Button from '@components/Button/Button';
 import styles from './Retrospective.module.scss';
 import Row from "@components/Row/Row";
 import { updateBoard } from '@features/boards/services/boardsQuery';
+import { generateId } from '@features/boards/utils/helpers';
 
 const RetrospectiveColumn = ({ type }) => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -32,7 +33,7 @@ const RetrospectiveColumn = ({ type }) => {
                             [type]: [
                                 ...(sprint.retrospective?.[type] || []),
                                 { 
-                                    id: Date.now(), 
+                                    id: generateId(),
                                     message, 
                                     author: userEmail,
                                     voteList: []

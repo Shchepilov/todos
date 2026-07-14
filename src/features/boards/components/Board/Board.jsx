@@ -6,6 +6,7 @@ import { useStore } from "@store/store";
 import Button from '@components/Button/Button';
 import Select from '@components/Select/Select';
 import Modal from "@components/Modal/Modal";
+import ConfirmationModal from "@components/ConfirmationModal/ConfirmationModal";
 import ColumnForm from '@features/boards/components/Column/ColumnForm';
 import Columns from '@features/boards/components/Columns/Columns';
 import TaskDetail from '@features/boards/components/Task/TaskDetail';
@@ -25,20 +26,21 @@ const Board = () => {
     const [columnFormModal, setColumnFormModal] = useState(false);
     const [boardSettingsModal, setBoardSettingsModal] = useState(false);
     const [retrospectiveModal, setRetrospectiveModal] = useState(false);
+    const [leaveBoardConfirmModal, setLeaveBoardConfirmModal] = useState(false);
     const { boardId } = useParams();
     const board = boards.find(board => board.id === boardId);
     const navigate = useNavigate();
 
     const isBoardHasTasks = useStore((state) => state.tasks);
 
-    const { columnsLoading, columnsError, tasksLoading, tasksError } = useBoardData(boardId);
+    const { columnsLoading } = useBoardData(boardId);
 
     useEffect(() => {
         if (!board) {
             setActiveBoardId(null);
             navigate('/boards');
         }
-    }, [board]);
+    }, [board, navigate, setActiveBoardId]);
     
     if (!board) return;
 
@@ -72,7 +74,7 @@ const Board = () => {
                     <h2 className={styles.title}>{board.name}</h2>
 
                     {board.isWatcher ? (
-                        <Button variation="transparent" className={styles.leaveBoardButton} onClick={handleLeaveBoard}>
+                        <Button variation="transparent" className={styles.leaveBoardButton} onClick={() => setLeaveBoardConfirmModal(true)}>
                             <FormattedMessage id="boards.leaveBoard" />
                         </Button>
                     ) : (
@@ -116,12 +118,21 @@ const Board = () => {
             </Modal>
             
             <Modal heading={intl.formatMessage({ id: 'column.add' })} isDialogOpen={columnFormModal} setIsDialogOpen={setColumnFormModal}>
-                <ColumnForm boardId={boardId} />
+                <ColumnForm boardId={boardId} onClose={() => setColumnFormModal(false)} />
             </Modal>
 
             <Modal heading={intl.formatMessage({ id: 'common.settings' })} size='medium' isDialogOpen={boardSettingsModal} setIsDialogOpen={setBoardSettingsModal}>
-                <BoardSettings board={board} />
+                <BoardSettings board={board} onClose={() => setBoardSettingsModal(false)} />
             </Modal>
+
+            <ConfirmationModal
+                heading={intl.formatMessage({ id: 'boards.leaveBoard' })}
+                message={<FormattedMessage id="boards.leaveBoardConfirm" />}
+                isDialogOpen={leaveBoardConfirmModal}
+                setIsDialogOpen={setLeaveBoardConfirmModal}
+                onConfirm={handleLeaveBoard}
+                confirmLabel={<FormattedMessage id="boards.leaveBoard" />}
+            />
 
             {columns.length === 0 ? (
                 <div className={styles.noColumns}>

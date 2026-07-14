@@ -87,3 +87,5 @@ export const addLoggedTime = (loggedTime, newLoggedTime) => {
     
     return result.join(' ');
 };
+
+export const generateId = () => crypto.randomUUID();

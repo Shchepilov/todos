@@ -6,6 +6,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import dropdown from '@components/Dropdown/Dropdown.module.scss';
 import Modal from "@components/Modal/Modal";
+import ConfirmationModal from "@components/ConfirmationModal/ConfirmationModal";
 import Button from '@components/Button/Button';
 import { deleteColumn, updateColumn } from '@features/boards/services/columnsQuery';
 import { updateTask } from '@features/boards/services/tasksQuery';
@@ -22,6 +23,7 @@ const Column = ({ column, boardId }) => {
     const [isDragOver, setIsDragOver] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [columnSettingsModal, setColumnSettingsModal] = useState(false);
+    const [deleteConfirmModal, setDeleteConfirmModal] = useState(false);
     const boards = useStore((state) => state.boards);
     const columns = useStore((state) => state.columns);
 
@@ -146,7 +148,7 @@ const Column = ({ column, boardId }) => {
                                         </DropdownMenu.Item>
                                     )}
                                     
-                                    <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={handleDeleteColumn}>
+                                    <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={() => setDeleteConfirmModal(true)}>
                                         <TrashIcon />
                                         <FormattedMessage id="column.delete" />
                                     </DropdownMenu.Item>
@@ -162,12 +164,20 @@ const Column = ({ column, boardId }) => {
             </div>
 
             <Modal heading={intl.formatMessage({ id: 'boards.addTask' })} isDialogOpen={taskFormModal} setIsDialogOpen={setTaskFormModal}>
-                <TaskForm columnId={column.id} boardId={boardId} />
+                <TaskForm columnId={column.id} boardId={boardId} onClose={() => setTaskFormModal(false)} />
             </Modal>
 
             <Modal heading={intl.formatMessage({ id: 'column.settings' })} isDialogOpen={columnSettingsModal} setIsDialogOpen={setColumnSettingsModal}>
-                <ColumnSettings column={column} />
+                <ColumnSettings column={column} onClose={() => setColumnSettingsModal(false)} />
             </Modal>
+
+            <ConfirmationModal
+                heading={intl.formatMessage({ id: 'column.delete' })}
+                message={<FormattedMessage id="column.deleteConfirm" />}
+                isDialogOpen={deleteConfirmModal}
+                setIsDialogOpen={setDeleteConfirmModal}
+                onConfirm={handleDeleteColumn}
+            />
 
             <Tasks columnId={column.id} />
         </motion.div>

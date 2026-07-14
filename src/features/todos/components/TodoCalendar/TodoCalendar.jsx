@@ -8,7 +8,7 @@ import "react-calendar/dist/Calendar.css";
 import "./TodoCalendar.scss";
 
 const TodoCalendar = () => {
-    const { loading, error } = useTodos();
+    useTodos();
     const currentDay = useStore((state) => state.currentDay);
     const setCurrentDay = useStore((state) => state.setCurrentDay);
     const allTodos = useStore((state) => state.allTodos);
@@ -18,7 +18,7 @@ const TodoCalendar = () => {
 
     useEffect(() => {
         setCurrentDay(currentDate);
-    }, [currentDate]);
+    }, [currentDate, setCurrentDay]);
 
     const getTileClassName = ({ date, view }) => {
         if (view === 'month') {

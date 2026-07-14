@@ -8,7 +8,6 @@ import {
     deleteDoc,
     doc,
     serverTimestamp,
-    increment,
 } from "firebase/firestore";
 import { db } from "@baseUrl/firebase";
 

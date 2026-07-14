@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useStore } from "@store/store";
 import { useCollection } from 'react-firebase-hooks/firestore'
-
 import { boardsQuery, watchBoardsQuery } from "@features/boards/services/boardsQuery";
 
 const useBoards = (options) => {
@@ -21,7 +20,7 @@ const useBoards = (options) => {
         const watchBoards = boardsWatchSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), isWatcher: true }));
         const allBoards = [...boards, ...watchBoards];
         setBoards(allBoards);
-    }, [boardsSnapshot, boardsWatchSnapshot]);
+    }, [boardsSnapshot, boardsWatchSnapshot, setBoards]);
 
     return { loading, error, watchLoading, watchError };
 }

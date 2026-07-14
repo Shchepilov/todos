@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useStore } from "@store/store";
 import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form"
@@ -6,6 +7,7 @@ import { ReaderIcon, TrashIcon } from "@radix-ui/react-icons";
 import TaskCopyMenu from "./TaskCopyMenu";
 import { useIntl, FormattedMessage } from 'react-intl';
 import Modal from "@components/Modal/Modal";
+import ConfirmationModal from "@components/ConfirmationModal/ConfirmationModal";
 import Input from "@components/Input/Input";
 import Select from "@components/Select/Select";
 import Field from "@components/Field/Field";
@@ -33,7 +35,8 @@ const TaskDetail = () => {
     const userName = activeBoard.watchersData.find(watcher => watcher.watcherEmail === userEmail)?.watcherName || ownerName;
 
     const { register, handleSubmit, formState: { errors } } = useForm();
-    
+    const [deleteConfirmModal, setDeleteConfirmModal] = useState(false);
+
     const closeModal = () => {
         navigate(`/boards/${boardId}`);
     };
@@ -173,16 +176,24 @@ const TaskDetail = () => {
 
             <Row justify="between" > 
                 {!isWatcher && (
-                    <Button type="button" variation="confirmation" onClick={handleDeleteTask}>
-                        <TrashIcon width={18} height={18} /> 
+                    <Button type="button" variation="confirmation" onClick={() => setDeleteConfirmModal(true)}>
+                        <TrashIcon width={18} height={18} />
                         <FormattedMessage id="common.delete" />
                     </Button>
                 )}
                 <Button type="submit" form="taskDetailForm">
-                   <ReaderIcon /> 
+                   <ReaderIcon />
                    <FormattedMessage id="common.save" />
                 </Button>
             </Row>
+
+            <ConfirmationModal
+                heading={intl.formatMessage({ id: 'boards.deleteTask' })}
+                message={<FormattedMessage id="boards.deleteTaskConfirm" />}
+                isDialogOpen={deleteConfirmModal}
+                setIsDialogOpen={setDeleteConfirmModal}
+                onConfirm={handleDeleteTask}
+            />
         </Modal>
     );
 };

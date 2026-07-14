@@ -19,15 +19,15 @@ const useBoardData = (boardId) => {
         if (!columnsSnapshot) return;
         const columns = columnsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setColumns(columns);
-        
-    }, [columnsSnapshot, boardId]);
+
+    }, [columnsSnapshot, boardId, setColumns]);
 
     useEffect(() => {
         if (!tasksSnapshot) return;
         const tasks = tasksSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setTasks(tasks);
-        
-    }, [tasksSnapshot, boardId]);
+
+    }, [tasksSnapshot, boardId, setTasks]);
 
     return { columnsLoading, columnsError, tasksLoading, tasksError };
 }

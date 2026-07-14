@@ -21,6 +21,10 @@
     background: rgba(0, 0, 0, 0.5);
     animation: overlayShow 0.2s ease;
     z-index: 5;
+
+    ~ .backdrop {
+        z-index: 6;
+    }
 }
 
 .wrapper {

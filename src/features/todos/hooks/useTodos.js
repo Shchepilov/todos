@@ -30,7 +30,7 @@ const useTodos = () => {
             setTodos(dayTodosSorted);
             setAllTodos(allTodos);
         }
-    }, [allTodosSnapshot, currentDay]);
+    }, [allTodosSnapshot, date, setTodos, setAllTodos]);
 
     return { loading, error };
 }

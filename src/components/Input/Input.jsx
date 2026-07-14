@@ -1,6 +1,6 @@
 import styles from './Input.module.scss';
 
-const Input = ({ register, type, value, name, placeholder, autoFocus, className, errors, defaultValue, ...registerOptions }) => {
+const Input = ({ register, type, name, placeholder, autoFocus, className, errors, defaultValue, ...registerOptions }) => {
     return (
         <input
             {...register(name, registerOptions)}

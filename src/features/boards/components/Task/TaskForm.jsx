@@ -1,7 +1,5 @@
-import { useRef } from "react";
 import { useForm } from "react-hook-form"
 import { useStore } from "@store/store";
-import * as Dialog from '@radix-ui/react-dialog';
 import * as Form from '@radix-ui/react-form';
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useIntl, FormattedMessage } from 'react-intl';
@@ -13,16 +11,13 @@ import Row from "@components/Row/Row";
 import { addTask } from "@features/boards/services/tasksQuery";
 import { TASK_STATUS, TASK_TYPES } from "@features/boards/utils/constants";
 
-const TaskForm = ({ columnId, boardId }) => {
+const TaskForm = ({ columnId, boardId, onClose }) => {
     const intl = useIntl();
     const columns = useStore((state) => state.columns);
     const boards = useStore((state) => state.boards);
     const activeBoard = boards?.find(board => board.id === boardId);
     const ownerName = activeBoard.owner.name;
-    const closeDialogRef = useRef(null);
     const { register, handleSubmit, formState: { errors } } = useForm();
-
-    const closeDialog = () => closeDialogRef.current?.click();
 
     const handleAddTask = (data) => {
         const { taskTitle, taskType, taskPriority, columnId, taskAssignee, taskDescription, taskEstimation, taskSprint } = data;
@@ -42,17 +37,12 @@ const TaskForm = ({ columnId, boardId }) => {
                 sprint: taskSprint || null
             }
         );
-        
-        closeDialogRef.current?.click();
-    }
 
-    const submitForm = (e) => {
-        const validateAndSubmit = handleSubmit(handleAddTask);
-        validateAndSubmit(e);
+        onClose();
     }
 
     return (
-        <Form.Root onSubmit={submitForm} className="form">
+        <Form.Root onSubmit={handleSubmit(handleAddTask)} className="form">
             <Field name="taskEstimation" label={intl.formatMessage({ id: 'boards.taskEstimation' })} errors={errors}>
                 <Input
                     register={register}
@@ -127,7 +117,7 @@ const TaskForm = ({ columnId, boardId }) => {
             </Field>
 
             <Row equal>
-                <Button type="button" variation="secondary" onClick={closeDialog}>
+                <Button type="button" variation="secondary" onClick={onClose}>
                     <FormattedMessage id="common.cancel" />
                 </Button>
                 <Button type="submit">
@@ -135,8 +125,6 @@ const TaskForm = ({ columnId, boardId }) => {
                     <FormattedMessage id="boards.addTask" />
                 </Button>
             </Row>
-
-            <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>
         </Form.Root>
     );
 };

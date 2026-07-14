@@ -1,7 +1,5 @@
-import { useRef } from "react";
 import { useStore } from "@store/store";
 import { useNavigate } from "react-router-dom";
-import * as Dialog from '@radix-ui/react-dialog';
 import * as Form from '@radix-ui/react-form';
 import { useForm } from "react-hook-form"
 import { PlusIcon } from "@radix-ui/react-icons";
@@ -13,16 +11,13 @@ import { addBoard } from "@features/boards/services/boardsQuery";
 import styles from './Boards.module.scss';
 import { useIntl, FormattedMessage } from 'react-intl';
 
-const BoardForm = () => {
+const BoardForm = ({ onClose }) => {
     const { register, handleSubmit, formState: { errors }, } = useForm();
 
     const intl = useIntl();
     const user = useStore((state) => state.user);
-    const closeDialogRef = useRef(null);
-    
-    const navigate = useNavigate();
 
-    const closeDialog = () => closeDialogRef.current?.click();
+    const navigate = useNavigate();
 
     const handleAddBoard = async (data) => {
         const { boardName, boardPrefix } = data;
@@ -37,7 +32,7 @@ const BoardForm = () => {
             }
         );
 
-        closeDialog();
+        onClose();
 
         if (newBoardId) {
             navigate(`/boards/${newBoardId}`);
@@ -88,17 +83,15 @@ const BoardForm = () => {
             </Row>
 
             <Row equal>
-                <Button type="button" variation="secondary" onClick={closeDialog}>
+                <Button type="button" variation="secondary" onClick={onClose}>
                     <FormattedMessage id="common.cancel" />
                 </Button>
-                
+
                 <Button type="submit">
                     <PlusIcon/>
                     <FormattedMessage id="common.add" />
                 </Button>
             </Row>
-
-            <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>
         </Form.Root>
      );
 }

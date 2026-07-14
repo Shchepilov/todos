@@ -5,8 +5,7 @@ import { TrashIcon, Pencil1Icon, PaperPlaneIcon, CheckIcon } from "@radix-ui/rea
 import { useIntl, FormattedMessage } from 'react-intl';
 import Button from "@components/Button/Button";
 import Loader from "@components/Loader/Loader";
-import Modal from "@components/Modal/Modal";
-import Row from "@components/Row/Row";
+import ConfirmationModal from "@components/ConfirmationModal/ConfirmationModal";
 import { COLOR_OPTIONS, MAX_NOTE_LENGTH } from "@features/notes/utils/constants";
 import { AnimatePresence, motion } from "framer-motion";
 import styles from "./NoteItem.module.scss";
@@ -184,17 +183,13 @@ const NoteItem = ({ note, setIsAnyNoteInEditMode }) => {
                 )}
             </footer>
 
-            <Modal heading={intl.formatMessage({ id: 'notes.deleteNote' })} isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
-                <p><FormattedMessage id="notes.deleteConfirm" /></p>
-                <Row equal>
-                    <Button variation="secondary" onClick={() => setIsDialogOpen(false)}>
-                        <FormattedMessage id="common.cancel" />
-                    </Button>
-                    <Button onClick={handleDelete}>
-                        <FormattedMessage id="common.delete" />
-                    </Button>
-                </Row>
-            </Modal>
+            <ConfirmationModal
+                heading={intl.formatMessage({ id: 'notes.deleteNote' })}
+                message={<FormattedMessage id="notes.deleteConfirm" />}
+                isDialogOpen={isDialogOpen}
+                setIsDialogOpen={setIsDialogOpen}
+                onConfirm={handleDelete}
+            />
         </motion.li>
     );
 };

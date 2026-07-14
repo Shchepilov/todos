@@ -13,7 +13,7 @@ import styles from "./TodoList.module.scss";
 
 const TodoList = () => {
     const intl = useIntl();
-    const { loading, error } = useTodos();
+    const { loading } = useTodos();
     const todos = useStore((state) => state.todos);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -47,7 +47,7 @@ const TodoList = () => {
             )}
 
             <Modal heading={intl.formatMessage({ id: 'todos.addTodo' })} isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
-                <TodoForm />
+                <TodoForm onClose={() => setIsDialogOpen(false)} />
             </Modal>
         </div>
     );

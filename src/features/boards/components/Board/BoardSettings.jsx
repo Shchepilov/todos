@@ -1,8 +1,7 @@
-import { useRef } from 'react';
+import { useState } from 'react';
 import { useStore } from "@store/store";
 import { useNavigate } from 'react-router-dom';
 import { TrashIcon, PlusIcon, CrossCircledIcon } from "@radix-ui/react-icons";
-import * as Dialog from '@radix-ui/react-dialog';
 import * as Form from '@radix-ui/react-form';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -10,20 +9,20 @@ import Input from "@components/Input/Input";
 import Field from "@components/Field/Field";
 import Button from '@components/Button/Button';
 import Row from "@components/Row/Row";
+import ConfirmationModal from "@components/ConfirmationModal/ConfirmationModal";
 import styles from './Board.module.scss';
 import { deleteBoard, updateBoard } from '@features/boards/services/boardsQuery';
 
-const BoardSettings = ({board}) => {
+const BoardSettings = ({board, onClose}) => {
     const intl = useIntl();
     const setActiveBoardId = useStore((state) => state.setActiveBoardId);
-    const closeDialogRef = useRef(null);
     const navigate = useNavigate();
+    const [isDeleteBoardConfirmOpen, setDeleteBoardConfirmOpen] = useState(false);
+    const [watcherToRemove, setWatcherToRemove] = useState(null);
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { register: registerWatcher, handleSubmit: handleSubmitWatcher, formState: { errors: watcherErrors }, reset: resetWatcher } = useForm();
     const { register: registerSprint, handleSubmit: handleSubmitSprint, formState: { errors: sprintErrors }, reset: resetSprint } = useForm();
-
-    const closeDialog = () => closeDialogRef.current?.click();
 
     const handleDeleteBoard = async () => {
         await deleteBoard(board.id);
@@ -35,7 +34,7 @@ const BoardSettings = ({board}) => {
         const { boardName, ownerName } = data;
 
         updateBoard(board.id, { name: boardName, owner: { name: ownerName, email: board.owner.email } });
-        closeDialog();
+        onClose();
     };
 
     const handleAddWatcher = (data) => {
@@ -154,7 +153,7 @@ const BoardSettings = ({board}) => {
                             {board.watchersData.map((user) => (
                                 <li key={user.watcherEmail}>
                                     <span>{user.watcherEmail} - {user.watcherName}</span>
-                                    <Button type="button" variation="transparent" onClick={() => handleRemoveWatcher(user.watcherEmail)}>
+                                    <Button type="button" variation="transparent" onClick={() => setWatcherToRemove(user.watcherEmail)}>
                                         <CrossCircledIcon />
                                     </Button>
                                 </li>
@@ -237,13 +236,28 @@ const BoardSettings = ({board}) => {
             </div>
 
             <div className={styles.buttonGroup}>
-                <Button variation="confirmation" type="button" className={styles.removeBoardButton} onClick={handleDeleteBoard}>
+                <Button variation="confirmation" type="button" className={styles.removeBoardButton} onClick={() => setDeleteBoardConfirmOpen(true)}>
                     <TrashIcon width={18} height={18} /> {intl.formatMessage({ id: 'boards.deleteBoard' })}
                 </Button>
-                <Button type="button" variation="secondary" onClick={closeDialog}>{intl.formatMessage({ id: 'common.cancel' })}</Button>
+                <Button type="button" variation="secondary" onClick={onClose}>{intl.formatMessage({ id: 'common.cancel' })}</Button>
                 <Button type="submit" form="boardSettingForm">{intl.formatMessage({ id: 'common.save' })}</Button>
-                <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>
             </div>
+
+            <ConfirmationModal
+                heading={intl.formatMessage({ id: 'boards.deleteBoard' })}
+                message={<FormattedMessage id="boards.deleteBoardConfirm" />}
+                isDialogOpen={isDeleteBoardConfirmOpen}
+                setIsDialogOpen={setDeleteBoardConfirmOpen}
+                onConfirm={handleDeleteBoard}
+            />
+
+            <ConfirmationModal
+                heading={intl.formatMessage({ id: 'boards.removeWatcher' })}
+                message={<FormattedMessage id="boards.removeWatcherConfirm" values={{ email: watcherToRemove }} />}
+                isDialogOpen={Boolean(watcherToRemove)}
+                setIsDialogOpen={(open) => { if (!open) setWatcherToRemove(null); }}
+                onConfirm={() => handleRemoveWatcher(watcherToRemove)}
+            />
         </>
     );
 }

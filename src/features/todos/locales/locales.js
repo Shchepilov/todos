@@ -7,6 +7,8 @@ const todos = {
         'todos.moveToNextDay': 'Move to next day',
         'todos.automove': 'Automove',
         'todos.createdAt': 'Created at: {date}',
+        'todos.deleteTodo': 'Delete Todo',
+        'todos.deleteTodoConfirm': 'Do you really want to delete this todo?',
         'todos.validation.titleMaxLength': 'Title cannot exceed {length} characters',
     },
     uk: {
@@ -17,6 +19,8 @@ const todos = {
         'todos.moveToNextDay': 'Перенести на наступний день',
         'todos.automove': 'Автоперенесення',
         'todos.createdAt': 'Створено: {date}',
+        'todos.deleteTodo': 'Видалити справу',
+        'todos.deleteTodoConfirm': 'Ви дійсно хочете видалити цю справу?',
         'todos.validation.titleMaxLength': 'Назва не може перевищувати {length} символів',
     }
 };

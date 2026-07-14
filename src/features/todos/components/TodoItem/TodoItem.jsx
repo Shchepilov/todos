@@ -5,6 +5,7 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { useIntl, FormattedMessage } from 'react-intl';
 import EditForm from "./EditForm";
 import Modal from "@components/Modal/Modal";
+import ConfirmationModal from "@components/ConfirmationModal/ConfirmationModal";
 import styles from "./TodoItem.module.scss";
 import dropdown from '@components/Dropdown/Dropdown.module.scss';
 import Checkbox from "@components/Checkbox/Checkbox";
@@ -16,6 +17,7 @@ const TodoItem = ({ todo }) => {
     const intl = useIntl();
     const [isLoading, setIsLoading] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
     const currentDay = useStore((state) => state.currentDay);
     const day = dayjs(currentDay).format("YYYY-MM-DD");
     const isOverdue = dayjs(todo.dueDate).isBefore(dayjs(day));
@@ -104,7 +106,7 @@ const TodoItem = ({ todo }) => {
                             <CalendarIcon /> <FormattedMessage id="todos.moveToNextDay" />
                         </DropdownMenu.Item>
 
-                        <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={handleDeleteTodo}>
+                        <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={() => setIsDeleteConfirmOpen(true)}>
                             <TrashIcon /> <FormattedMessage id="common.delete" />
                         </DropdownMenu.Item>
                     </DropdownMenu.Content>
@@ -112,8 +114,16 @@ const TodoItem = ({ todo }) => {
             </DropdownMenu.Root>
 
             <Modal heading={intl.formatMessage({ id: 'todos.editTodo' })} isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen}>
-                <EditForm todo={todo} />
+                <EditForm todo={todo} onClose={() => setIsDialogOpen(false)} />
             </Modal>
+
+            <ConfirmationModal
+                heading={intl.formatMessage({ id: 'todos.deleteTodo' })}
+                message={<FormattedMessage id="todos.deleteTodoConfirm" />}
+                isDialogOpen={isDeleteConfirmOpen}
+                setIsDialogOpen={setIsDeleteConfirmOpen}
+                onConfirm={handleDeleteTodo}
+            />
         </motion.li>
     );
 };

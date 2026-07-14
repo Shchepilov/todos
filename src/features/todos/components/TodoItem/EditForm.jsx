@@ -1,5 +1,4 @@
-import { useState, useRef } from "react";
-import { Dialog } from "radix-ui";
+import { useState } from "react";
 import { useForm } from "react-hook-form"
 import * as Form from '@radix-ui/react-form';
 import { useIntl, FormattedMessage } from 'react-intl';
@@ -15,7 +14,7 @@ import { updateTodo } from "@features/todos/services/todosQuery";
 import { PRIORITY_OPTIONS } from "@features/todos/utils/constants";
 import styles from "./TodoItem.module.scss";
 
-const EditForm = ({ todo }) => {
+const EditForm = ({ todo, onClose }) => {
     const intl = useIntl();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { content, priority, id, date, dueDate, autoMove } = todo;
@@ -24,12 +23,9 @@ const EditForm = ({ todo }) => {
     const currentDate = dayjs(currentDay).format("YYYY-MM-DD");
     const [isDueDate, setIsDueDate] = useState(!!dueDate);
     const [newAutoMove, setNewAutoMove] = useState(autoMove);
-           
-    const closeDialogRef = useRef(null);
 
     const handleIsDueDate = (e) => setIsDueDate(e.target.checked);
     const handleChangeAutoMove = (e) => setNewAutoMove(e.target.checked);
-    const handleCloseForm = () => closeDialogRef.current?.click()
 
     const handleUpdateTodo = async (data) => {
         const { todoTitle, todoPriority, todoDueDate, todoDate } = data;
@@ -43,7 +39,7 @@ const EditForm = ({ todo }) => {
             autoMove: newAutoMove
         });
 
-        handleCloseForm();
+        onClose();
     };
 
     return (
@@ -104,15 +100,13 @@ const EditForm = ({ todo }) => {
             <Checkbox type="checkbox" checked={newAutoMove} label={intl.formatMessage({ id: 'todos.autoMove' })} onChange={handleChangeAutoMove} />
 
             <Row equal>
-                <Button variation="secondary" onClick={handleCloseForm}>
+                <Button variation="secondary" onClick={onClose}>
                     <FormattedMessage id="common.cancel" />
                 </Button>
                 <Button type="submit">
                     <FormattedMessage id="common.save" />
                 </Button>
             </Row>
-
-            <Dialog.Close ref={closeDialogRef} hidden></Dialog.Close>
         </Form.Root>
     );
 };

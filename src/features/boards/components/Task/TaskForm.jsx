@@ -43,23 +43,6 @@ const TaskForm = ({ columnId, boardId, onClose }) => {
 
     return (
         <Form.Root onSubmit={handleSubmit(handleAddTask)} className="form">
-            <Field name="taskEstimation" label={intl.formatMessage({ id: 'boards.taskEstimation' })} errors={errors}>
-                <Input
-                    register={register}
-                    name="taskEstimation"
-                    placeholder="0d 0h 0m"
-                    errors={errors}
-                    pattern={{
-                        value: /^(\d+d\s?)?(\d+h\s?)?(\d+m)?$/,
-                        message: intl.formatMessage({ id: 'boards.validation.estimationFormat' })
-                    }}
-                    maxLength={{
-                        value: 15,
-                        message: intl.formatMessage({ id: 'boards.validation.estimationMaxLength' }, { length: 15 })
-                    }}
-                />
-            </Field>
-
             <Field name="taskType" label={intl.formatMessage({ id: 'boards.taskType' })} errors={errors}>
                 <Select register={register} name="taskType" items={TASK_TYPES} defaultValue={TASK_TYPES[0].value} />
             </Field>
@@ -95,14 +78,12 @@ const TaskForm = ({ columnId, boardId, onClose }) => {
                 </Field>
             )}
 
-            {activeBoard.watchersData && activeBoard.watchersData.length > 0 && (
-                <Field name="taskAssignee" label={intl.formatMessage({ id: 'boards.taskAssignee' })} errors={errors}>
-                    <Select register={register} name="taskAssignee" items={activeBoard.watchersData} nameKey="watcherName" valueKey="watcherName" defaultValue="unassigned">
-                        <option value="unassigned"><FormattedMessage id="boards.unassigned" /></option>
-                        <option value={ownerName}>{ownerName}</option>
-                    </Select>
-                </Field>
-            )}
+            <Field name="taskAssignee" label={intl.formatMessage({ id: 'boards.taskAssignee' })} errors={errors}>
+                <Select register={register} name="taskAssignee" items={activeBoard.watchersData} nameKey="watcherName" valueKey="watcherName" defaultValue="unassigned">
+                    <option value="unassigned"><FormattedMessage id="boards.unassigned" /></option>
+                    <option value={ownerName}>{ownerName}</option>
+                </Select>
+            </Field>            
 
             <Field name="taskDescription" label={intl.formatMessage({ id: 'boards.taskDescription' })} errors={errors}>
                 <textarea 
@@ -114,6 +95,23 @@ const TaskForm = ({ columnId, boardId, onClose }) => {
                         }})
                     }
                     placeholder={intl.formatMessage({ id: 'boards.taskDescription' })} />
+            </Field>
+
+            <Field name="taskEstimation" label={intl.formatMessage({ id: 'boards.taskEstimation' })} errors={errors}>
+                <Input
+                    register={register}
+                    name="taskEstimation"
+                    placeholder="0d 0h 0m"
+                    errors={errors}
+                    pattern={{
+                        value: /^(\d+d\s?)?(\d+h\s?)?(\d+m)?$/,
+                        message: intl.formatMessage({ id: 'boards.validation.estimationFormat' })
+                    }}
+                    maxLength={{
+                        value: 15,
+                        message: intl.formatMessage({ id: 'boards.validation.estimationMaxLength' }, { length: 15 })
+                    }}
+                />
             </Field>
 
             <Row equal>

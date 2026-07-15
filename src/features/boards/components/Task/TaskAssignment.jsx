@@ -6,10 +6,6 @@ import { updateTask } from '@features/boards/services/tasksQuery';
 const TaskAssignment = ({ task, activeBoard, register, className }) => {
     const handleChangeAssignee = (e) => updateTask(task.id, { assignee: e.target.value });
 
-    if (!activeBoard.watchersData || activeBoard.watchersData.length === 0) {
-        return null;
-    }
-
     return (
         <>
             <PersonIcon width={18} height={18} />

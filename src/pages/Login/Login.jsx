@@ -1,10 +1,10 @@
 import { useStore } from '@store/store';
-import styles from './Auth.module.scss';
+import styles from './Login.module.scss';
 import logo from '@assets/logo.png';
 import googleLogo from '@assets/google.svg';
 import githubLogo from '@assets/github.svg';
 
-const Auth = () => {
+const Login = () => {
     const googleSignIn = useStore((state) => state.googleSignIn);
     const githubSignIn = useStore((state) => state.githubSignIn);
 
@@ -29,4 +29,4 @@ const Auth = () => {
     );
 };
 
-export default Auth;
+export default Login;

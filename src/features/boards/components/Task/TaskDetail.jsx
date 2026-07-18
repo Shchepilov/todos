@@ -103,19 +103,17 @@ const TaskDetail = () => {
                     </Field>
                 </Row>
                 
-                {activeBoard.watchersData && activeBoard.watchersData.length > 0 && (
-                    <Field name="taskAssignee" label={intl.formatMessage({ id: 'boards.taskAssignee' })} errors={errors}>
-                        <Select register={register} 
-                                name="taskAssignee" 
-                                items={activeBoard.watchersData} 
-                                nameKey="watcherName" 
-                                valueKey="watcherName"
-                                defaultValue={task.assignee}>
-                            <option value="unassigned"><FormattedMessage id="boards.unassigned" /></option>
-                            <option value={activeBoard.owner.name}>{activeBoard.owner.name}</option>
-                        </Select>
-                    </Field>
-                )}
+                <Field name="taskAssignee" label={intl.formatMessage({ id: 'boards.taskAssignee' })} errors={errors}>
+                    <Select register={register} 
+                            name="taskAssignee" 
+                            items={activeBoard.watchersData} 
+                            nameKey="watcherName" 
+                            valueKey="watcherName"
+                            defaultValue={task.assignee}>
+                        <option value="unassigned"><FormattedMessage id="boards.unassigned" /></option>
+                        <option value={activeBoard.owner.name}>{activeBoard.owner.name}</option>
+                    </Select>
+                </Field>
 
                 {activeBoard.sprints && activeBoard.sprints.length > 0 && (
                     <Field name="taskSprint" label={intl.formatMessage({ id: 'boards.taskSprint' })} errors={errors}>

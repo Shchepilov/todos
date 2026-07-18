@@ -5,7 +5,7 @@ import Boards from '@features/boards/components/Boards/Boards';
 import Header from "@layout/Header/Header";
 import "@styles/global.scss";
 
-const AuthenticatedApp = () => {
+const Home = () => {
     return (
         <>
             <Header/>
@@ -20,4 +20,4 @@ const AuthenticatedApp = () => {
     );
 };
 
-export default AuthenticatedApp;
+export default Home;

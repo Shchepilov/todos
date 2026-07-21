@@ -8,6 +8,8 @@ import {
     deleteDoc,
     doc,
     serverTimestamp,
+    FieldPath,
+    deleteField,
 } from "firebase/firestore";
 import { db } from "@baseUrl/firebase";
 
@@ -25,7 +27,6 @@ export const addBoard = async (userId, name, prefix, owner) => {
             watchers: [],
             watchersData: [],
             sprints: [],
-            activeSprint: null,
             taskCounter: 0,
             timestamp: serverTimestamp(),
         });
@@ -54,6 +55,23 @@ export const watchBoardsQuery = (userEmail) => {
 export const updateBoard = async (id, data) => {
     try {
         await updateDoc(doc(db, BOARDS_COLLECTION, id), data);
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
+// Each sprint keeps its own planning session under board.planning[sprintId].
+// FieldPath is used instead of dot notation because sprint ids are generated from
+// user input and may contain characters that are invalid in a field path string.
+export const updateSprintPlanning = async (boardId, sprintId, planning) => {
+    if (!sprintId) return;
+
+    try {
+        await updateDoc(
+            doc(db, BOARDS_COLLECTION, boardId),
+            new FieldPath('planning', sprintId),
+            planning || deleteField()
+        );
     } catch (error) {
         throw new Error(error.message);
     }

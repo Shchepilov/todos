@@ -1,0 +1,60 @@
+@use "@styles/functions" as *;
+
+.panel {
+    display: grid;
+    gap: 16px;
+    align-content: start;
+    background: var(--task-bg);
+    border: 1px solid var(--task-border-color);
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 24px;
+}
+
+.panelPlaceholder {
+    display: grid;
+    place-items: center;
+    text-align: center;
+    opacity: 0.6;
+    font-size: rem(14);
+}
+
+.panelHeader {
+    display: grid;
+    gap: 6px;
+}
+
+.panelTaskHead {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.taskNumber {
+    font-weight: 300;
+}
+
+.panelTitle {
+    font-size: rem(16);
+    font-weight: 400;
+}
+
+.panelDescription {
+    font-size: rem(13);
+    font-weight: 300;
+    white-space: pre-wrap;
+    opacity: 0.85;
+}
+
+.estimationRow {
+    display: grid;
+    gap: 24px;
+}
+
+.waiting {
+    font-size: rem(14);
+    opacity: 0.7;
+    text-align: center;
+    padding: 10px 0;
+}

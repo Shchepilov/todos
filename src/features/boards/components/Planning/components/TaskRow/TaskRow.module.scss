@@ -1,0 +1,35 @@
+@use "@styles/functions" as *;
+
+.taskCard {
+    transition: box-shadow 0.2s ease;
+    cursor: pointer;
+
+    &[data-active] {
+        box-shadow: 0 0 10px 0px var(--orange-100);
+    }
+
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.voting {
+    font-size: rem(12);
+    color: var(--yellow-100);
+    margin-left: auto;
+}
+
+.title {
+    font-size: rem(14);
+    font-weight: 300;
+}
+
+.moveButton {
+    justify-self: flex-start;
+}

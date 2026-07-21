@@ -10,6 +10,7 @@ import styles from './Retrospective.module.scss';
 import Row from "@components/Row/Row";
 import { updateBoard } from '@features/boards/services/boardsQuery';
 import { generateId } from '@features/boards/utils/helpers';
+import useActiveSprint from '@features/boards/hooks/useActiveSprint';
 
 const RetrospectiveColumn = ({ type }) => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -19,13 +20,14 @@ const RetrospectiveColumn = ({ type }) => {
     const activeBoardId = useStore((state) => state.activeBoardId);
     const boards = useStore((state) => state.boards);
     const board = boards.find(board => board.id === activeBoardId);
+    const activeSprint = useActiveSprint(board);
 
     const handleUpdateRetrospective = (data) => {
         const { message } = data;
 
         updateBoard(board.id, {
             sprints: board.sprints.map(sprint => {
-                if (sprint.id === board.activeSprint) {
+                if (sprint.id === activeSprint) {
                     return {
                         ...sprint,
                         retrospective: {
@@ -52,7 +54,7 @@ const RetrospectiveColumn = ({ type }) => {
     const handleDeleteRetrospectiveItem = (id) => {
         updateBoard(board.id, {
             sprints: board.sprints.map(sprint => {
-                if (sprint.id === board.activeSprint) {
+                if (sprint.id === activeSprint) {
                     return {
                         ...sprint,
                         retrospective: {
@@ -69,7 +71,7 @@ const RetrospectiveColumn = ({ type }) => {
     const handleVoteRetrospectiveItem = (id) => {
         updateBoard(board.id, {
             sprints: board.sprints.map(sprint => {
-                if (sprint.id === board.activeSprint) {
+                if (sprint.id === activeSprint) {
                     return {
                         ...sprint,
                         retrospective: {
@@ -104,7 +106,7 @@ const RetrospectiveColumn = ({ type }) => {
 
             <div className={styles.listWrapper}>
                 <ul className={styles.list}>
-                    {board.sprints.find(sprint => sprint.id === board.activeSprint).retrospective[type]?.map(item => (
+                    {board.sprints.find(sprint => sprint.id === activeSprint)?.retrospective?.[type]?.map(item => (
                         <li key={item.id} className={styles.listItem}>
                             <p>{item.message}</p>
 

@@ -12,9 +12,12 @@ import Columns from '@features/boards/components/Columns/Columns';
 import TaskDetail from '@features/boards/components/Task/TaskDetail';
 import TaskFilter from '@features/boards/components/TaskFilter/TaskFilter';
 import Retrospective from '@features/boards/components/Retrospective/Retrospective';
-import { updateBoard } from '@features/boards/services/boardsQuery';
+import PlanningModal from '@features/boards/components/Planning/PlanningModal';
+import { updateBoard, updateSprintPlanning } from '@features/boards/services/boardsQuery';
+import { taskNeedsPlanning } from '@features/boards/utils/helpers';
 import BoardSettings from './BoardSettings';
 import useBoardData from '@features/boards/hooks/useBoardData';
+import useActiveSprint from '@features/boards/hooks/useActiveSprint';
 import styles from './Board.module.scss';
 
 const Board = () => {
@@ -26,12 +29,15 @@ const Board = () => {
     const [columnFormModal, setColumnFormModal] = useState(false);
     const [boardSettingsModal, setBoardSettingsModal] = useState(false);
     const [retrospectiveModal, setRetrospectiveModal] = useState(false);
+    const [planningModal, setPlanningModal] = useState(false);
     const [leaveBoardConfirmModal, setLeaveBoardConfirmModal] = useState(false);
     const { boardId } = useParams();
     const board = boards.find(board => board.id === boardId);
     const navigate = useNavigate();
 
-    const isBoardHasTasks = useStore((state) => state.tasks);
+    const tasks = useStore((state) => state.tasks);
+    const setActiveSprint = useStore((state) => state.setActiveSprint);
+    const activeSprint = useActiveSprint(board);
 
     const { columnsLoading } = useBoardData(boardId);
 
@@ -63,9 +69,20 @@ const Board = () => {
     }
 
     const handleSprintChange = (e) => {
-        const selectedSprint = e.target.value;
-        updateBoard(board.id, { activeSprint: selectedSprint});
+        setActiveSprint(board.id, e.target.value);
     }
+
+    const handlePlanningClose = (open) => {
+        setPlanningModal(open);
+        if (!open && !board.isWatcher && board.planning?.[activeSprint]) {
+            updateSprintPlanning(board.id, activeSprint, null);
+        }
+    }
+
+    const showPlanningButton = Boolean(activeSprint) && (
+        Boolean(board.planning?.[activeSprint]) ||
+        tasks.some(task => !task.sprint || (task.sprint === activeSprint && taskNeedsPlanning(task)))
+    );
 
     return ( 
         <main className={styles.board}>
@@ -85,7 +102,13 @@ const Board = () => {
                 </div>
 
                 <div className={styles.actions}>
-                    {board.activeSprint && (
+                    {showPlanningButton && (
+                        <Button size='small' onClick={() => setPlanningModal(true)}>
+                            <FormattedMessage id="boards.planning.button" />
+                        </Button>
+                    )}
+
+                    {activeSprint && (
                         <Button size='small' className={styles.retrospectiveButton} onClick={showRetrospective}>
                             <FormattedMessage id="boards.retrospective.heading" />
                         </Button>
@@ -94,7 +117,7 @@ const Board = () => {
                     {board.sprints && board.sprints.length > 0 && (
                         <Select
                             name="sprintSelect"
-                            value={board.activeSprint || ''}
+                            value={activeSprint || ''}
                             className={styles.select}
                             onChange={handleSprintChange}
                             items={board.sprints}
@@ -104,7 +127,7 @@ const Board = () => {
                         </Select>
                     )}
 
-                    {isBoardHasTasks.length > 0 && <TaskFilter />}
+                    {tasks.length > 0 && <TaskFilter />}
 
                     <Button size='small' className={styles.addColumnButton} onClick={showColumnForm}>
                         <PlusIcon width={16} height={16}/>
@@ -113,8 +136,12 @@ const Board = () => {
                 </div>
             </header>
 
-            <Modal heading={`${intl.formatMessage({ id: 'boards.retrospective.heading' })} (${board.activeSprint})`} size='large' isDialogOpen={retrospectiveModal} setIsDialogOpen={setRetrospectiveModal}>
+            <Modal heading={`${intl.formatMessage({ id: 'boards.retrospective.heading' })} (${activeSprint})`} size='large' isDialogOpen={retrospectiveModal} setIsDialogOpen={setRetrospectiveModal}>
                 <Retrospective />
+            </Modal>
+
+            <Modal heading={intl.formatMessage({ id: 'boards.planning.heading' })} size='large' isDialogOpen={planningModal} setIsDialogOpen={handlePlanningClose}>
+                <PlanningModal board={board} tasks={tasks} activeSprint={activeSprint} />
             </Modal>
             
             <Modal heading={intl.formatMessage({ id: 'column.add' })} isDialogOpen={columnFormModal} setIsDialogOpen={setColumnFormModal}>

@@ -10,12 +10,14 @@ import Field from "@components/Field/Field";
 import Row from "@components/Row/Row";
 import { addTask } from "@features/boards/services/tasksQuery";
 import { TASK_STATUS, TASK_TYPES } from "@features/boards/utils/constants";
+import useActiveSprint from "@features/boards/hooks/useActiveSprint";
 
 const TaskForm = ({ columnId, boardId, onClose }) => {
     const intl = useIntl();
     const columns = useStore((state) => state.columns);
     const boards = useStore((state) => state.boards);
     const activeBoard = boards?.find(board => board.id === boardId);
+    const activeSprint = useActiveSprint(activeBoard);
     const ownerName = activeBoard.owner.name;
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -72,7 +74,7 @@ const TaskForm = ({ columnId, boardId, onClose }) => {
 
             {activeBoard.sprints && activeBoard.sprints.length > 0 && (
                 <Field name="taskSprint" label={intl.formatMessage({ id: 'boards.taskSprint' })} errors={errors}>
-                    <Select register={register} name="taskSprint" items={activeBoard.sprints} nameKey="name" valueKey="id" defaultValue={activeBoard.activeSprint}>
+                    <Select register={register} name="taskSprint" items={activeBoard.sprints} nameKey="name" valueKey="id" defaultValue={activeSprint}>
                         <option value="">{intl.formatMessage({ id: 'boards.noSprint' })}</option>
                     </Select>
                 </Field>

@@ -29,6 +29,8 @@ const boards = {
         'boards.validation.titleMaxLength': 'Title cannot exceed {length} characters',
         'boards.validation.descriptionMaxLength': 'Description cannot exceed {length} characters',
         'boards.validation.estimationFormat': 'Please use format: 3d 2h 30m',
+        'boards.validation.estimationRequired': 'Estimation is required',
+        'boards.validation.assigneeRequired': 'Assignee is required',
         'boards.validation.estimationMaxLength': 'Estimation cannot exceed {length} characters',
         'boards.validation.boardNameMaxLength': 'No more than {length} characters',
         'boards.validation.boardPrefixPattern': '1-5 letters',
@@ -78,7 +80,25 @@ const boards = {
         'boards.retrospective.good': 'Good',
         'boards.retrospective.bad': 'Bad',
         'boards.retrospective.suggestions': 'Suggestions',
-        'boards.retrospective.placeholder.message': 'Message'
+        'boards.retrospective.placeholder.message': 'Message',
+
+        // Planning
+        'boards.planning.button': 'Planning',
+        'boards.planning.heading': 'Sprint Planning',
+        'boards.planning.backlog': 'Backlog',
+        'boards.planning.moveToSprint': 'sprint',
+        'boards.planning.moveToBacklog': 'backlog',
+        'boards.planning.allPlanned': 'All tasks are planned',
+        'boards.planning.emptyBacklog': 'Backlog is empty',
+        'boards.planning.selectTask': 'Select a task to start planning',
+        'boards.planning.startEstimation': 'Start vote',
+        'boards.planning.waitingForFacilitator': 'Waiting for the board owner to start estimation',
+        'boards.planning.voted': 'voted',
+        'boards.planning.waiting': 'waiting',
+        'boards.planning.reveal': 'Reveal',
+        'boards.planning.apply': 'Apply',
+        'boards.planning.taskUnavailable': 'This task is no longer available',
+        'boards.planning.votingNow': '... Estimating'
     },
     uk: {
         // Columns
@@ -110,6 +130,8 @@ const boards = {
         'boards.validation.titleMaxLength': 'Назва не може перевищувати {length} символів',
         'boards.validation.descriptionMaxLength': 'Опис не може перевищувати {length} символів',
         'boards.validation.estimationFormat': 'Використовуйте формат: 3d 2h 30m',
+        'boards.validation.estimationRequired': 'Оцінка обов\'язкова',
+        'boards.validation.assigneeRequired': 'Виконавець обов\'язковий',
         'boards.validation.estimationMaxLength': 'Оцінка не може перевищувати {length} символів',
         'boards.validation.boardNameMaxLength': 'Не більше {length} символів',
         'boards.validation.boardPrefixPattern': '1-5 літер',
@@ -159,7 +181,25 @@ const boards = {
         'boards.retrospective.good': 'Добре',
         'boards.retrospective.bad': 'Погано',
         'boards.retrospective.suggestions': 'Пропозиції',
-        'boards.retrospective.placeholder.message': 'Відгук'
+        'boards.retrospective.placeholder.message': 'Відгук',
+
+        // Planning
+        'boards.planning.button': 'Планування',
+        'boards.planning.heading': 'Планування спрінту',
+        'boards.planning.backlog': 'Беклог',
+        'boards.planning.moveToSprint': 'у спрінт',
+        'boards.planning.moveToBacklog': 'у беклог',
+        'boards.planning.allPlanned': 'Усі задачі заплановані',
+        'boards.planning.emptyBacklog': 'Беклог порожній',
+        'boards.planning.selectTask': 'Оберіть задачу, щоб почати планування',
+        'boards.planning.startEstimation': 'Почати голосування',
+        'boards.planning.waitingForFacilitator': 'Очікування, поки власник дошки почне оцінку',
+        'boards.planning.voted': 'проголосував',
+        'boards.planning.waiting': 'очікує',
+        'boards.planning.reveal': 'Розкрити',
+        'boards.planning.apply': 'Застосувати',
+        'boards.planning.taskUnavailable': 'Ця задача більше недоступна',
+        'boards.planning.votingNow': '... Оцінюється'
     }
 };
 

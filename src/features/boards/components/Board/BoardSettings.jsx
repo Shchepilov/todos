@@ -80,10 +80,7 @@ const BoardSettings = ({board, onClose}) => {
     const handleRemoveSprint = (sprintId) => {
         const updatedSprints = board.sprints.filter(sprint => sprint.id !== sprintId);
         
-        updateBoard(board.id, { 
-            sprints: updatedSprints,
-            activeSprint: board.activeSprint === sprintId ? null : board.activeSprint
-        });
+        updateBoard(board.id, { sprints: updatedSprints });
     }
 
     return (

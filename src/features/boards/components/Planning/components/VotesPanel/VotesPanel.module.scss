@@ -1,0 +1,41 @@
+@use "@styles/functions" as *;
+
+.votes {
+    display: grid;
+    gap: 10px;
+}
+
+.voteList {
+    display: grid;
+    gap: 6px;
+}
+
+.voteRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: rem(14);
+}
+
+.voteStatusWaiting {
+    font-size: rem(12);
+    opacity: 0.6;
+}
+
+.voteStatusVoted {
+    font-size: rem(12);
+    color: var(--green-100);
+}
+
+.voteValue {
+    font-weight: 500;
+    min-width: rem(24);
+    text-align: right;
+}
+
+.controlButtons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}

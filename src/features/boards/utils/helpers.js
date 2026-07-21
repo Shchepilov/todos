@@ -89,3 +89,5 @@ export const addLoggedTime = (loggedTime, newLoggedTime) => {
 };
 
 export const generateId = () => crypto.randomUUID();
+
+export const taskNeedsPlanning = (task) => task.assignee === 'unassigned' || !task.estimation;

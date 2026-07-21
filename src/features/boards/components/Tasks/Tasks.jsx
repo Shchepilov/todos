@@ -1,6 +1,7 @@
 import { useStore } from "@store/store";
 import { AnimatePresence } from "framer-motion";
 import Task from "../Task/Task";
+import useActiveSprint from '@features/boards/hooks/useActiveSprint';
 import styles from './Tasks.module.scss';
 
 const Tasks = ({ columnId }) => {
@@ -8,6 +9,7 @@ const Tasks = ({ columnId }) => {
     const activeBoardId = useStore((state) => state.activeBoardId);
     const boards = useStore((state) => state.boards);
     const activeBoard = boards?.find(board => board.id === activeBoardId);
+    const activeSprint = useActiveSprint(activeBoard);
     const filters = useStore((state) => state.taskFilters[activeBoardId]) || {
         assignee: [],
         type: [],
@@ -17,7 +19,7 @@ const Tasks = ({ columnId }) => {
     const filteredTasks = tasksBoard.filter((task) => {
         if (task.columnId !== columnId) return false;
 
-        if (activeBoard?.activeSprint && task.sprint !== activeBoard.activeSprint) return false;
+        if (activeSprint && task.sprint !== activeSprint) return false;
         
         if (filters.assignee?.length > 0 && !filters.assignee.includes(task.assignee)) return false;
         

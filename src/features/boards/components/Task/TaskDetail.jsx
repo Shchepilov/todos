@@ -17,7 +17,7 @@ import LogsForm from './logsForm';
 import ProgressBar from "@features/boards/components/ProgressBar/ProgressBar";
 import styles from './Task.module.scss';
 import { updateTask, deleteTask } from '@features/boards/services/tasksQuery';
-import { TASK_STATUS, TASK_TYPES } from '@features/boards/utils/constants';
+import { TASK_STATUS, TASK_TYPES, ESTIMATION_PATTERN, ESTIMATION_MAX_LENGTH } from '@features/boards/utils/constants';
 
 const TaskDetail = () => {
     const intl = useIntl();
@@ -149,12 +149,12 @@ const TaskDetail = () => {
                         defaultValue={task.estimation}
                         errors={errors}
                         pattern={{
-                            value: /^(\d+d\s?)?(\d+h\s?)?(\d+m)?$/,
+                            value: ESTIMATION_PATTERN,
                             message: intl.formatMessage({ id: 'boards.validation.estimationFormat' })
                         }}
                         maxLength={{
-                            value: 15,
-                            message: intl.formatMessage({ id: 'boards.validation.estimationMaxLength' }, { length: 15 })
+                            value: ESTIMATION_MAX_LENGTH,
+                            message: intl.formatMessage({ id: 'boards.validation.estimationMaxLength' }, { length: ESTIMATION_MAX_LENGTH })
                         }}
                     />
                 </Field>

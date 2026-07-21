@@ -20,6 +20,11 @@ export const TASK_TYPES = [
 
 export const RETROSPECTIVE_TYPES = ['good', 'bad', 'suggestions'];
 
+export const PLANNING_DECK = ['1h', '2h', '4h', '1d', '2d', '3d', '5d', '?'];
+
+export const ESTIMATION_PATTERN = /^(\d+d\s?)?(\d+h\s?)?(\d+m)?$/;
+export const ESTIMATION_MAX_LENGTH = 15;
+
 export const COLUMN_VIEW_MODE = {
     NORMAL: 'normal',
     COMPACT: 'compact',

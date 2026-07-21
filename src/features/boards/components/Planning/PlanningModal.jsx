@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useStore } from '@store/store';
-import { updateSprintPlanning } from '@features/boards/services/boardsQuery';
+import { updateSprintPlanning, clearLegacyPlanning } from '@features/boards/services/boardsQuery';
 import { updateTask } from '@features/boards/services/tasksQuery';
+import { hasLegacyPlanning } from '@features/boards/utils/helpers';
 import PlanningTaskList from '@features/boards/components/Planning/components/PlanningTaskList/PlanningTaskList';
 import PlanningTaskPanel from '@features/boards/components/Planning/components/PlanningTaskPanel/PlanningTaskPanel';
 import styles from './PlanningModal.module.scss';
@@ -29,6 +30,11 @@ const PlanningModal = ({ board, tasks, activeSprint }) => {
         : (planning?.taskId || selectedTaskId || null);
 
     const currentTask = tasks.find(task => task.id === effectiveTaskId);
+
+    // One-off migration: wipe a session left over from the board-wide planning format.
+    useEffect(() => {
+        if (isOwner && hasLegacyPlanning(board)) clearLegacyPlanning(board.id);
+    }, [isOwner, board]);
 
     // Owner cleanup: drop a stale planning session when its task left the sprint it belongs to.
     useEffect(() => {

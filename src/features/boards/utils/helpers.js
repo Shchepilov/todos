@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
+import { LEGACY_PLANNING_FIELDS } from '@features/boards/utils/constants';
 dayjs.extend(duration);
 
 export const parseTimeData = (str) => {
@@ -91,3 +92,7 @@ export const addLoggedTime = (loggedTime, newLoggedTime) => {
 export const generateId = () => crypto.randomUUID();
 
 export const taskNeedsPlanning = (task) => task.assignee === 'unassigned' || !task.estimation;
+
+// A pre-sprint-scoped session sits directly under board.planning instead of board.planning[sprintId]
+export const hasLegacyPlanning = (board) =>
+    Boolean(board?.planning) && LEGACY_PLANNING_FIELDS.some(field => field in board.planning);

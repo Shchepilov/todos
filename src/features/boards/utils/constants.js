@@ -22,6 +22,9 @@ export const RETROSPECTIVE_TYPES = ['good', 'bad', 'suggestions'];
 
 export const PLANNING_DECK = ['1h', '2h', '4h', '1d', '2d', '3d', '5d', '?'];
 
+// Shape of a planning session before it was moved under board.planning[sprintId]
+export const LEGACY_PLANNING_FIELDS = ['taskId', 'revealed', 'votes'];
+
 export const ESTIMATION_PATTERN = /^(\d+d\s?)?(\d+h\s?)?(\d+m)?$/;
 export const ESTIMATION_MAX_LENGTH = 15;
 

@@ -92,8 +92,8 @@ const TaskForm = ({ columnId, boardId, onClose }) => {
                     rows={5} 
                     {...register("taskDescription", { 
                         maxLength: {
-                            value: 200,
-                            message: intl.formatMessage({ id: 'boards.validation.descriptionMaxLength' }, { length: 200 })
+                            value: 600,
+                            message: intl.formatMessage({ id: 'boards.validation.descriptionMaxLength' }, { length: 600 })
                         }})
                     }
                     placeholder={intl.formatMessage({ id: 'boards.taskDescription' })} />

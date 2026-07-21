@@ -13,7 +13,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@baseUrl/firebase";
 
-import { BOARDS_COLLECTION } from "@features/boards/utils/constants";
+import { BOARDS_COLLECTION, LEGACY_PLANNING_FIELDS } from "@features/boards/utils/constants";
 import { deleteAllColumns } from "@features/boards/services/columnsQuery";
 import { deleteAllBoardTasks } from "@features/boards/services/tasksQuery";
 
@@ -72,6 +72,18 @@ export const updateSprintPlanning = async (boardId, sprintId, planning) => {
             new FieldPath('planning', sprintId),
             planning || deleteField()
         );
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
+// Boards created before planning became sprint scoped keep a single session
+// directly under board.planning - drop those leftover fields, the sprint map stays intact.
+export const clearLegacyPlanning = async (boardId) => {
+    try {
+        await updateDoc(doc(db, BOARDS_COLLECTION, boardId), Object.fromEntries(
+            LEGACY_PLANNING_FIELDS.map(field => [`planning.${field}`, deleteField()])
+        ));
     } catch (error) {
         throw new Error(error.message);
     }

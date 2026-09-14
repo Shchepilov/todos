@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useStore } from "@store/store";
+import { useAuthUser } from "@baseUrl/auth/useAuthUser";
 import { useForm } from "react-hook-form"
 import * as Form from '@radix-ui/react-form';
 import { PlusIcon } from "@radix-ui/react-icons";
@@ -18,7 +19,7 @@ import styles from "../TodoItem/TodoItem.module.scss";
 const TodoForm = ({ onClose }) => {
     const intl = useIntl();
     const { register, handleSubmit, formState: { errors }, } = useForm();
-    const userId = useStore((state) => state.user.uid);
+    const userId = useAuthUser().uid;
     const currentDay = useStore((state) => state.currentDay);
     const currentDate = dayjs(currentDay).format("YYYY-MM-DD");
     const [isDueDate, setIsDueDate] = useState(false);

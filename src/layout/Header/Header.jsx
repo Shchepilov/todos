@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useStore } from "@store/store";
+import { useAuthUser } from "@baseUrl/auth/useAuthUser";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { Switch } from "radix-ui";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
@@ -19,7 +20,7 @@ const Header = () => {
     const [pageLink, setPageLink] = useState('');
     const navRef = useRef(null);
     const location = useLocation();
-    const user = useStore((state) => state.user);
+    const user = useAuthUser();
     const signOut = useStore((state) => state.signOut);
     const toggleTheme = useStore((state) => state.toggleTheme);
     const isDarkTheme = useStore((state) => state.theme === 'dark');

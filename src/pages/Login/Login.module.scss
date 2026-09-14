@@ -1,3 +1,5 @@
+@use "@styles/functions" as *;
+
 .guest {
     display: grid;
     justify-items: center;
@@ -33,4 +35,10 @@
     &:hover {
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
     }
+}
+
+.error {
+    color: var(--pink-100);
+    font-size: rem(14);
+    text-align: center;
 }

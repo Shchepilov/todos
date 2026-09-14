@@ -2,6 +2,7 @@ import { useState } from "react";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { AnimatePresence } from "framer-motion";
 import { useStore } from "@store/store";
+import { useAuthUser } from "@baseUrl/auth/useAuthUser";
 import Loader from "@components/Loader/Loader";
 import Button from "@components/Button/Button";
 import { addNote } from "@features/notes/services/notesQuery";
@@ -10,7 +11,7 @@ import NoteItem from "@features/notes/components/NoteItem/NoteItem";
 import styles from "./NoteList.module.scss";
 
 const NoteList = () => {
-    const userId = useStore((state) => state.user.uid);
+    const userId = useAuthUser().uid;
     const notes = useStore((state) => state.allNotes);
     const [isAnyNoteInEditMode, setIsAnyNoteInEditMode] = useState(false);
 

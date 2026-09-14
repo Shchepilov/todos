@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useStore } from "@store/store";
+import { useAuthUser } from "@baseUrl/auth/useAuthUser";
 import { useCollection } from 'react-firebase-hooks/firestore'
 import { boardsQuery, watchBoardsQuery } from "@features/boards/services/boardsQuery";
 
 const useBoards = (options) => {
     const setBoards = useStore((state) => state.setBoards);
-    const user = useStore((state) => state.user);
+    const user = useAuthUser();
     const userEmail = user.providerData[0].email;
 
     const allUserBoards = boardsQuery(user.uid);

@@ -1,4 +1,4 @@
-import { useStore } from "@store/store";
+import { useAuthUser } from "@baseUrl/auth/useAuthUser";
 import { useNavigate } from "react-router-dom";
 import * as Form from '@radix-ui/react-form';
 import { useForm } from "react-hook-form"
@@ -15,7 +15,7 @@ const BoardForm = ({ onClose }) => {
     const { register, handleSubmit, formState: { errors }, } = useForm();
 
     const intl = useIntl();
-    const user = useStore((state) => state.user);
+    const user = useAuthUser();
 
     const navigate = useNavigate();
 

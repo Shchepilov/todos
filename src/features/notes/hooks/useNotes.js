@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useStore } from "@store/store";
+import { useAuthUser } from "@baseUrl/auth/useAuthUser";
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { notesQuery } from "@features/notes/services/notesQuery";
 
 const useNotes = () => {
-    const userId = useStore((state) => state.user.uid);
+    const userId = useAuthUser().uid;
     const setAllNotes = useStore((state) => state.setAllNotes);
     const allNotesQuery = notesQuery(userId);
     

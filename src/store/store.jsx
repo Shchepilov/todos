@@ -6,9 +6,16 @@ import { useNotesStore } from "@features/notes/store/store";
 import { useBoardsStore } from "@features/boards/store/store";
 import dayjs from "dayjs";
 
+// The old "storage" key kept a copy of the Firebase User with its tokens, so it is removed.
+try {
+    localStorage.removeItem("storage");
+} catch {
+    // Storage is unavailable, nothing to clean up.
+}
+
 export const useStore = create(devtools(
     persist(
-        (set, get) => ({
+        (set, get, api) => ({
             currentDay: dayjs(),
             theme: "dark",
             locale: "en",
@@ -21,10 +28,15 @@ export const useStore = create(devtools(
             ...useNotesStore(set, get),
             ...useBoardsStore(set, get),
 
-            clearStorage: () => set({ todos: [], user: null }),
+            // Drop the previous user's data on sign-out. Theme and locale are device settings, so they stay.
+            resetUserData: () => set((state) => ({
+                ...api.getInitialState(),
+                theme: state.theme,
+                locale: state.locale,
+            })),
         }),
         {
-            name: "storage",
+            name: "act-settings",
         }
     )
 ));

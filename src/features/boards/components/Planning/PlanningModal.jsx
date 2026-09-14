@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useStore } from '@store/store';
+import { useAuthUser } from '@baseUrl/auth/useAuthUser';
 import { updateSprintPlanning, clearLegacyPlanning } from '@features/boards/services/boardsQuery';
 import { updateTask } from '@features/boards/services/tasksQuery';
 import { hasLegacyPlanning } from '@features/boards/utils/helpers';
@@ -8,7 +8,7 @@ import PlanningTaskPanel from '@features/boards/components/Planning/components/P
 import styles from './PlanningModal.module.scss';
 
 const PlanningModal = ({ board, tasks, activeSprint }) => {
-    const user = useStore((state) => state.user);
+    const user = useAuthUser();
     const userEmail = user.providerData[0].email;
     const isOwner = !board.isWatcher;
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useStore } from "@store/store";
+import { useAuthUser } from "@baseUrl/auth/useAuthUser";
 import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form"
 import * as Form from '@radix-ui/react-form';
@@ -30,7 +31,7 @@ const TaskDetail = () => {
     const activeBoard = boards?.find(board => board.id === boardId);
     const isWatcher = activeBoard?.isWatcher || false;
 
-    const userEmail = useStore((state) => state.user.providerData[0].email);
+    const userEmail = useAuthUser().providerData[0].email;
     const ownerName = activeBoard.owner.name;
     const userName = activeBoard.watchersData.find(watcher => watcher.watcherEmail === userEmail)?.watcherName || ownerName;
 

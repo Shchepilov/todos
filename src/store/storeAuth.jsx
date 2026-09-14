@@ -1,37 +1,13 @@
 import { auth, googleAuthProvider, githubAuthProvider } from "../firebase";
 import { signInWithPopup, signOut } from "firebase/auth";
 
+// The signed-in user lives in Firebase Auth (see useAuthUser), not in this store.
 export const useAuthStore = (set, get) => ({
-    user: null,
-
-    googleSignIn: async () => {
-        try {
-            const result = await signInWithPopup(auth, googleAuthProvider);
-            set({ user: result.user });
-        } catch (error) {
-            throw new Error(error.message);
-        }
-    },
-
-    githubSignIn: async () => {
-        try {
-            const result = await signInWithPopup(auth, githubAuthProvider);
-            set({ user: result.user });
-        } catch (error) {
-            throw new Error(error.message);
-        }
-    },
+    googleSignIn: () => signInWithPopup(auth, googleAuthProvider),
+    githubSignIn: () => signInWithPopup(auth, githubAuthProvider),
 
     signOut: async () => {
-        try {
-            await signOut(auth);
-            get().clearStorage();
-            localStorage.clear();
-            window.location.href = "/";
-        } catch (error) {
-            throw new Error(error.message);
-        }
+        await signOut(auth);
+        get().resetUserData();
     },
-
-    setUser: (user) => set({ user })
 });

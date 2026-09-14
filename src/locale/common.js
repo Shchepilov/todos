@@ -17,6 +17,7 @@ const common = {
         'common.validation.titleRequired': 'Title is required',
         'common.validation.nameRequired': 'Name is required',
         'common.validation.emailRequired': 'Email is required',
+        'common.signInError': 'Could not sign in. Please try again.',
     },
     uk: {
         'common.cancel': 'Скасувати',
@@ -36,6 +37,7 @@ const common = {
         'common.validation.titleRequired': 'Назва обов\'язкова',
         'common.validation.nameRequired': 'Ім\'я обов\'язкове',
         'common.validation.emailRequired': 'Email обов\'язковий',
+        'common.signInError': 'Не вдалося увійти. Спробуйте ще раз.',
     }
 };
 

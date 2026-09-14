@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useStore } from "@store/store";
+import { useAuthUser } from "@baseUrl/auth/useAuthUser";
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { fetchAllTodos, updateAutoMoveTodos } from "@features/todos/services/todosQuery";
 import dayjs from "dayjs";
 
 const useTodos = () => {
-    const userId = useStore((state) => state.user.uid);
+    const userId = useAuthUser().uid;
     const currentDay = useStore((state) => state.currentDay);
     const setTodos = useStore((state) => state.setTodos);
     const setAllTodos = useStore((state) => state.setAllTodos);

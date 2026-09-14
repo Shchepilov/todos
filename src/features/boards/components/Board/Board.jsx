@@ -4,6 +4,7 @@ import { PlusIcon, GearIcon } from "@radix-ui/react-icons";
 import { useIntl, FormattedMessage } from 'react-intl';
 import { cn } from 'cn';
 import { useStore } from "@store/store";
+import { useAuthUser } from "@baseUrl/auth/useAuthUser";
 import Button from '@components/Button/Button';
 import Select from '@components/Select/Select';
 import Modal from "@components/Modal/Modal";
@@ -23,7 +24,7 @@ import styles from './Board.module.scss';
 
 const Board = () => {
     const intl = useIntl();
-    const user = useStore((state) => state.user);   
+    const user = useAuthUser();   
     const boards = useStore((state) => state.boards);
     const columns = useStore((state) => state.columns);
     const setActiveBoardId = useStore((state) => state.setActiveBoardId);

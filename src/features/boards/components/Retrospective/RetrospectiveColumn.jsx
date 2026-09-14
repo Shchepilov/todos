@@ -1,5 +1,6 @@
 import { cn } from 'cn';
 import { useStore } from "@store/store";
+import { useAuthUser } from "@baseUrl/auth/useAuthUser";
 import { TrashIcon, PlusIcon, StarFilledIcon } from "@radix-ui/react-icons";
 import * as Form from '@radix-ui/react-form';
 import { useForm } from 'react-hook-form';
@@ -16,7 +17,7 @@ import useActiveSprint from '@features/boards/hooks/useActiveSprint';
 const RetrospectiveColumn = ({ type }) => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const intl = useIntl();
-    const user = useStore((state) => state.user);
+    const user = useAuthUser();
     const userEmail = user.providerData[0].email;
     const activeBoardId = useStore((state) => state.activeBoardId);
     const boards = useStore((state) => state.boards);

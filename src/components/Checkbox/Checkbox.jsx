@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { cn } from 'cn';
 import styles from './Checkbox.module.scss';
 import { CheckIcon } from '@radix-ui/react-icons';
 
@@ -6,7 +7,7 @@ const Checkbox = ({ label, checked = false, onChange, disabled = false, classNam
     const fieldId = useId();
 
     return (
-        <div className={`${styles.wrapper} ${className}`}>
+        <div className={cn(styles.wrapper, className)}>
             <input
                 type="checkbox"
                 id={fieldId}

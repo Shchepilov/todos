@@ -1,3 +1,4 @@
+import { cn } from 'cn';
 import styles from './Input.module.scss';
 
 const Input = ({ register, type, name, placeholder, autoFocus, className, errors, defaultValue, ...registerOptions }) => {
@@ -6,7 +7,7 @@ const Input = ({ register, type, name, placeholder, autoFocus, className, errors
             {...register(name, registerOptions)}
             type={type}
             defaultValue={defaultValue}
-            className={`${errors[name] ? styles.invalid : ''} ${styles.input} ${className || ''}`}
+            className={cn(errors[name] && styles.invalid, styles.input, className)}
             autoFocus={autoFocus}
             placeholder={placeholder}
         />

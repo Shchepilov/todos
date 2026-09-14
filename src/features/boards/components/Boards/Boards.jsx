@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Routes, Route, NavLink, Navigate, useLocation } from 'react-router-dom';
+import { cn } from 'cn';
 import { useStore } from "@store/store";
 import Board from "../Board/Board";
 import BoardForm from './BoardForm';
@@ -86,7 +87,7 @@ const Boards = () => {
                                 <NavLink key={board.id} 
                                     to={`/boards/${board.id}`} 
                                     onClick={handleNavItemClick}
-                                    className={({isActive}) => (isActive ? styles.active : null)}>
+                                    className={({isActive}) => cn(isActive && styles.active)}>
                                     {board.name}
                                 </NavLink>
                             ))}

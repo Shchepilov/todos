@@ -1,14 +1,20 @@
+import { cn } from 'cn';
 import styles from './Row.module.scss';
 
 const Row = ({ children, gap = 'medium', align = 'start', justify = 'start', wrap = false, equal = false, className = '', ...props }) => {
-    const gapClass = gap ? styles[`gap-${gap}`] : '';
-    const alignClass = align ? styles[`align-${align}`] : '';
-    const justifyClass = justify ? styles[`justify-${justify}`] : '';
-    const wrapClass = wrap ? styles.wrap : '';
-    const equalClass = equal ? styles.equal : '';
-
     return (
-        <div className={`${styles.row} ${gapClass} ${alignClass} ${justifyClass} ${wrapClass} ${equalClass} ${className}`} {...props}>
+        <div
+            className={cn(
+                styles.row,
+                gap && styles[`gap-${gap}`],
+                align && styles[`align-${align}`],
+                justify && styles[`justify-${justify}`],
+                wrap && styles.wrap,
+                equal && styles.equal,
+                className
+            )}
+            {...props}
+        >
             {children}
         </div>
     );

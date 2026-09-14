@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { cn } from 'cn';
 import { useStore } from "@store/store";
 import { TrashIcon, PlusIcon, GearIcon, Pencil1Icon, ArrowLeftIcon, ArrowRightIcon, HamburgerMenuIcon, RowsIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
@@ -96,7 +97,7 @@ const Column = ({ column, boardId }) => {
             layout
             exit={{ opacity: 0, x: 15 }}
             transition={{ duration: 0.2 }}
-            className={`${styles.column} ${isDragOver ? styles.dragOver : ''}`}
+            className={cn(styles.column, isDragOver && styles.dragOver)}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}>
@@ -109,7 +110,7 @@ const Column = ({ column, boardId }) => {
                         <DropdownMenu.Root>
                             <DropdownMenu.Trigger asChild>
                                 <Button variation="transparent">
-                                    <GearIcon className={isLoading ? styles.loading : ''} />
+                                    <GearIcon className={cn(isLoading && styles.loading)} />
                                 </Button>
                             </DropdownMenu.Trigger>
             
@@ -148,7 +149,7 @@ const Column = ({ column, boardId }) => {
                                         </DropdownMenu.Item>
                                     )}
                                     
-                                    <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={() => setDeleteConfirmModal(true)}>
+                                    <DropdownMenu.Item className={cn(dropdown.item, dropdown.itemDanger)} onSelect={() => setDeleteConfirmModal(true)}>
                                         <TrashIcon />
                                         <FormattedMessage id="column.delete" />
                                     </DropdownMenu.Item>

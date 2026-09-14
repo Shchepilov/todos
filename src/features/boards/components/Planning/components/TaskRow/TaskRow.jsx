@@ -1,3 +1,4 @@
+import { cn } from 'cn';
 import { FormattedMessage } from 'react-intl';
 import Button from '@components/Button/Button';
 import taskStyles from '@features/boards/components/Task/Task.module.scss';
@@ -6,7 +7,7 @@ import styles from './TaskRow.module.scss';
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 
 const TaskRow = ({ task, board, isActive, isEstimating, onSelect, onMove }) => (
-    <li className={taskStyles.item + ' ' + styles.taskCard}
+    <li className={cn(taskStyles.item, styles.taskCard)}
         data-priority={task.priority}
         onClick={() => onSelect(task.id)}
         data-active={isActive || undefined}>

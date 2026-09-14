@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Routes, Route } from 'react-router-dom';
 import { PlusIcon, GearIcon } from "@radix-ui/react-icons";
 import { useIntl, FormattedMessage } from 'react-intl';
+import { cn } from 'cn';
 import { useStore } from "@store/store";
 import Button from '@components/Button/Button';
 import Select from '@components/Select/Select';
@@ -96,7 +97,7 @@ const Board = () => {
                         </Button>
                     ) : (
                         <Button variation="transparent" onClick={showBoardSettings}>
-                            <GearIcon className={columnsLoading ? styles.loading : ''} />
+                            <GearIcon className={cn(columnsLoading && styles.loading)} />
                         </Button>
                     )}
                 </div>

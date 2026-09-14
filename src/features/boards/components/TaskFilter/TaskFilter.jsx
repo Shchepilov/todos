@@ -1,3 +1,4 @@
+import { cn } from 'cn';
 import { useStore } from "@store/store";
 import { useIntl, FormattedMessage } from 'react-intl';
 import { TASK_TYPES, TASK_STATUS } from "@features/boards/utils/constants";
@@ -84,7 +85,7 @@ const TaskFilter = () => {
             </DropdownMenu.Trigger>
 
             <DropdownMenu.Portal>
-                <DropdownMenu.Content className={`${dropdown.content} ${styles.dropdownContent}`} align="end" sideOffset={5}>
+                <DropdownMenu.Content className={cn(dropdown.content, styles.dropdownContent)} align="end" sideOffset={5}>
                     
                     {activeBoard.watchersData && activeBoard.watchersData.length > 0 && (
                         <>
@@ -102,7 +103,7 @@ const TaskFilter = () => {
                                 ))}
                             </div>
 
-                            <DropdownMenu.Separator className={`${dropdown.separator} ${styles.separator}`} />
+                            <DropdownMenu.Separator className={cn(dropdown.separator, styles.separator)} />
                         </>
                     )}
 
@@ -120,7 +121,7 @@ const TaskFilter = () => {
                         ))}
                     </div>
 
-                    <DropdownMenu.Separator className={`${dropdown.separator} ${styles.separator}`} />
+                    <DropdownMenu.Separator className={cn(dropdown.separator, styles.separator)} />
 
                     <div className={styles.section}>
                         <h5><FormattedMessage id="boards.filter.priority" /></h5>
@@ -138,7 +139,7 @@ const TaskFilter = () => {
 
                     {hasActiveFilters && (
                         <>
-                            <DropdownMenu.Separator className={`${dropdown.separator} ${styles.separator}`} />
+                            <DropdownMenu.Separator className={cn(dropdown.separator, styles.separator)} />
                             <DropdownMenu.Item className={styles.clearItem} onSelect={clearFilters}>
                                 <Cross2Icon width={18} height={18} />
                                 <FormattedMessage id="boards.filter.clear" />

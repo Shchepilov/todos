@@ -1,3 +1,4 @@
+import { cn } from 'cn';
 import { PLANNING_DECK } from '@features/boards/utils/constants';
 import styles from './PokerDeck.module.scss';
 
@@ -8,7 +9,7 @@ const PokerDeck = ({ myVote, revealed, onVote }) => (
                 key={value}
                 type="button"
                 disabled={revealed}
-                className={`${styles.card} ${myVote === value ? styles.cardSelected : ''}`}
+                className={cn(styles.card, myVote === value && styles.cardSelected)}
                 onClick={() => onVote(value)}>
                 {value}
             </button>

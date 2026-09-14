@@ -1,3 +1,4 @@
+import { cn } from 'cn';
 import { useForm } from 'react-hook-form';
 import * as Form from '@radix-ui/react-form';
 import { useIntl, FormattedMessage } from 'react-intl';
@@ -20,7 +21,7 @@ const PlanningTaskPanel = ({
 
     if (!taskId) {
         return (
-            <div className={`${styles.panel} ${styles.panelPlaceholder}`}>
+            <div className={cn(styles.panel, styles.panelPlaceholder)}>
                 <FormattedMessage id="boards.planning.selectTask" />
             </div>
         );
@@ -28,7 +29,7 @@ const PlanningTaskPanel = ({
 
     if (!task) {
         return (
-            <div className={`${styles.panel} ${styles.panelPlaceholder}`}>
+            <div className={cn(styles.panel, styles.panelPlaceholder)}>
                 <FormattedMessage id="boards.planning.taskUnavailable" />
             </div>
         );

@@ -1,3 +1,4 @@
+import { cn } from 'cn';
 import { useStore } from "@store/store";
 import { TrashIcon, PlusIcon, StarFilledIcon } from "@radix-ui/react-icons";
 import * as Form from '@radix-ui/react-form';
@@ -119,7 +120,7 @@ const RetrospectiveColumn = ({ type }) => {
                                             variation="transparent"
                                             onClick={() => handleVoteRetrospectiveItem(item.id)}>
 
-                                        <StarFilledIcon className={item.voteList?.length > 0 ? styles.hasVotes : ''} />
+                                        <StarFilledIcon className={cn(item.voteList?.length > 0 && styles.hasVotes)} />
                                     </Button>
                                 </div>
 

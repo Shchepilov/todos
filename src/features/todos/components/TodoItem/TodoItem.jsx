@@ -1,4 +1,5 @@
 import { useState, memo } from "react";
+import { cn } from 'cn';
 import { useStore } from "@store/store";
 import { TrashIcon, CalendarIcon, DotsVerticalIcon, Pencil1Icon, ReloadIcon, ClockIcon } from "@radix-ui/react-icons";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
@@ -22,10 +23,8 @@ const TodoItem = ({ todo }) => {
     const day = dayjs(currentDay).format("YYYY-MM-DD");
     const isOverdue = dayjs(todo.dueDate).isBefore(dayjs(day));
     const isToday = todo.dueDate === day;
-    const badgeClass = isOverdue || isToday ? styles.isToday + " " + styles.badge : styles.badge;
     const timestampFormatted = todo.timestamp ? dayjs(new Date(todo.timestamp.seconds * 1000)).format("MMM D, YYYY") : null;
     const dueDateFormatted = dayjs(todo.dueDate).format("MMM D");
-    const classes = isLoading ? styles.item + " " + styles.loading : styles.item;
 
     const handleStatusChange = async () => {
         setIsLoading(true);
@@ -52,16 +51,16 @@ const TodoItem = ({ todo }) => {
             exit={{ opacity: 0, x: 15 }}
             transition={{ duration: 0.2 }}
             data-priority={todo.priority}
-            className={classes}>
+            className={cn(styles.item, isLoading && styles.loading)}>
                 
             <Checkbox checked={todo.done} onChange={handleStatusChange} />
 
             <div className={styles.Content}>
-                <p className={todo.done ? styles.Done : null}>{todo.content}</p>
+                <p className={cn(todo.done && styles.Done)}>{todo.content}</p>
 
                 <div className={styles.badges}>
                     {todo.dueDate && (
-                        <span className={badgeClass}>
+                        <span className={cn(styles.badge, (isOverdue || isToday) && styles.isToday)}>
                             {isOverdue ? (
                                     <>
                                         <ClockIcon className={styles.icon} />
@@ -106,7 +105,7 @@ const TodoItem = ({ todo }) => {
                             <CalendarIcon /> <FormattedMessage id="todos.moveToNextDay" />
                         </DropdownMenu.Item>
 
-                        <DropdownMenu.Item className={dropdown.item + " " + dropdown.itemDanger} onSelect={() => setIsDeleteConfirmOpen(true)}>
+                        <DropdownMenu.Item className={cn(dropdown.item, dropdown.itemDanger)} onSelect={() => setIsDeleteConfirmOpen(true)}>
                             <TrashIcon /> <FormattedMessage id="common.delete" />
                         </DropdownMenu.Item>
                     </DropdownMenu.Content>

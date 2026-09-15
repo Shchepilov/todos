@@ -12,6 +12,9 @@ import {
     serverTimestamp,
     getDoc,
     increment,
+    arrayUnion,
+    arrayRemove,
+    deleteField,
 } from "firebase/firestore";
 import { db } from "@baseUrl/firebase";
 
@@ -72,6 +75,15 @@ export const updateTask = async (taskId, taskData) => {
         throw new Error(error.message);
     }
 };
+
+// The logged total is derived from the list (see getLoggedTime), so a log is one atomic array change
+// and no stored total is recalculated from a stale copy. The old stored loggedTime is dropped.
+export const addWorkLog = (taskId, log) =>
+    updateDoc(doc(db, TASKS_COLLECTION, taskId), { workLogsList: arrayUnion(log), loggedTime: deleteField() });
+
+// arrayRemove matches the whole element, so the log object comes from the task snapshot.
+export const removeWorkLog = (taskId, log) =>
+    updateDoc(doc(db, TASKS_COLLECTION, taskId), { workLogsList: arrayRemove(log), loggedTime: deleteField() });
 
 export const deleteTask = async (taskId) => {
     try {

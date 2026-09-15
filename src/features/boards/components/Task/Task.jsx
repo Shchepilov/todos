@@ -11,6 +11,7 @@ import TaskAssignment from "@features/boards/components/Task/TaskAssignment";
 import TaskEditForm from "@features/boards/components/Task/TaskEditForm";
 import { useDragAndDrop } from "@features/boards/hooks/useDragAndDrop";
 import { COLUMN_VIEW_MODE } from "@features/boards/utils/constants";
+import { getLoggedTime } from "@features/boards/utils/helpers";
 import styles from './Task.module.scss';
 
 const Task = ({ task }) => {
@@ -62,7 +63,7 @@ const Task = ({ task }) => {
             <span role="button" className={styles.title} onClick={handleTaskDetails}>{task.title}</span>
 
             {!isCompact && task.estimation && (
-                <ProgressBar estimation={task.estimation} loggedTime={task.loggedTime} />
+                <ProgressBar estimation={task.estimation} loggedTime={getLoggedTime(task)} />
             )}
 
             {!isCompact && (

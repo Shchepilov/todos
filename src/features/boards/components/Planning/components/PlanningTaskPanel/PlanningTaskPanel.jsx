@@ -10,6 +10,7 @@ import PokerDeck from '@features/boards/components/Planning/components/PokerDeck
 import VotesPanel from '@features/boards/components/Planning/components/VotesPanel/VotesPanel';
 import TypeBadge from "@features/boards/components/Task/TypeBadge";
 import { ESTIMATION_PATTERN, ESTIMATION_MAX_LENGTH } from '@features/boards/utils/constants';
+import { getPlanningVotes } from '@features/boards/utils/helpers';
 import styles from './PlanningTaskPanel.module.scss';
 
 const PlanningTaskPanel = ({
@@ -36,7 +37,8 @@ const PlanningTaskPanel = ({
     }
 
     const isSessionForThisTask = Boolean(planning) && planning.taskId === task.id;
-    const myVote = planning?.votes?.find(vote => vote.email === userEmail)?.value;
+    const votes = getPlanningVotes(planning);
+    const myVote = votes.find(vote => vote.email === userEmail)?.value;
 
     const handleApply = (data) => {
         onApply(task.id, {
@@ -112,7 +114,7 @@ const PlanningTaskPanel = ({
                     <VotesPanel
                         key={`${task.id}-${planning.revealed}`}
                         participants={participants}
-                        votes={planning.votes || []}
+                        votes={votes}
                         revealed={planning.revealed}
                         isOwner={isOwner}
                         onReveal={onReveal}

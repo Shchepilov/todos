@@ -10,8 +10,8 @@ import Field from "@components/Field/Field";
 import Button from '@components/Button/Button';
 import styles from './Retrospective.module.scss';
 import Row from "@components/Row/Row";
-import { updateBoard } from '@features/boards/services/boardsQuery';
-import { generateId } from '@features/boards/utils/helpers';
+import { addRetrospectiveItem, deleteRetrospectiveItem, toggleRetrospectiveVote } from '@features/boards/services/boardsQuery';
+import { getRetrospectiveItems } from '@features/boards/utils/helpers';
 import useActiveSprint from '@features/boards/hooks/useActiveSprint';
 
 const RetrospectiveColumn = ({ type }) => {
@@ -24,80 +24,26 @@ const RetrospectiveColumn = ({ type }) => {
     const board = boards.find(board => board.id === activeBoardId);
     const activeSprint = useActiveSprint(board);
 
-    const handleUpdateRetrospective = (data) => {
-        const { message } = data;
+    const items = getRetrospectiveItems(board, activeSprint, type);
 
-        updateBoard(board.id, {
-            sprints: board.sprints.map(sprint => {
-                if (sprint.id === activeSprint) {
-                    return {
-                        ...sprint,
-                        retrospective: {
-                            ...sprint.retrospective,
-                            [type]: [
-                                ...(sprint.retrospective?.[type] || []),
-                                { 
-                                    id: generateId(),
-                                    message, 
-                                    author: userEmail,
-                                    voteList: []
-                                }
-                            ]
-                        }
-                    };
-                }
-                return sprint;
-            })
+    const handleUpdateRetrospective = (data) => {
+        if (!activeSprint) return;
+
+        addRetrospectiveItem(board.id, activeSprint, type, {
+            message: data.message,
+            author: userEmail,
+            voteList: [],
         });
 
         reset();
     }
 
     const handleDeleteRetrospectiveItem = (id) => {
-        updateBoard(board.id, {
-            sprints: board.sprints.map(sprint => {
-                if (sprint.id === activeSprint) {
-                    return {
-                        ...sprint,
-                        retrospective: {
-                            ...sprint.retrospective,
-                            [type]: sprint.retrospective[type].filter(item => item.id !== id) || []
-                        }
-                    };
-                }
-                return sprint;
-            })
-        });
+        deleteRetrospectiveItem(board.id, activeSprint, type, id);
     };
 
-    const handleVoteRetrospectiveItem = (id) => {
-        updateBoard(board.id, {
-            sprints: board.sprints.map(sprint => {
-                if (sprint.id === activeSprint) {
-                    return {
-                        ...sprint,
-                        retrospective: {
-                            ...sprint.retrospective,
-                            [type]: sprint.retrospective[type].map(item => {
-                                if (item.id === id && !item.voteList.includes(userEmail)) {
-                                    return {
-                                        ...item,
-                                        voteList: [...item.voteList, userEmail]
-                                    };
-                                } else if (item.id === id && item.voteList.includes(userEmail)) {
-                                    return {
-                                        ...item,
-                                        voteList: item.voteList.filter(email => email !== userEmail)
-                                    };
-                                }
-                                return item;
-                            })
-                        }
-                    };
-                }
-                return sprint;
-            })
-        });
+    const handleVoteRetrospectiveItem = (item) => {
+        toggleRetrospectiveVote(board.id, activeSprint, type, item.id, userEmail, item.voteList?.includes(userEmail));
     }
 
     return (
@@ -108,7 +54,7 @@ const RetrospectiveColumn = ({ type }) => {
 
             <div className={styles.listWrapper}>
                 <ul className={styles.list}>
-                    {board.sprints.find(sprint => sprint.id === activeSprint)?.retrospective?.[type]?.map(item => (
+                    {items.map(item => (
                         <li key={item.id} className={styles.listItem}>
                             <p>{item.message}</p>
 
@@ -119,7 +65,7 @@ const RetrospectiveColumn = ({ type }) => {
                                     <Button variant="icon" 
                                             disabled={item.author === userEmail}
                                             variation="transparent"
-                                            onClick={() => handleVoteRetrospectiveItem(item.id)}>
+                                            onClick={() => handleVoteRetrospectiveItem(item)}>
 
                                         <StarFilledIcon className={cn(item.voteList?.length > 0 && styles.hasVotes)} />
                                     </Button>

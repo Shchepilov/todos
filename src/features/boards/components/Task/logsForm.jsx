@@ -6,13 +6,13 @@ import { useForm } from "react-hook-form"
 import { useIntl } from 'react-intl';
 import Input from "@components/Input/Input";
 import Field from "@components/Field/Field";
-import { addLoggedTime, generateId } from "@features/boards/utils/helpers";
-import { updateTask } from '@features/boards/services/tasksQuery';
+import { generateId } from "@features/boards/utils/helpers";
+import { addWorkLog, removeWorkLog } from '@features/boards/services/tasksQuery';
 import Button from '@components/Button/Button';
 import Row from "@components/Row/Row";
 import styles from './Task.module.scss';
 
-const LogsForm = ({ task, userName, loggedTime }) => {
+const LogsForm = ({ task, userName }) => {
     const intl = useIntl();
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const currentDay = useStore((state) => state.currentDay);
@@ -20,33 +20,19 @@ const LogsForm = ({ task, userName, loggedTime }) => {
 
     const handleUpdateLogs = (data) => {
         const { logDate, logTime } = data;
-        
-        const updatedLoggedTime = addLoggedTime(loggedTime ?? '0m', logTime);
 
-        updateTask(task.id, { 
-            loggedTime: updatedLoggedTime,
-            workLogsList: [
-                ...task.workLogsList,
-                {
-                    id: generateId(),
-                    date: logDate,
-                    time: logTime,
-                    name: userName,
-                }
-            ]
+        addWorkLog(task.id, {
+            id: generateId(),
+            date: logDate,
+            time: logTime,
+            name: userName,
         });
 
         reset();
     }
 
-    const handleRemoveLog = (logId) => {
-        const updatedWorkLogs = task.workLogsList.filter(log => log.id !== logId);
-        const updatedLoggedTime = updatedWorkLogs.reduce((total, log) => addLoggedTime(total, log.time), '0m');
-
-        updateTask(task.id, {
-            loggedTime: updatedLoggedTime,
-            workLogsList: updatedWorkLogs
-        });
+    const handleRemoveLog = (log) => {
+        removeWorkLog(task.id, log);
     }
 
     return (
@@ -60,7 +46,7 @@ const LogsForm = ({ task, userName, loggedTime }) => {
                                 <span className={styles.logItemTime}>{log.time}</span>
                                 <span>{log.name}</span>
                             </div>
-                            <Button type="button" variation="transparent" onClick={() => handleRemoveLog(log.id)}>
+                            <Button type="button" variation="transparent" onClick={() => handleRemoveLog(log)}>
                                 <CrossCircledIcon />
                             </Button>
                         </li>

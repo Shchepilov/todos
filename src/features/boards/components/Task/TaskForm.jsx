@@ -34,7 +34,6 @@ const TaskForm = ({ columnId, boardId, onClose }) => {
                 description: taskDescription || '',
                 assignee: taskAssignee || 'unassigned',
                 estimation: taskEstimation || null,
-                loggedTime: null,
                 workLogsList: [],
                 sprint: taskSprint || null
             }

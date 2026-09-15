@@ -11,6 +11,7 @@ import Row from "@components/Row/Row";
 import { addTask } from "@features/boards/services/tasksQuery";
 import { TASK_STATUS, TASK_TYPES } from "@features/boards/utils/constants";
 import useActiveSprint from "@features/boards/hooks/useActiveSprint";
+import styles from './Task.module.scss';
 
 const TaskForm = ({ columnId, boardId, onClose }) => {
     const intl = useIntl();
@@ -19,27 +20,33 @@ const TaskForm = ({ columnId, boardId, onClose }) => {
     const activeBoard = boards?.find(board => board.id === boardId);
     const activeSprint = useActiveSprint(activeBoard);
     const ownerName = activeBoard.owner.name;
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm();
 
-    const handleAddTask = (data) => {
+    // The task number comes from a transaction, so the form waits for it: the button is disabled
+    // meanwhile, and on failure (for example offline) the form stays open with what was typed.
+    const handleAddTask = async (data) => {
         const { taskTitle, taskType, taskPriority, columnId, taskAssignee, taskDescription, taskEstimation, taskSprint } = data;
-        
-        addTask(
-            boardId, 
-            columnId, 
-            { 
-                type: taskType,
-                title: taskTitle, 
-                priority: taskPriority,
-                description: taskDescription || '',
-                assignee: taskAssignee || 'unassigned',
-                estimation: taskEstimation || null,
-                workLogsList: [],
-                sprint: taskSprint || null
-            }
-        );
 
-        onClose();
+        try {
+            await addTask(
+                boardId, 
+                columnId, 
+                { 
+                    type: taskType,
+                    title: taskTitle, 
+                    priority: taskPriority,
+                    description: taskDescription || '',
+                    assignee: taskAssignee || 'unassigned',
+                    estimation: taskEstimation || null,
+                    workLogsList: [],
+                    sprint: taskSprint || null
+                }
+            );
+
+            onClose();
+        } catch {
+            setError('root.serverError', { message: intl.formatMessage({ id: 'boards.addTaskError' }) });
+        }
     }
 
     return (
@@ -115,11 +122,15 @@ const TaskForm = ({ columnId, boardId, onClose }) => {
                 />
             </Field>
 
+            {errors.root?.serverError && (
+                <p role="alert" className={styles.formError}>{errors.root.serverError.message}</p>
+            )}
+
             <Row equal>
                 <Button type="button" variation="secondary" onClick={onClose}>
                     <FormattedMessage id="common.cancel" />
                 </Button>
-                <Button type="submit">
+                <Button type="submit" disabled={isSubmitting}>
                     <PlusIcon />
                     <FormattedMessage id="boards.addTask" />
                 </Button>

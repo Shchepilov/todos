@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useAuthUser } from '@baseUrl/auth/useAuthUser';
-import { updateSprintPlanning, clearLegacyPlanning } from '@features/boards/services/boardsQuery';
+import { updateSprintPlanning, clearLegacyPlanning, castPlanningVote, revealPlanningVotes } from '@features/boards/services/boardsQuery';
 import { updateTask } from '@features/boards/services/tasksQuery';
-import { hasLegacyPlanning } from '@features/boards/utils/helpers';
+import { hasLegacyPlanning, hasLegacyPlanningVotes } from '@features/boards/utils/helpers';
 import PlanningTaskList from '@features/boards/components/Planning/components/PlanningTaskList/PlanningTaskList';
 import PlanningTaskPanel from '@features/boards/components/Planning/components/PlanningTaskPanel/PlanningTaskPanel';
 import styles from './PlanningModal.module.scss';
@@ -36,11 +36,12 @@ const PlanningModal = ({ board, tasks, activeSprint }) => {
         if (isOwner && hasLegacyPlanning(board)) clearLegacyPlanning(board.id);
     }, [isOwner, board]);
 
-    // Owner cleanup: drop a stale planning session when its task left the sprint it belongs to.
+    // Owner cleanup: drop a stale planning session when its task left the sprint it belongs to,
+    // or when it was started before votes became a map and can't take a vote without a rewrite.
     useEffect(() => {
         if (!isOwner || !planning) return;
         const roundTask = tasks.find(task => task.id === planning.taskId);
-        if (!roundTask || roundTask.sprint !== activeSprint) {
+        if (!roundTask || roundTask.sprint !== activeSprint || hasLegacyPlanningVotes(planning)) {
             updateSprintPlanning(board.id, activeSprint, null);
         }
     }, [isOwner, planning, tasks, activeSprint, board.id]);
@@ -54,21 +55,17 @@ const PlanningModal = ({ board, tasks, activeSprint }) => {
     };
 
     const handleStartEstimation = (taskId) => {
-        updateSprintPlanning(board.id, activeSprint, { taskId, revealed: false, votes: [] });
+        updateSprintPlanning(board.id, activeSprint, { taskId, revealed: false, votes: {} });
     };
 
     const handleVote = (value) => {
-        if (!planning) return;
-        const votes = [
-            ...(planning.votes || []).filter(vote => vote.email !== userEmail),
-            { email: userEmail, name: userName, value }
-        ];
-        updateSprintPlanning(board.id, activeSprint, { ...planning, votes });
+        if (!planning || hasLegacyPlanningVotes(planning)) return;
+        castPlanningVote(board.id, activeSprint, userEmail, { name: userName, value });
     };
 
     const handleReveal = () => {
         if (!planning) return;
-        updateSprintPlanning(board.id, activeSprint, { ...planning, revealed: true });
+        revealPlanningVotes(board.id, activeSprint);
     };
 
     return (

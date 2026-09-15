@@ -19,6 +19,7 @@ import ProgressBar from "@features/boards/components/ProgressBar/ProgressBar";
 import styles from './Task.module.scss';
 import { updateTask, deleteTask } from '@features/boards/services/tasksQuery';
 import { TASK_STATUS, TASK_TYPES, ESTIMATION_PATTERN, ESTIMATION_MAX_LENGTH } from '@features/boards/utils/constants';
+import { getLoggedTime } from '@features/boards/utils/helpers';
 
 const TaskDetail = () => {
     const intl = useIntl();
@@ -64,6 +65,7 @@ const TaskDetail = () => {
         closeModal();
     }
 
+    const loggedTime = getLoggedTime(task);
 
     return (
         <Modal heading={
@@ -163,14 +165,14 @@ const TaskDetail = () => {
 
             <section className={styles.logSection}>
                 {task.estimation ? (
-                    <ProgressBar estimation={task.estimation} loggedTime={task.loggedTime} />
-                ) : (task.loggedTime && (
+                    <ProgressBar estimation={task.estimation} loggedTime={loggedTime} />
+                ) : (loggedTime && (
                     <p className={styles.loggedTime}>
-                        <FormattedMessage id="boards.logged" />: {task.loggedTime}
+                        <FormattedMessage id="boards.logged" />: {loggedTime}
                     </p>
                 ))}
 
-                <LogsForm task={task} userName={userName} loggedTime={task.loggedTime} />
+                <LogsForm task={task} userName={userName} />
             </section>
 
             <Row justify="between" > 

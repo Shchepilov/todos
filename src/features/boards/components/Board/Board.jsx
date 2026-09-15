@@ -15,8 +15,8 @@ import TaskDetail from '@features/boards/components/Task/TaskDetail';
 import TaskFilter from '@features/boards/components/TaskFilter/TaskFilter';
 import Retrospective from '@features/boards/components/Retrospective/Retrospective';
 import PlanningModal from '@features/boards/components/Planning/PlanningModal';
-import { updateBoard, updateSprintPlanning } from '@features/boards/services/boardsQuery';
-import { taskNeedsPlanning } from '@features/boards/utils/helpers';
+import { removeWatcher, updateSprintPlanning, migrateLegacyRetrospective } from '@features/boards/services/boardsQuery';
+import { taskNeedsPlanning, hasLegacyRetrospective } from '@features/boards/utils/helpers';
 import BoardSettings from './BoardSettings';
 import useBoardData from '@features/boards/hooks/useBoardData';
 import useActiveSprint from '@features/boards/hooks/useActiveSprint';
@@ -49,6 +49,12 @@ const Board = () => {
             navigate('/boards');
         }
     }, [board, navigate, setActiveBoardId]);
+
+    // One-off migration: move retrospective items out of the sprints array (see migrateLegacyRetrospective).
+    // If it fails, for example offline, it runs again the next time the board is opened.
+    useEffect(() => {
+        if (hasLegacyRetrospective(board)) migrateLegacyRetrospective(board.id).catch(() => {});
+    }, [board]);
     
     if (!board) return;
 
@@ -65,9 +71,7 @@ const Board = () => {
     }
 
     const handleLeaveBoard = () => {
-        const updatedWatchers = board.watchers.filter(email => email !== user.providerData[0].email);
-        const updatedWatchersData = board.watchersData.filter(watcher => watcher.watcherEmail !== user.providerData[0].email);
-        updateBoard(board.id, { watchers: updatedWatchers, watchersData: updatedWatchersData });
+        removeWatcher(board, user.providerData[0].email);
     }
 
     const handleSprintChange = (e) => {

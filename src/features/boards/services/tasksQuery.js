@@ -1,6 +1,5 @@
 import {
     collection,
-    addDoc,
     getDocs,
     query,
     where,
@@ -10,8 +9,10 @@ import {
     writeBatch,
     doc,
     serverTimestamp,
-    getDoc,
-    increment,
+    runTransaction,
+    arrayUnion,
+    arrayRemove,
+    deleteField,
 } from "firebase/firestore";
 import { db } from "@baseUrl/firebase";
 
@@ -25,45 +26,34 @@ export const tasksQuery = (boardId) => {
     );
 };
 
-export const addTask = async (boardId, columnId, taskData) => {
-    try {
-        const tasksRef = collection(db, TASKS_COLLECTION);
-        const tasksQuery = query(
-            tasksRef,
-            where("columnId", "==", columnId)
-        );
-        const tasksSnapshot = await getDocs(tasksQuery);
-
-        // Get current board data to access the counter and prefix
+// The counter is read and the task is created in one transaction, which Firestore retries when the
+// board changes in between, so two members adding tasks at the same time never get the same number.
+export const addTask = (boardId, columnId, taskData) =>
+    runTransaction(db, async (transaction) => {
         const boardRef = doc(db, BOARDS_COLLECTION, boardId);
-        const boardDoc = await getDoc(boardRef);
-        
+        const boardDoc = await transaction.get(boardRef);
+
         if (!boardDoc.exists()) {
             throw new Error("Board not found");
         }
-        
-        const boardData = boardDoc.data();
-        const currentCounter = boardData.taskCounter || 0;
-        const newTaskNumber = currentCounter + 1;
-        
-        // Create the task with the task number
-        await addDoc(tasksRef, {
+
+        const number = (boardDoc.data().taskCounter ?? 0) + 1;
+        const taskRef = doc(collection(db, TASKS_COLLECTION));
+
+        transaction.update(boardRef, { taskCounter: number });
+        transaction.set(taskRef, {
             ...taskData,
             boardId,
             columnId,
-            number: newTaskNumber,
-            order: tasksSnapshot.size,
-            timestamp: serverTimestamp()
+            number,
+            // tasksQuery sorts by order, so every task needs it. The number is unique and keeps
+            // creation order without reading all tasks of the column.
+            order: number,
+            timestamp: serverTimestamp(),
         });
-        
-        // Increment the board's task counter
-        await updateDoc(boardRef, {
-            taskCounter: increment(1)
-        });
-    } catch (error) {
-        throw new Error(error.message);
-    }
-};
+
+        return taskRef.id;
+    });
 
 export const updateTask = async (taskId, taskData) => {
     try {
@@ -72,6 +62,15 @@ export const updateTask = async (taskId, taskData) => {
         throw new Error(error.message);
     }
 };
+
+// The logged total is derived from the list (see getLoggedTime), so a log is one atomic array change
+// and no stored total is recalculated from a stale copy. The old stored loggedTime is dropped.
+export const addWorkLog = (taskId, log) =>
+    updateDoc(doc(db, TASKS_COLLECTION, taskId), { workLogsList: arrayUnion(log), loggedTime: deleteField() });
+
+// arrayRemove matches the whole element, so the log object comes from the task snapshot.
+export const removeWorkLog = (taskId, log) =>
+    updateDoc(doc(db, TASKS_COLLECTION, taskId), { workLogsList: arrayRemove(log), loggedTime: deleteField() });
 
 export const deleteTask = async (taskId) => {
     try {

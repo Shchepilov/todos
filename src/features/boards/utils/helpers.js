@@ -96,3 +96,27 @@ export const taskNeedsPlanning = (task) => task.assignee === 'unassigned' || !ta
 // A pre-sprint-scoped session sits directly under board.planning instead of board.planning[sprintId]
 export const hasLegacyPlanning = (board) =>
     Boolean(board?.planning) && LEGACY_PLANNING_FIELDS.some(field => field in board.planning);
+
+// Sessions started before votes became a map keyed by email still hold an array.
+export const hasLegacyPlanningVotes = (planning) => Array.isArray(planning?.votes);
+
+export const getPlanningVotes = (planning) => {
+    if (hasLegacyPlanningVotes(planning)) return planning.votes;
+
+    return Object.entries(planning?.votes ?? {}).map(([email, vote]) => ({ email, ...vote }));
+};
+
+// Before the move to board.retrospective, items were stored inside board.sprints[].retrospective
+export const hasLegacyRetrospective = (board) =>
+    Boolean(board?.sprints?.some(sprint => 'retrospective' in sprint));
+
+// An entry without a message is left by a vote that raced with a delete, so it is skipped.
+export const getRetrospectiveItems = (board, sprintId, type) =>
+    Object.entries(board?.retrospective?.[sprintId]?.[type] ?? {})
+        .filter(([, item]) => item.message)
+        .map(([id, item]) => ({ ...item, id }))
+        .sort((a, b) => a.createdAt - b.createdAt);
+
+// Logged time is the sum of the work logs, so adding a log never rewrites a stored total.
+export const getLoggedTime = (task) =>
+    (task.workLogsList ?? []).reduce((total, log) => addLoggedTime(total, log.time), '');

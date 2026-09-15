@@ -11,7 +11,7 @@ import Button from '@components/Button/Button';
 import Row from "@components/Row/Row";
 import ConfirmationModal from "@components/ConfirmationModal/ConfirmationModal";
 import styles from './Board.module.scss';
-import { deleteBoard, updateBoard } from '@features/boards/services/boardsQuery';
+import { deleteBoard, updateBoard, addWatcher, removeWatcher, addSprint, removeSprint } from '@features/boards/services/boardsQuery';
 
 const BoardSettings = ({board, onClose}) => {
     const intl = useIntl();
@@ -42,19 +42,13 @@ const BoardSettings = ({board, onClose}) => {
 
         if (board.watchers.includes(watcherEmail) || board.owner === watcherEmail) return;
 
-        updateBoard(board.id, { 
-            watchers: [...board.watchers, watcherEmail],
-            watchersData: [...board.watchersData, { watcherEmail, watcherName }]
-        });
+        addWatcher(board.id, watcherEmail, watcherName);
 
         resetWatcher();
     }
 
     const handleRemoveWatcher = (email) => {
-        const updatedWatchers = board.watchers.filter(watcherEmail => watcherEmail !== email);
-        const updatedWatchersData = board.watchersData.filter(watcher => watcher.watcherEmail !== email);
-
-        updateBoard(board.id, { watchers: updatedWatchers, watchersData: updatedWatchersData });
+        removeWatcher(board, email);
     }
 
     const handleAddSprint = (data) => {
@@ -63,24 +57,13 @@ const BoardSettings = ({board, onClose}) => {
         
         if (board.sprints?.some(sprint => sprint.id === sprintId)) return;
         
-        updateBoard(board.id, { 
-            sprints: [
-                ...board.sprints, 
-                { 
-                    id: sprintId, 
-                    name: sprintName,
-                    retrospective: {}
-                }
-            ]
-        });
+        addSprint(board.id, { id: sprintId, name: sprintName });
 
         resetSprint();
     }
 
-    const handleRemoveSprint = (sprintId) => {
-        const updatedSprints = board.sprints.filter(sprint => sprint.id !== sprintId);
-        
-        updateBoard(board.id, { sprints: updatedSprints });
+    const handleRemoveSprint = (sprint) => {
+        removeSprint(board.id, sprint);
     }
 
     return (
@@ -199,7 +182,7 @@ const BoardSettings = ({board, onClose}) => {
                             {board.sprints.map((sprint) => (
                                 <li key={sprint.id}>
                                     <span>{sprint.name}</span>
-                                    <Button type="button" variation="transparent" onClick={() => handleRemoveSprint(sprint.id)}>
+                                    <Button type="button" variation="transparent" onClick={() => handleRemoveSprint(sprint)}>
                                         <CrossCircledIcon />
                                     </Button>
                                 </li>

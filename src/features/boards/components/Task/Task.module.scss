@@ -244,3 +244,8 @@ button.addLogButton {
         transform: translateY(0);
     }
 }
+
+.formError {
+    color: var(--pink-100);
+    font-size: rem(14);
+}

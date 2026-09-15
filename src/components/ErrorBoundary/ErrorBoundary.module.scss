@@ -1,0 +1,14 @@
+@use "@styles/functions" as *;
+
+.errorBoundary {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: 1rem;
+    padding: 20px;
+    text-align: center;
+}
+
+.title {
+    font-size: rem(20);
+}

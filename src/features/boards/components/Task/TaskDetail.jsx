@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useStore } from "@store/store";
 import { useAuthUser } from "@baseUrl/auth/useAuthUser";
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import { useForm } from "react-hook-form"
 import * as Form from '@radix-ui/react-form';
 import { ReaderIcon, TrashIcon } from "@radix-ui/react-icons";
@@ -20,17 +20,17 @@ import styles from './Task.module.scss';
 import { updateTask, deleteTask } from '@features/boards/services/tasksQuery';
 import { TASK_STATUS, TASK_TYPES, ESTIMATION_PATTERN, ESTIMATION_MAX_LENGTH } from '@features/boards/utils/constants';
 import { getLoggedTime } from '@features/boards/utils/helpers';
+import useTask from '@features/boards/hooks/useTask';
 
-const TaskDetail = () => {
+// Board renders this only for a board that exists, and passes it in.
+const TaskDetail = ({ board: activeBoard }) => {
     const intl = useIntl();
-    const { boardId, taskId } = useParams();
+    const { taskId } = useParams();
     const navigate = useNavigate();
     const columns = useStore((state) => state.columns);
-    const tasks = useStore((state) => state.tasks);
-    const task = tasks.find(task => task.id === taskId);
-    const boards = useStore((state) => state.boards);
-    const activeBoard = boards?.find(board => board.id === boardId);
-    const isWatcher = activeBoard?.isWatcher || false;
+    const { task, taskLoading, taskError } = useTask(taskId);
+    const boardId = activeBoard.id;
+    const isWatcher = activeBoard.isWatcher || false;
 
     const userEmail = useAuthUser().providerData[0].email;
     const ownerName = activeBoard.owner.name;
@@ -38,6 +38,12 @@ const TaskDetail = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [deleteConfirmModal, setDeleteConfirmModal] = useState(false);
+
+    // Denied by the rules or an invalid id: show the error page instead of closing silently.
+    if (taskError) throw taskError;
+    if (taskLoading) return null;
+    // Deleted by another member while open, or a link to a task of another board.
+    if (!task || task.boardId !== boardId) return <Navigate to={`/boards/${boardId}`} replace />;
 
     const closeModal = () => {
         navigate(`/boards/${boardId}`);

@@ -12,3 +12,8 @@
         gap: 1rem;
     }
 }
+
+// Without the header the error message is the only child, so it takes both rows.
+.appError {
+    grid-row: span 2;
+}

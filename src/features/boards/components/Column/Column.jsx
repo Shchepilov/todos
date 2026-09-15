@@ -17,7 +17,7 @@ import Tasks from "@features/boards/components/Tasks/Tasks";
 import styles from './Column.module.scss';
 import ColumnSettings from './ColumnSettings';
 
-const Column = ({ column, boardId }) => {
+const Column = ({ column, boardId, isWatcher = false }) => {
     const intl = useIntl();
     const setDroppedColumnId = useStore((state) => state.setDroppedColumnId);
     const [taskFormModal, setTaskFormModal] = useState(false);
@@ -25,7 +25,6 @@ const Column = ({ column, boardId }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [columnSettingsModal, setColumnSettingsModal] = useState(false);
     const [deleteConfirmModal, setDeleteConfirmModal] = useState(false);
-    const boards = useStore((state) => state.boards);
     const columns = useStore((state) => state.columns);
 
     const showTaskForm = () => setTaskFormModal(true);
@@ -58,8 +57,6 @@ const Column = ({ column, boardId }) => {
         updateColumn(column.id, { order: columnIndex - 1 });
         updateColumn(prevColumnId, { order: columnIndex });
     }
-
-    const isWatcher = boards.find(board => board.id === boardId).isWatcher || false;
 
     const handleDragOver = (e) => {
         e.preventDefault();

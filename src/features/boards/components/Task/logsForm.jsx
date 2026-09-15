@@ -37,7 +37,7 @@ const LogsForm = ({ task, userName }) => {
 
     return (
         <>
-            {task.workLogsList.length > 0 && (
+            {task.workLogsList?.length > 0 && (
                 <ul className={styles.logsList}>
                     {task.workLogsList.map((log, index) => (
                         <li key={index}>

@@ -3,22 +3,20 @@ import { useStore } from "@store/store";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import dayjs from 'dayjs';
 import Calendar from "react-calendar";
-import useTodos from "@features/todos/hooks/useTodos";
 import "react-calendar/dist/Calendar.css";
 import "./TodoCalendar.scss";
 
-const TodoCalendar = () => {
-    useTodos();
+const TodoCalendar = ({ today }) => {
     const currentDay = useStore((state) => state.currentDay);
     const setCurrentDay = useStore((state) => state.setCurrentDay);
     const allTodos = useStore((state) => state.allTodos);
     const locale = useStore((state) => state.locale);
     const uniqueDates = [...new Set(allTodos.map((item) => item.date))];
-    const currentDate = dayjs(new Date()).format('YYYY-MM-DD');
 
+    // Opens on today, and moves to the new day after midnight.
     useEffect(() => {
-        setCurrentDay(currentDate);
-    }, [currentDate, setCurrentDay]);
+        setCurrentDay(today);
+    }, [today, setCurrentDay]);
 
     const getTileClassName = ({ date, view }) => {
         if (view === 'month') {

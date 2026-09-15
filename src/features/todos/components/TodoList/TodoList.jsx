@@ -8,12 +8,10 @@ import TodoItem from "../TodoItem/TodoItem";
 import Loader from "@components/Loader/Loader";
 import Modal from "@components/Modal/Modal";
 import Button from "@components/Button/Button";
-import useTodos from "@features/todos/hooks/useTodos";
 import styles from "./TodoList.module.scss";
 
-const TodoList = () => {
+const TodoList = ({ loading }) => {
     const intl = useIntl();
-    const { loading } = useTodos();
     const todos = useStore((state) => state.todos);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 

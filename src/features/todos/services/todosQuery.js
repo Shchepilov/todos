@@ -89,10 +89,8 @@ export const fetchAllTodos = (userId) => {
     );
 };
 
-export const updateAutoMoveTodos = async (userId) => {
+export const updateAutoMoveTodos = async (userId, today) => {
     try {
-        const today = dayjs().format("YYYY-MM-DD");
-        
         const undoneTodosQuery = query(
             collection(db, TODO_COLLECTION),
             where("userId", "==", userId),

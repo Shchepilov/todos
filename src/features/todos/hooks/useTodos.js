@@ -5,7 +5,9 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import { fetchAllTodos, updateAutoMoveTodos } from "@features/todos/services/todosQuery";
 import dayjs from "dayjs";
 
-const useTodos = () => {
+// Call once per page: every call opens its own subscription.
+// today comes from useToday, so the move runs again when a new day starts.
+const useTodos = (today) => {
     const userId = useAuthUser().uid;
     const currentDay = useStore((state) => state.currentDay);
     const setTodos = useStore((state) => state.setTodos);
@@ -15,7 +17,11 @@ const useTodos = () => {
     const allTodosQuery = fetchAllTodos(userId);
     const [allTodosSnapshot, loading, error] = useCollection(allTodosQuery);
 
-    updateAutoMoveTodos(userId);
+    // Unfinished auto-move todos from past days go to today: when the page opens and again when a new day starts.
+    // If it fails, for example offline, it runs again the next time.
+    useEffect(() => {
+        updateAutoMoveTodos(userId, today).catch(console.error);
+    }, [userId, today]);
 
     useEffect(() => {
         if (allTodosSnapshot) {

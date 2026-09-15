@@ -176,7 +176,7 @@ const Board = () => {
             )}
 
             <Routes>
-                <Route path="tasks/:taskId" element={<TaskDetail />} />
+                <Route path="tasks/:taskId" element={<TaskDetail board={board} />} />
             </Routes>
         </main>
      );

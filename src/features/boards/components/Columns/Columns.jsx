@@ -2,14 +2,14 @@ import { useStore } from "@store/store";
 import Column from '@features/boards/components/Column/Column';
 import styles from './Columns.module.scss';
 
-const Columns = ({boardId}) => {
+const Columns = ({ boardId, isWatcher }) => {
     const columns = useStore((state) => state.columns);
 
     return (
         <div className={styles.columnsWrapper}>
             <div className={styles.columns}>
                 {columns && columns.map((column) => (
-                    <Column key={column.id} column={column} boardId={boardId} />
+                    <Column key={column.id} column={column} boardId={boardId} isWatcher={isWatcher} />
                 ))}
             </div>
         </div>

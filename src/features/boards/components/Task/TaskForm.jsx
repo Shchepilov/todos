@@ -19,8 +19,12 @@ const TaskForm = ({ columnId, boardId, onClose }) => {
     const boards = useStore((state) => state.boards);
     const activeBoard = boards?.find(board => board.id === boardId);
     const activeSprint = useActiveSprint(activeBoard);
-    const ownerName = activeBoard.owner.name;
     const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm();
+
+    // The board was deleted while the form was open.
+    if (!activeBoard) return null;
+
+    const ownerName = activeBoard.owner.name;
 
     // The task number comes from a transaction, so the form waits for it: the button is disabled
     // meanwhile, and on failure (for example offline) the form stays open with what was typed.

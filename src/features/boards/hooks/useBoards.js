@@ -15,13 +15,15 @@ const useBoards = (options) => {
     const [boardsSnapshot, loading, error] = useCollection(allUserBoards, options);
     const [boardsWatchSnapshot, watchLoading, watchError] = useCollection(allWatchBoards, options);
 
+    // Wait for both queries, so boards you watch are never missing for a moment (Board would redirect away).
+    // A failed query (missing index, denied by rules) counts as empty. If both fail, the stored list is kept.
     useEffect(() => {
-        if (!boardsSnapshot) return;
-        const boards = boardsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data()}));
-        const watchBoards = boardsWatchSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), isWatcher: true }));
+        if (loading || watchLoading || (!boardsSnapshot && !boardsWatchSnapshot)) return;
+        const boards = boardsSnapshot?.docs.map(doc => ({ id: doc.id, ...doc.data()})) ?? [];
+        const watchBoards = boardsWatchSnapshot?.docs.map(doc => ({ id: doc.id, ...doc.data(), isWatcher: true })) ?? [];
         const allBoards = [...boards, ...watchBoards];
         setBoards(allBoards);
-    }, [boardsSnapshot, boardsWatchSnapshot, setBoards]);
+    }, [loading, watchLoading, boardsSnapshot, boardsWatchSnapshot, setBoards]);
 
     return { loading, error, watchLoading, watchError };
 }

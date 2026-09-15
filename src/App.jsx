@@ -5,6 +5,7 @@ import 'dayjs/locale/uk';
 import { IntlProvider } from 'react-intl';
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
+import ErrorBoundary from "@components/ErrorBoundary/ErrorBoundary";
 import messages from "./locale/messages.js";
 import { authReady, useAuthUser } from "@baseUrl/auth/useAuthUser";
 import "@styles/global.scss";
@@ -32,9 +33,11 @@ const App = () => {
                 locale={locale}
                 defaultLocale={locale}
             >
-                <Suspense fallback={null}>
-                    <AuthGate />
-                </Suspense>
+                <ErrorBoundary className={styles.appError}>
+                    <Suspense fallback={null}>
+                        <AuthGate />
+                    </Suspense>
+                </ErrorBoundary>
             </IntlProvider>
         </div>
     );

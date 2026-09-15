@@ -18,6 +18,10 @@ const common = {
         'common.validation.nameRequired': 'Name is required',
         'common.validation.emailRequired': 'Email is required',
         'common.signInError': 'Could not sign in. Please try again.',
+        'common.errorTitle': 'Something went wrong',
+        'common.errorMessage': 'This page could not be displayed. Try again or reload the page.',
+        'common.tryAgain': 'Try again',
+        'common.reloadPage': 'Reload page',
     },
     uk: {
         'common.cancel': 'Скасувати',
@@ -38,6 +42,10 @@ const common = {
         'common.validation.nameRequired': 'Ім\'я обов\'язкове',
         'common.validation.emailRequired': 'Email обов\'язковий',
         'common.signInError': 'Не вдалося увійти. Спробуйте ще раз.',
+        'common.errorTitle': 'Щось пішло не так',
+        'common.errorMessage': 'Не вдалося показати цю сторінку. Спробуйте ще раз або перезавантажте сторінку.',
+        'common.tryAgain': 'Спробувати ще раз',
+        'common.reloadPage': 'Перезавантажити',
     }
 };
 
